@@ -3,11 +3,12 @@ import { Link, useNavigate } from "react-router-dom";
 import { Box, Button, TextField } from "@mui/material";
 import axios from "axios";
 import PasswordForm from "../components/PasswordForm";
+import { AuthContext } from "../context/auth.context";
 
 const API_URL = "http://localhost:5005/auth/";
 
 function SignupPage(props) {
-  const [role, setRole] = useState();
+  const { role, setRole } = useContext(AuthContext);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -17,15 +18,14 @@ function SignupPage(props) {
   const handleSignup = async (event) => {
     event.preventDefault();
     const requestBody = { name, email, password };
-    console.log(requestBody);
     try {
       const response = await axios.post(`${API_URL}${role === "junior" ? "user" : "company"}/signup`, requestBody);
-      console.log(`${role === "junior" ? "User" : "Company"} created succesfully`, response.data);
+      // console.log(`${role === "junior" ? "User" : "Company"} created succesfully`, response.data);
       if (response.status === 201) navigate("/login");
     } catch (error) {
       const errorDescription = error.response.data.message;
       setErrorMessage(errorDescription);
-      console.log("There was an error with the signup.", error);
+      console.log("There was an error with the signup.", errorDescription);
     }
   };
 
@@ -49,16 +49,19 @@ function SignupPage(props) {
                 id="outlined-basic"
                 label="Company Name"
                 variant="outlined"
+                required
               />
             )}
             <TextField
+              type="email"
               value={email}
               onChange={(event) => setEmail(event.target.value)}
               id="outlined-basic"
               label="Email"
               variant="outlined"
+              required
             />
-            <PasswordForm setPassword={setPassword} />
+            <PasswordForm setPassword={setPassword} password={password} />
             <Button type="submit">Sign Up</Button>
           </Box>
         </form>
