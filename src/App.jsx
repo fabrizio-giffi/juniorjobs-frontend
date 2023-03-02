@@ -3,6 +3,7 @@ import "./App.css";
 import IsCompany from "./components/IsCompany";
 import IsLoggedIn from "./components/IsLoggedIn";
 import IsLoggedOut from "./components/IsLoggedOut";
+import JobPostForm from "./components/JobPostForm";
 import NavBar from "./components/NavBar";
 import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
@@ -42,7 +43,7 @@ function App() {
           path="/create-post"
           element={
             <IsCompany>
-              <ProfilePage />
+              <JobPostForm />
             </IsCompany>
           }
         />
