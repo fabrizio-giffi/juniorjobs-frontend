@@ -1,6 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 import "./App.css";
-import IsCompany from "./components/IsCompany";
+// import IsCompany from "./components/IsCompany";
 import IsLoggedIn from "./components/IsLoggedIn";
 import IsLoggedOut from "./components/IsLoggedOut";
 import JobPostForm from "./components/JobPostForm";
