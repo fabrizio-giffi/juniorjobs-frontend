@@ -1,6 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 import "./App.css";
-import IsCompany from "./components/IsCompany";
+// import IsCompany from "./components/IsCompany";
 import IsLoggedIn from "./components/IsLoggedIn";
 import IsLoggedOut from "./components/IsLoggedOut";
 import NavBar from "./components/NavBar";
@@ -41,9 +41,9 @@ function App() {
         <Route
           path="/create-post"
           element={
-            <IsCompany>
+            // <IsCompany>
               <ProfilePage />
-            </IsCompany>
+            // {/* </IsCompany> */}
           }
         />
         <Route path="*" element={<h1>404 Not Found</h1>} />
