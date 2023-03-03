@@ -6,6 +6,8 @@ import IsLoggedOut from "./components/IsLoggedOut";
 import JobPostForm from "./components/JobPostForm";
 import NavBar from "./components/NavBar";
 import HomePage from "./pages/HomePage";
+import JobList from "./pages/JobList";
+import JobPostDetails from "./pages/JobPostDetails";
 import LoginPage from "./pages/LoginPage";
 import ProfilePage from "./pages/ProfilePage";
 import SignupPage from "./pages/SignupPage";
@@ -47,6 +49,8 @@ function App() {
             </IsCompany>
           }
         />
+        <Route path="/jobs" element={<JobList />} />
+        <Route path="/jobs/:id" element={<JobPostDetails />} />
         <Route path="*" element={<h1>404 Not Found</h1>} />
       </Routes>
     </div>
