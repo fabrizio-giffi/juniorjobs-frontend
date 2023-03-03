@@ -14,12 +14,12 @@ function CompanyProfile() {
 
   const getProfile = async () => {
     try {
-      const response = await axios.get(`${API_URL}/${user.id}`);
+      const response = await axios.get(`${API_URL}/${user.id}`)
       setProfile(response.data);
       setName(response.data.name);
       setEmail(response.data.email)
     } catch (error) {
-      console.log(error);
+      console.log("There was an error getting the profile", error);
     }
   };
 
