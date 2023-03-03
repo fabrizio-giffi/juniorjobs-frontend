@@ -4,7 +4,20 @@
 .edit-form {
   display: flex;
   flex-direction: column;
-  width: 25%;
+  width: 35%;
+}
+
+.title{
+    display: flex;
+    align-items: center;
+    gap: 10%;
+    
+}
+
+.title img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
 }
 
 .edit-form button {
@@ -21,4 +34,21 @@ h6{
     display: flex;
     flex-direction: column;
     text-align: left;
+}
+.address{
+    text-align: center;
+    margin: 5px;
+}
+
+.input-label {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+.input-label label{
+    width: 40%;
+}
+.input-label input{
+    width: 60%;
 }
