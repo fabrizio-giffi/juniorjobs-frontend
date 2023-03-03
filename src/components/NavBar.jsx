@@ -6,7 +6,7 @@ import "./NavBar.css";
 function NavBar() {
   const { isLoggedIn, logOutUser, user } = useContext(AuthContext);
 
-console.log(user.role)
+// console.log(user.role)
 
   return (
     <ul>
