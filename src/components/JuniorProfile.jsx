@@ -63,6 +63,19 @@ function JuniorProfile() {
       }
     }
 
+    async function handleSkilldelete(skill){
+        const requestBody = {id, skill};
+        try {
+         setCatchinUserData(true)
+         const response = await axios.put(`${API_URL}/privateprofile/deleteSkill`, requestBody);
+         getProfile()
+         setCatchinUserData(false)
+         console.log(response.data)
+        } catch (error) {
+          console.log(error);
+        }
+    }
+
     useEffect(() => {
       getProfile();
       setCatchinUserData(false)
@@ -81,11 +94,8 @@ function JuniorProfile() {
         <div>Skills
         {skills.length > 0 && skills.map((skill) =>{
             return(
-                <div key={skill}>{skill}
-                    <Link to="/">
-                        <button type='button' >X</button>
-                    </Link>
-                </div>)
+                <div key={skill}>{skill}<button type='button' onClick={()=>handleSkilldelete(skill)}>X</button></div>
+                )
           })
         }</div>
         <div>JobPosts
