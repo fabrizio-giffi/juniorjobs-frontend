@@ -8,7 +8,7 @@ function NavBar() {
 
 
   return (
-    <ul>
+    <ul className="ul-navbar">
       {!isLoggedIn && (
         <>
           <li>
