@@ -4,7 +4,9 @@ import { AuthContext } from "../context/auth.context";
 import "./NavBar.css";
 
 function NavBar() {
-  const { role, isLoggedIn, logOutUser } = useContext(AuthContext);
+  const { isLoggedIn, logOutUser, user } = useContext(AuthContext);
+
+console.log(user.role)
 
   return (
     <ul>
@@ -23,11 +25,11 @@ function NavBar() {
           <li>
             <NavLink to="/profile">Profile</NavLink>
           </li>
-          {role === "company" && (
+          {user.role === "company" && (
             <li>
-              <NavLink to="/profile">Create job post</NavLink>
+              <NavLink to="/create-post">Create job post</NavLink>
             </li>
-          )}
+          )} 
         </>
       )}
       {isLoggedIn && (

@@ -23,8 +23,6 @@ function CompanyProfile() {
     }
   };
 
-
-  
   const handleEdit = async (event) => {
     event.preventDefault();
     const requestBody = { name, email };
@@ -39,9 +37,11 @@ function CompanyProfile() {
     getProfile();
   }, []);
 
+  
+
   return (
     profile && (
-      <>
+      <>{console.log("PROFILEE", profile)}
         <div>This is the company profile</div>
         <form onSubmit={handleEdit}>
           <span>
