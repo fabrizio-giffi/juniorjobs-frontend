@@ -10,6 +10,7 @@ function CompanyProfile() {
 
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
+  const [message, setMessage] = useState(null);
 
   const getProfile = async () => {
     try {
@@ -17,7 +18,6 @@ function CompanyProfile() {
       setProfile(response.data);
       setName(response.data.name);
       setEmail(response.data.email)
-      console.log(response)
     } catch (error) {
       console.log(error);
     }
@@ -29,7 +29,8 @@ function CompanyProfile() {
     event.preventDefault();
     const requestBody = { name, email };
     try {
-      await axios.put(`${API_URL}/edit/${user.id}`, requestBody);
+     const response = await axios.put(`${API_URL}/edit/${user.id}`, requestBody);
+     setMessage(response.data.message)
     } catch (error) {
       console.log(error);
     }
@@ -49,7 +50,6 @@ function CompanyProfile() {
               style={{ border: "none", outline: "none" }}
               type="text"
               placeholder={name}
-              // readOnly={!true}
               onChange={(event) => setName(event.target.value)}
               value={name}
             />
@@ -60,7 +60,6 @@ function CompanyProfile() {
               style={{ border: "none", outline: "none" }}
               type="text"
               placeholder={email}
-              // readOnly={!true}
               onChange={(event) => setEmail(event.target.value)}
               value={email}
             />
@@ -79,6 +78,9 @@ function CompanyProfile() {
               })}
             </ul>
           </div>{" "}
+          {message &&
+          <span>{message}</span>
+          }
           <button type="submit">edit information</button>
         </form>
       </>
