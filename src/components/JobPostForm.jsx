@@ -14,7 +14,7 @@ const jobTypes = [
 
 function JobPostForm() {
   const [title, setTitle] = useState("");
-  const [jobtype, setJobtype] = useState("");
+  const [jobtype, setJobtype] = useState("full time");
   const [heading, setHeading] = useState("");
   const [tasks, setTasks] = useState("");
   const [requirements, setRequirements] = useState("");
@@ -46,8 +46,7 @@ function JobPostForm() {
 
     try {
       const response = await axios.post(API_URL, newJobBody);
-      // Navigate to the new Post details when available
-      if (response.status === 201) navigate("/");
+      if (response.status === 201) navigate(`/jobs/${response.data.id}`);
     } catch (error) {
       console.log("There was an error creating the post", error);
     }
@@ -70,6 +69,7 @@ function JobPostForm() {
           label="Title"
           variant="outlined"
           required
+          fullWidth
         />
         <TextField
           type="text"
@@ -80,6 +80,7 @@ function JobPostForm() {
           defaultValue={jobTypes[0].value}
           variant="outlined"
           required
+          fullWidth
         >
           {jobTypes.map((type) => (
             <MenuItem key={type.value} value={type.value}>
@@ -95,6 +96,7 @@ function JobPostForm() {
           label="Stack"
           variant="outlined"
           required
+          fullWidth
         />
         <TextField
           type="text"
@@ -106,6 +108,7 @@ function JobPostForm() {
           label="Job description"
           variant="outlined"
           required
+          fullWidth
         />
         <TextField
           type="text"
@@ -117,6 +120,7 @@ function JobPostForm() {
           label="Tasks"
           variant="outlined"
           required
+          fullWidth
         />
         <TextField
           type="text"
@@ -128,6 +132,7 @@ function JobPostForm() {
           label="Requirements"
           variant="outlined"
           required
+          fullWidth
         />
         <TextField
           type="text"
@@ -139,6 +144,7 @@ function JobPostForm() {
           label="Benefits"
           variant="outlined"
           required
+          fullWidth
         />
         <TextField
           type="email"
@@ -148,6 +154,7 @@ function JobPostForm() {
           label="Contact email"
           variant="outlined"
           required
+          fullWidth
         />
         <TextField
           type="number"
@@ -157,6 +164,7 @@ function JobPostForm() {
           label="Salary minimum"
           variant="outlined"
           required
+          fullWidth
         />
         <TextField
           type="number"
@@ -166,6 +174,7 @@ function JobPostForm() {
           label="Salary maximum"
           variant="outlined"
           required
+          fullWidth
         />
         <TextField
           type="text"
@@ -175,6 +184,7 @@ function JobPostForm() {
           label="City"
           variant="outlined"
           required
+          fullWidth
         />
         <TextField
           type="text"
@@ -184,6 +194,7 @@ function JobPostForm() {
           label="Country"
           variant="outlined"
           required
+          fullWidth
         />
         <Button type="submit" variant="contained">
           Create new Post
