@@ -15,7 +15,8 @@ function JuniorProfile() {
 
   const getUserData = async () => {
     try {
-      const response = await axios.get(`${API_URL}/api/user/${user.id}`);
+      const response = await axios.get(`${API_URL}/api/user/publicprofile/${user.id}`);
+      console.log(response.data)
       setUserData(response.data)
     } catch (error) {
       console.log("There was an error getting profileData.", error);
@@ -37,23 +38,11 @@ function JuniorProfile() {
         <div>
           <image src={userData.profilPic}/>
         </div> 
-        <h1>{userData.firstName} {userData.LastName}</h1>
-        <h3>{userData.email}</h3>
-       {userData.location && <div> {userData.location}</div>} 
+        <h1>{userData.firstName} {userData.lastName}</h1>
+       {userData.location && <div> {userData.location.country}, {userData.location.city}</div>} 
         <div>Skills
         {userData.skills.length && userData.skills.map((skill) =>{
             <li>{skill}</li>
-          })
-        }</div>
-
-        <div>Favorite Companies
-        {userData.favoriteCompanies.length && userData.favoriteCompanies.map((company) =>{
-            <li>{company}</li>
-          })
-        }</div>
-        <div>Favorite Companies
-        {userData.favoriteJobPosts.length && userData.favoriteJobPosts.map((jobPosting) =>{
-            <li>{jobPosting}</li>
           })
         }</div>
 
