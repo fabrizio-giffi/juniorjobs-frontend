@@ -1,5 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 import "./App.css";
+import CompanyProfilePublic from "./components/CompanyProfilePublic";
 import IsCompany from "./components/IsCompany";
 import IsLoggedIn from "./components/IsLoggedIn";
 import IsLoggedOut from "./components/IsLoggedOut";
@@ -51,6 +52,8 @@ function App() {
         />
         <Route path="/jobs" element={<JobList />} />
         <Route path="/jobs/:id" element={<JobPostDetails />} />
+        <Route path="/company/:id" element={<CompanyProfilePublic/>} />
+        <Route path="/junior/:id" element={<CompanyProfilePublic/>} />
         <Route path="*" element={<h1>404 Not Found</h1>} />
       </Routes>
     </div>
