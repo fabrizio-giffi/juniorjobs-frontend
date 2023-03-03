@@ -1,0 +1,17 @@
+ul{
+    display: flex;
+    gap: 20px;
+    justify-content: flex-end;
+}
+
+li{
+    list-style-type: none;
+}
+
+a{
+    text-decoration: none;
+}
+li button {
+    background: unset;
+    border: unset;
+}
