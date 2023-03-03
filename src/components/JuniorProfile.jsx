@@ -5,8 +5,8 @@ import { Link } from 'react-router-dom';
 
 function JuniorProfile() {
     const { user } = useContext(AuthContext);
-  
-    const [email, setEmail] = useState('');
+    const [userData, setuserData] = useState();
+    const [id, setid] = useState('');
     const [firstName, setfirstName] = useState("");
     const [lastName, setlastName] = useState("");
     const [location, setlocation] = useState({});
@@ -24,7 +24,8 @@ function JuniorProfile() {
       try {
         const response = await axios.get(`${API_URL}/${user.id}`);
         console.log(response.data)
-        setEmail(response.data.email)
+        setuserData(response.data)
+        setid(response.data._id)
         setfirstName(response.data.firstName)
         setlastName(response.data.lastName)
         setlocation(response.data.location)
@@ -49,6 +50,19 @@ function JuniorProfile() {
     //     console.log(error);
     //   }
     // };
+    async function handlefavoriteJobPostsdelete (postId){
+      const requestBody = {id, postId};
+      try {
+       setCatchinUserData(true)
+       const response = await axios.put(`${API_URL}/privateprofile/deleteFavJobPost`, requestBody);
+       getProfile()
+       setCatchinUserData(false)
+       console.log(response.data)
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
     useEffect(() => {
       getProfile();
       setCatchinUserData(false)
@@ -81,9 +95,10 @@ function JuniorProfile() {
                     {jobPost.title}
                     <div>{jobPost.salaryRange.minimum}-{jobPost.salaryRange.maximum}</div>
                     <div>{jobPost.company.name}</div>
-                    <Link to="/">
-                        <button type='button' >X</button>
+                    <Link to={`/jobs/${jobPost._id}`}>
+                        <button type='button' >Show Post</button>
                     </Link>
+                        <button type='button' onClick={()=>handlefavoriteJobPostsdelete(jobPost._id)}>X</button>
                 </div>)
           })
         }</div>
