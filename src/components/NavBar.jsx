@@ -7,7 +7,6 @@ function NavBar() {
   const { isLoggedIn, logOutUser, user } = useContext(AuthContext);
 
 
-
   return (
     <ul className="ul-navbar">
       {!isLoggedIn && (
