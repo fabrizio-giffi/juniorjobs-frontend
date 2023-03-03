@@ -1,3 +1,24 @@
-.ul-jobposts{
-    
+.ul-jobposts {
+  width: 25%;
+}
+.edit-form {
+  display: flex;
+  flex-direction: column;
+  width: 25%;
+}
+
+.edit-form button {
+  width: 35%;
+  align-self: center;
+  margin-top: 15px;
+}
+
+h6{
+    margin: 0 0 15px 0;
+}
+
+.information {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
 }
