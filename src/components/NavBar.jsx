@@ -12,6 +12,9 @@ function NavBar() {
       {!isLoggedIn && (
         <>
           <li>
+            <NavLink to="/">Home</NavLink>
+          </li>
+          <li>
             <NavLink to="/signup">Signup</NavLink>
           </li>
           <li>
@@ -21,6 +24,9 @@ function NavBar() {
       )}
       {isLoggedIn && (
         <>
+          <li>
+            <NavLink to="/">Home</NavLink>
+          </li>
           <li>
             <NavLink to="/profile">Profile</NavLink>
           </li>
