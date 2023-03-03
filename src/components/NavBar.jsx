@@ -33,7 +33,7 @@ function NavBar() {
       {isLoggedIn && (
         <li>
           <NavLink to="/" onClick={logOutUser}>
-            logout
+            Logout
           </NavLink>
         </li>
       )}
