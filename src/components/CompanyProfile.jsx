@@ -3,6 +3,7 @@ import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../context/auth.context";
 import "./CompanyProfile.css";
 import { Card } from "@mui/material";
+import JobPostCard from "./JobPostCard";
 
 const API_URL = "http://localhost:5005/api/company";
 
@@ -161,10 +162,16 @@ function CompanyProfile() {
         <div className="jobPosts">
           <h4>All your job posts</h4>
           <ul className="ul-jobposts">
-            {profile.jobPosts.map((jobPost) => {
+            {profile.jobPosts.map((post) => {
+              <li>
+                <JobPostCard post={post} />
+              </li>;
+            })}
+
+            {/* {profile.jobPosts.map((jobPost) => {
               const date = new Date(jobPost.createdAt).toLocaleDateString();
               return (
-                <Card key={jobPost._id}>
+                <Card key={jobPost._id} className="card">
                   <li>{jobPost.title}</li>
                   <li>{jobPost.description.jobtype}</li>
                   <li>
@@ -174,7 +181,7 @@ function CompanyProfile() {
                   <span>Posted on:{date}</span>
                 </Card>
               );
-            })}
+            })} */}
           </ul>
         </div>
       </>

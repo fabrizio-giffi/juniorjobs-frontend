@@ -27,7 +27,6 @@ function JobPostDetails() {
     return <p>Loading...</p>;
   }
 
-  console.log(jobPost);
   return (
     <>
       <div>JobPostDetails</div>
@@ -40,7 +39,6 @@ function JobPostDetails() {
       </ul>
       <p>HR Contact: {jobPost.email}</p>
       <Link to={`/company/${jobPost.company._id}`}>
-        {/* Link to the company when available */}
         <h4>{jobPost.company.name}</h4>
       </Link>
       <p>

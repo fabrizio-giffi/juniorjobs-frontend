@@ -1,26 +1,22 @@
 import axios from "axios";
-import { useContext, useEffect, useState } from "react";
-import { AuthContext } from "../context/auth.context";
+import { useEffect, useState } from "react";
 import "./CompanyProfile.css";
-import { Card } from "@mui/material";
+import JobPostCardCompanyPage from "./JobPostCardCompanyPage"
 import { useParams } from "react-router-dom";
 
 const API_URL = "http://localhost:5005/api/company";
 
 function CompanyProfilePublic() {
-  const { user } = useContext(AuthContext);
   const [profile, setProfile] = useState();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [message, setMessage] = useState(null);
-  const [street, setStreet] = useState("Please fill in your street");
-  const [zipCode, setZipCode] = useState("Please fill in your zip code");
-  const [city, setCity] = useState("Please fill in your city");
-  const [country, setCountry] = useState("Please fill in your country");
-  const [profilePicture, setProfilePicture] = useState("");
+  const [street, setStreet] = useState("N/A");
+  const [zipCode, setZipCode] = useState("N/A");
+  const [city, setCity] = useState("N/A");
+  const [country, setCountry] = useState("N/A");
   const params = useParams();
   const { id } = params;
-  console.log("IDDDD", id);
+
   const getProfile = async () => {
     try {
       const response = await axios.get(`${API_URL}/${id}`);
@@ -44,7 +40,7 @@ function CompanyProfilePublic() {
   return (
     profile && (
       <>
-        <div> This is the company profile</div>
+        <div> This is the profile of {name}</div>
 
         <div className="title">
           <img
@@ -53,7 +49,6 @@ function CompanyProfilePublic() {
           />
           <h2>Company information</h2>
         </div>
-        <h6>Click on the information to edit</h6>
         <div className="information">
           <div className="input-label">
             <label>Company name:</label>
@@ -64,7 +59,7 @@ function CompanyProfilePublic() {
             <span>{email}</span>
           </div>
 
-          <span className="address">Address: </span>
+          <span className="address"><u>Address </u> </span>
           <div className="input-label">
             <label>Street:</label>
             <span>{street}</span>
@@ -81,34 +76,13 @@ function CompanyProfilePublic() {
             <label>Country:</label>
             <span>{country}</span>
           </div>
-          <div className="input-label">
-            <label>profile picture:</label>
-            <span>{profilePicture}</span>
-          </div>
-        </div>
-
-        <div className="favorites">
-          <ul>
-            {profile.favorites.map((favorite) => {
-              <li>{favorite}</li>;
-            })}
-          </ul>
         </div>
         <div className="jobPosts">
-          <h4>All your job posts</h4>
+          <h4>Job posts from {name}</h4>
           <ul className="ul-jobposts">
-            {profile.jobPosts.map((jobPost) => {
-              const date = new Date(jobPost.createdAt).toLocaleDateString();
+            {profile.jobPosts.map((post) => {
               return (
-                <Card key={jobPost._id}>
-                  <li>{jobPost.title}</li>
-                  <li>{jobPost.description.jobtype}</li>
-                  <li>
-                    {jobPost.salaryRange.minimum} -{" "}
-                    {jobPost.salaryRange.maximum}
-                  </li>
-                  <span>Posted on:{date}</span>
-                </Card>
+                <JobPostCardCompanyPage key={post._id} post={post}/>
               );
             })}
           </ul>

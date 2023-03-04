@@ -1,5 +1,12 @@
 .ul-jobposts {
-  width: 25%;
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+  flex-wrap: wrap;
+  padding: 0;
+}
+.card {
+    margin: 15px 0;
 }
 .edit-form {
   display: flex;
@@ -10,8 +17,8 @@
 .title{
     display: flex;
     align-items: center;
-    gap: 10%;
-    
+    gap: 15px;
+    margin-left: 15px;
 }
 
 .title img {
@@ -34,10 +41,11 @@ h6{
     display: flex;
     flex-direction: column;
     text-align: left;
+    margin-left: 15px ;
 }
 .address{
-    text-align: center;
-    margin: 5px;
+    text-align: left;
+ margin: 5px 0;
 }
 
 .input-label {
@@ -47,8 +55,14 @@ h6{
 }
 
 .input-label label{
-    width: 40%;
+    width: 20%;
+    min-width: 120px;
 }
 .input-label input{
     width: 60%;
+}
+
+.jobPosts h4 {
+    text-align: left;
+    margin-left: 15px;
 }
