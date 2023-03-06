@@ -10,7 +10,7 @@ function JobList() {
 
   const fetchPost = async () => {
     const response = await axios.get(`${API_URL}`);
-    setJobList(response.data);
+    setJobList(response.data.reverse());
     setIsLoading(false);
   };
 
