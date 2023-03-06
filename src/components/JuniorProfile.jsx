@@ -7,14 +7,17 @@ function JuniorProfile() {
     const { user } = useContext(AuthContext);
     const [userData, setuserData] = useState();
     const [id, setid] = useState('');
-    const [firstName, setfirstName] = useState("");
-    const [lastName, setlastName] = useState("");
-    const [location, setlocation] = useState({});
+    const [firstName, setFirstName] = useState("");
+    const [email, setEmail] = useState("");
+    const [lastName, setLastName] = useState("");
+    const [country, setCountry] = useState("");
+    const [city, setCity] = useState("");
     const [skills, setskills] = useState([]);
     const [profilePic, setprofilePic] = useState("");
     const [favoriteJobPosts, setfavoriteJobPosts] = useState([]);
     const [favoriteCompanies, setfavoriteCompanies] = useState([]);
-    const [catchingUserData, setCatchinUserData] = useState(true)
+    const [catchingUserData, setCatchinUserData] = useState(true);
+    const [message, setMessage] = useState();
 
   
     const API_URL = "http://localhost:5005/api/user";
@@ -26,9 +29,11 @@ function JuniorProfile() {
         console.log(response.data)
         setuserData(response.data)
         setid(response.data._id)
-        setfirstName(response.data.firstName)
-        setlastName(response.data.lastName)
-        setlocation(response.data.location)
+        setFirstName(response.data.firstName)
+        setEmail(response.data.email)
+        setLastName(response.data.lastName)
+        setCountry(response.data.location.country)
+        setCity(response.data.location.city)
         setskills(response.data.skills)
         setprofilePic(response.data.profilePic)
         setfavoriteCompanies(response.data.favoriteCompanies)
@@ -38,18 +43,6 @@ function JuniorProfile() {
       }
     };
   
-  
-    
-    // const handleEdit = async (event) => {
-    //   event.preventDefault();
-    //   const requestBody = { firstName, lastName, email, location, skills, favoriteCompanies, favoriteJobPosts };
-    //   try {
-    //    const response = await axios.put(`${API_URL}/edit/${user.id}`, requestBody);
-    //    console.log(response.data)
-    //   } catch (error) {
-    //     console.log(error);
-    //   }
-    // };
     async function handlefavoriteJobPostsdelete (postId){
       const requestBody = {id, postId};
       try {
@@ -76,6 +69,37 @@ function JuniorProfile() {
         }
     }
 
+    async function handlefavoriteCompanyDelete(CompanyId){
+        const requestBody = {id, CompanyId};
+        try {
+            setCatchinUserData(true)
+            const response = await axios.put(`${API_URL}/privateprofile/deleteSkill`, requestBody);
+            getProfile()
+            setCatchinUserData(false)
+            console.log(response.data)
+           } catch (error) {
+             console.log(error);
+           }
+    }
+  async function editFields(event){
+    event.preventDefault();
+    const requestBody = {
+      firstName,
+      lastName,
+      country,
+      city
+    };
+    try {
+      const response = await axios.put(
+        `${API_URL}/edit/${user.id}`,
+        requestBody
+      );
+      setMessage(response.data.message);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
     useEffect(() => {
       getProfile();
       setCatchinUserData(false)
@@ -86,11 +110,74 @@ function JuniorProfile() {
       }
     return (
         <div>
-        <div>
-          <img src={profilePic}/>
-        </div> 
-        <h1>{firstName} {lastName}</h1>
-       {location && <div> {location.country}, {location.city}</div>} 
+        {user.role == "junior"&& 
+        <form onSubmit={editFields} className="edit-form">
+          <div className="title">
+            <img
+              src={`https://api.dicebear.com/5.x/initials/svg?seed=${firstName}`}
+              alt={firstName}
+            />
+            <h2>User information</h2>
+          </div>
+          <h6>Click on the information to edit</h6>
+          <div className="information">
+            <div className="input-label">
+              <label>First Name:</label>
+              <input
+                style={{ border: "none", outline: "none" }}
+                type="text"
+                placeholder={firstName}
+                onChange={(event) => setFirstName(event.target.value)}
+                value={firstName}
+              />
+            </div>
+            <div className="input-label">
+              <label>Last Name:</label>
+              <input
+                style={{ border: "none", outline: "none" }}
+                type="text"
+                placeholder={lastName}
+                onChange={(event) => setLastName(event.target.value)}
+                value={lastName}
+              />
+            </div>
+
+            <div className="input-label">
+              <label>City:</label>
+              <input
+                style={{ border: "none", outline: "none" }}
+                type="text"
+                placeholder={city}
+                onChange={(event) => setCity(event.target.value)}
+                value={city}
+              />
+            </div>
+            <div className="input-label">
+              <label>Country:</label>
+              <input
+                style={{ border: "none", outline: "none" }}
+                type="text"
+                placeholder={country}
+                onChange={(event) => setCountry(event.target.value)}
+                value={country}
+              />
+            </div>
+            <div className="input-label">
+              <label>profile picture:</label>
+              <input
+                style={{ border: "none", outline: "none" }}
+                type="text"
+                placeholder={profilePic}
+                onChange={(event) => setProfilePic(event.target.value)}
+                value={profilePic}
+              />
+            </div>
+          </div>
+
+          {message && <span>{message}</span>}
+          <button type="submit">edit information</button>
+        </form>
+        }
         <div>Skills
         {skills.length > 0 && skills.map((skill) =>{
             return(
@@ -109,6 +196,18 @@ function JuniorProfile() {
                         <button type='button' >Show Post</button>
                     </Link>
                         <button type='button' onClick={()=>handlefavoriteJobPostsdelete(jobPost._id)}>X</button>
+                </div>)
+          })
+        }</div>
+        <div>Favorite Companies
+        {favoriteCompanies.length > 0 && favoriteCompanies.map((company) =>{
+            return(
+                <div key={company._id}>
+                    <div>{company.name}</div>
+                    <Link to={`/company/${company._id}`}>
+                        <button type='button'>Show Company</button>
+                    </Link>
+                        <button type='button' onClick={()=>handlefavoriteCompanyDelete(company._id)}>X</button>
                 </div>)
           })
         }</div>
