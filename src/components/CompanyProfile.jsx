@@ -4,6 +4,7 @@ import { AuthContext } from "../context/auth.context";
 import "./CompanyProfile.css";
 import { Card } from "@mui/material";
 import JobPostCard from "./JobPostCard";
+import CloudinaryUploadWidget from "./CloudinaryUploadWidget";
 
 const API_URL = "http://localhost:5005/api/company";
 
@@ -17,7 +18,7 @@ function CompanyProfile() {
   const [zipCode, setZipCode] = useState("Please fill in your zip code");
   const [city, setCity] = useState("Please fill in your city");
   const [country, setCountry] = useState("Please fill in your country");
-  const [profilePicture, setProfilePicture] = useState("");
+  const [profilePicture, setProfilePicture] = useState();
 
   const getProfile = async () => {
     try {
@@ -29,7 +30,8 @@ function CompanyProfile() {
       setZipCode(response.data.address.zipCode);
       setCity(response.data.address.city);
       setCountry(response.data.address.country);
-      setProfilePicture(response.data.profilePicture);
+      setProfilePicture(response.data.profilePic);
+      console.log("GET RESPONSE FRONT",response)
     } catch (error) {
       console.log("There was an error getting the profile", error);
     }
@@ -43,8 +45,7 @@ function CompanyProfile() {
       street,
       zipCode,
       city,
-      country,
-      profilePicture,
+      country
     };
     try {
       const response = await axios.put(
@@ -56,18 +57,22 @@ function CompanyProfile() {
       console.log(error);
     }
   };
+
   useEffect(() => {
     getProfile();
   }, []);
+  
 
   return (
     profile && (
+      
       <>
+      {console.log(profile)}
         <div> This is the company profile</div>
         <form onSubmit={handleEdit} className="edit-form">
           <div className="title">
             <img
-              src={`https://api.dicebear.com/5.x/initials/svg?seed=${name}`}
+              src={ profilePicture ? profilePicture : `https://api.dicebear.com/5.x/initials/svg?seed=${name}`}
               alt={name}
             />
             <h2>Company information</h2>
@@ -136,21 +141,15 @@ function CompanyProfile() {
                 value={country}
               />
             </div>
-            <div className="input-label">
-              <label>profile picture:</label>
-              <input
-                style={{ border: "none", outline: "none" }}
-                type="text"
-                placeholder={profilePicture}
-                onChange={(event) => setProfilePicture(event.target.value)}
-                value={profilePicture}
-              />
-            </div>
           </div>
 
           {message && <span>{message}</span>}
           <button type="submit">edit information</button>
         </form>
+          <div className="input-label">
+              <label>profile picture:</label>
+              <CloudinaryUploadWidget />
+            </div>
 
         <div className="favorites">
           <ul>
@@ -167,21 +166,6 @@ function CompanyProfile() {
                 <JobPostCard post={post} />
               </li>;
             })}
-
-            {/* {profile.jobPosts.map((jobPost) => {
-              const date = new Date(jobPost.createdAt).toLocaleDateString();
-              return (
-                <Card key={jobPost._id} className="card">
-                  <li>{jobPost.title}</li>
-                  <li>{jobPost.description.jobtype}</li>
-                  <li>
-                    {jobPost.salaryRange.minimum} -{" "}
-                    {jobPost.salaryRange.maximum}
-                  </li>
-                  <span>Posted on:{date}</span>
-                </Card>
-              );
-            })} */}
           </ul>
         </div>
       </>
