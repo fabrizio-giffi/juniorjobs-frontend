@@ -6,6 +6,7 @@ import IsLoggedIn from "./components/IsLoggedIn";
 import IsLoggedOut from "./components/IsLoggedOut";
 import JobPostForm from "./components/JobPostForm";
 import NavBar from "./components/NavBar";
+import CreateJobPost from "./pages/CreateJobPost";
 import HomePage from "./pages/HomePage";
 import JobList from "./pages/JobList";
 import JobPostDetails from "./pages/JobPostDetails";
@@ -46,14 +47,14 @@ function App() {
           path="/create-post"
           element={
             <IsCompany>
-              <JobPostForm />
+              <CreateJobPost />
             </IsCompany>
           }
         />
         <Route path="/jobs" element={<JobList />} />
         <Route path="/jobs/:id" element={<JobPostDetails />} />
-        <Route path="/company/:id" element={<CompanyProfilePublic/>} />
-        <Route path="/junior/:id" element={<CompanyProfilePublic/>} />
+        <Route path="/company/:id" element={<CompanyProfilePublic />} />
+        <Route path="/junior/:id" element={<CompanyProfilePublic />} />
         <Route path="*" element={<h1>404 Not Found</h1>} />
       </Routes>
     </div>

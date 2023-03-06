@@ -1,7 +1,7 @@
 import { Box, Button, MenuItem, TextField } from "@mui/material";
 import axios from "axios";
 import { useContext, useState } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/auth.context";
 
 const API_URL = "http://localhost:5005/api/posts";
@@ -12,22 +12,21 @@ const jobTypes = [
   { value: "freelance", label: "freelance" },
 ];
 
-function JobPostForm() {
-  const [title, setTitle] = useState("");
-  const [jobtype, setJobtype] = useState("full time");
-  const [heading, setHeading] = useState("");
-  const [tasks, setTasks] = useState("");
-  const [requirements, setRequirements] = useState("");
-  const [benefits, setBenefits] = useState("");
-  const [email, setEmail] = useState("");
-  const [salaryMin, setSalaryMin] = useState(0);
-  const [salaryMax, setSalaryMax] = useState(0);
-  const [city, setCity] = useState("");
-  const [country, setCountry] = useState("");
-  const [stack, setStack] = useState([]);
+function JobPostForm({ jobPost, isEditing, setEditing }) {
+  const [title, setTitle] = useState(jobPost?.title || "");
+  const [jobtype, setJobtype] = useState(jobPost?.description.jobtype || "full time");
+  const [heading, setHeading] = useState(jobPost?.description.heading || "");
+  const [tasks, setTasks] = useState(jobPost?.description.tasks || "");
+  const [requirements, setRequirements] = useState(jobPost?.description.requirements || "");
+  const [benefits, setBenefits] = useState(jobPost?.description.benefits || "");
+  const [email, setEmail] = useState(jobPost?.email || "");
+  const [salaryMin, setSalaryMin] = useState(jobPost?.salaryRange.minimum || 0);
+  const [salaryMax, setSalaryMax] = useState(jobPost?.salaryRange.maximum || 0);
+  const [city, setCity] = useState(jobPost?.address.city || "");
+  const [country, setCountry] = useState(jobPost?.address.country || "");
+  const [stack, setStack] = useState(jobPost?.stack || []);
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
-  //   const [errorMessage, setErrorMessage] = useState(undefined);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -47,6 +46,29 @@ function JobPostForm() {
     try {
       const response = await axios.post(API_URL, newJobBody);
       if (response.status === 201) navigate(`/jobs/${response.data.id}`);
+    } catch (error) {
+      console.log("There was an error creating the post", error);
+    }
+  };
+
+  const handleEdit = async (event) => {
+    event.preventDefault();
+    const editJobBody = {
+      title,
+      description: { jobtype, heading, tasks, requirements, benefits },
+      email,
+      salaryRange: {
+        minimum: salaryMin,
+        maximum: salaryMax,
+      },
+      address: { city, country },
+      company: user.id,
+      stack,
+    };
+
+    try {
+      const response = await axios.put(`${API_URL}/${jobPost._id}`, editJobBody);
+      console.log(response.data);
     } catch (error) {
       console.log("There was an error creating the post", error);
     }
@@ -196,9 +218,24 @@ function JobPostForm() {
           required
           fullWidth
         />
-        <Button type="submit" variant="contained">
-          Create new Post
-        </Button>
+        <>
+          {!isEditing && (
+            <Button type="submit" variant="contained">
+              Create new Post
+            </Button>
+          )}
+          {isEditing && (
+            <>
+              {" "}
+              <Button variant="outlined" type="button" onClick={handleEdit}>
+                Submit changes
+              </Button>
+              <Button variant="outlined" type="button" onClick={() => setEditing(false)}>
+                Cancel
+              </Button>
+            </>
+          )}
+        </>
       </Box>
     </>
   );
