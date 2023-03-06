@@ -18,6 +18,7 @@ function JuniorProfile() {
     const [favoriteCompanies, setfavoriteCompanies] = useState([]);
     const [catchingUserData, setCatchinUserData] = useState(true);
     const [message, setMessage] = useState();
+    const [isEditing, setIsEditing] = useState(false);
 
   
     const API_URL = "http://localhost:5005/api/user";
@@ -100,6 +101,11 @@ function JuniorProfile() {
     }
   }
 
+  function changeEdit(){
+    if(isEditing== false){setIsEditing(true)}
+    else if(isEditing== true){setIsEditing(false)}
+  }
+
     useEffect(() => {
       getProfile();
       setCatchinUserData(false)
@@ -119,63 +125,63 @@ function JuniorProfile() {
             />
             <h2>User information</h2>
           </div>
-          <h6>Click on the information to edit</h6>
+          {/* <h6>Click on the information to edit</h6> */}
           <div className="information">
             <div className="input-label">
               <label>First Name:</label>
-              <input
+              {isEditing?<input
                 style={{ border: "none", outline: "none" }}
                 type="text"
                 placeholder={firstName}
                 onChange={(event) => setFirstName(event.target.value)}
                 value={firstName}
-              />
+              />: <p>{firstName}</p>}
             </div>
             <div className="input-label">
               <label>Last Name:</label>
-              <input
+              {isEditing?<input
                 style={{ border: "none", outline: "none" }}
                 type="text"
                 placeholder={lastName}
                 onChange={(event) => setLastName(event.target.value)}
                 value={lastName}
-              />
+              />: <p>{lastName}</p>}
             </div>
 
             <div className="input-label">
               <label>City:</label>
-              <input
+              {isEditing?<input
                 style={{ border: "none", outline: "none" }}
                 type="text"
                 placeholder={city}
                 onChange={(event) => setCity(event.target.value)}
                 value={city}
-              />
+              />: <p>{city}</p>}
             </div>
             <div className="input-label">
               <label>Country:</label>
-              <input
+              {isEditing?<input
                 style={{ border: "none", outline: "none" }}
                 type="text"
                 placeholder={country}
                 onChange={(event) => setCountry(event.target.value)}
                 value={country}
-              />
+              />: <p>{country}</p>}
             </div>
             <div className="input-label">
               <label>profile picture:</label>
-              <input
+              {isEditing?<input
                 style={{ border: "none", outline: "none" }}
                 type="text"
                 placeholder={profilePic}
                 onChange={(event) => setProfilePic(event.target.value)}
                 value={profilePic}
-              />
+              />: <p>{country}</p>}
             </div>
           </div>
 
           {message && <span>{message}</span>}
-          <button type="submit">edit information</button>
+          {isEditing?<button type="submit" onClick={changeEdit}>Commit Changes</button>:<button onClick={changeEdit}>Edit information</button>}
         </form>
         }
         <div>Skills
