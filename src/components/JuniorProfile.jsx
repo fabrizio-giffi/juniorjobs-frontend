@@ -5,17 +5,17 @@ import { Link } from 'react-router-dom';
 
 function JuniorProfile() {
     const { user } = useContext(AuthContext);
-    const [userData, setuserData] = useState();
-    const [id, setid] = useState('');
+    const [userData, setUserData] = useState();
+    const [id, setId] = useState('');
     const [firstName, setFirstName] = useState("");
     const [email, setEmail] = useState("");
     const [lastName, setLastName] = useState("");
     const [country, setCountry] = useState("");
     const [city, setCity] = useState("");
-    const [skills, setskills] = useState([]);
-    const [profilePic, setprofilePic] = useState("");
-    const [favoriteJobPosts, setfavoriteJobPosts] = useState([]);
-    const [favoriteCompanies, setfavoriteCompanies] = useState([]);
+    const [skills, setSkills] = useState([]);
+    const [profilePic, setProfilePic] = useState("");
+    const [favoriteJobPosts, setFavoriteJobPosts] = useState([]);
+    const [favoriteCompanies, setFavoriteCompanies] = useState([]);
     const [catchingUserData, setCatchinUserData] = useState(true);
     const [message, setMessage] = useState();
     const [isEditing, setIsEditing] = useState(false);
@@ -28,17 +28,17 @@ function JuniorProfile() {
       try {
         const response = await axios.get(`${API_URL}/${user.id}`);
         console.log(response.data)
-        setuserData(response.data)
-        setid(response.data._id)
+        setUserData(response.data)
+        setId(response.data._id)
         setFirstName(response.data.firstName)
         setEmail(response.data.email)
         setLastName(response.data.lastName)
         setCountry(response.data.location.country)
         setCity(response.data.location.city)
-        setskills(response.data.skills)
-        setprofilePic(response.data.profilePic)
-        setfavoriteCompanies(response.data.favoriteCompanies)
-        setfavoriteJobPosts(response.data.favoriteJobPosts)
+        setSkills(response.data.skills)
+        setProfilePic(response.data.profilePic)
+        setFavoriteCompanies(response.data.favoriteCompanies)
+        setFavoriteJobPosts(response.data.favoriteJobPosts)
       } catch (error) {
         console.log(error);
       }
