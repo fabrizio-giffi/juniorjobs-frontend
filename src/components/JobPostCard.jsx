@@ -8,9 +8,8 @@ import { Link } from "react-router-dom";
 import { Stack } from "@mui/system";
 
 function JobPostCard({ post }) {
-  {console.log(post)}
   return (
-    <Card sx={{ width: 500, display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
+    <Card className="jobCard" sx={{ width: 500, display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
       <Box>
         <CardHeader
           avatar={<Avatar sx={{ bgcolor: red[500] }} aria-label="job post">{post.company.profilePic || `${post.company.name[0]}${post.company.name[1]}`}</Avatar>}
