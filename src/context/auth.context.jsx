@@ -48,7 +48,7 @@ function AuthProviderWrapper({ children }) {
 
   return (
     <AuthContext.Provider
-      value={{ isLoggedIn, isLoading, user, storeToken, role, setRole, authenticateUser, logOutUser }}
+      value={{ isLoggedIn, isLoading, user, setUser, storeToken, role, setRole, authenticateUser, logOutUser }}
     >
       {children}
     </AuthContext.Provider>
