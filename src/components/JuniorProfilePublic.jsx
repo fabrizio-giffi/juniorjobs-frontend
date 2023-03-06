@@ -1,23 +1,20 @@
 import {useContext, useState, useEffect} from 'react'
 import { AuthContext } from "../context/auth.context";
 import axios from 'axios';
-import { Link } from 'react-router-dom';
-
-
-
+import { Link, useParams } from 'react-router-dom';
 
 function JuniorProfilePublic() {
   const { user } = useContext(AuthContext);
   const [userData, setUserData] = useState();
   const [catchingUserData, setCatchinUserData] = useState(true)
-  // console.log(user)
+  const {id} = useParams()
 
   const API_URL = "http://localhost:5005";
 
   const getUserData = async () => {
-    try {
-      const response = await axios.get(`${API_URL}/api/user/publicprofile/${user.id}`);
-      console.log(response.data)
+    try {console.log("PARAMS", id)
+      const response = await axios.get(`${API_URL}/api/user/publicprofile/${id}`);
+      
       setUserData(response.data)
     } catch (error) {
       console.log("There was an error getting profileData.", error);
