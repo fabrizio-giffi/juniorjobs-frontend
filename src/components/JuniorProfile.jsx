@@ -176,7 +176,7 @@ function JuniorProfile() {
                 placeholder={profilePic}
                 onChange={(event) => setProfilePic(event.target.value)}
                 value={profilePic}
-              />: <p>{country}</p>}
+              />: <p>{profilePic}</p>}
             </div>
           </div>
 
