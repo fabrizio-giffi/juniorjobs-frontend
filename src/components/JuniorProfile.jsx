@@ -110,6 +110,12 @@ function JuniorProfile() {
       getProfile();
       setCatchinUserData(false)
     }, []);
+
+    // useEffect(() => {
+    //   setCatchinUserData(true)
+    //   getProfile();
+    //   setCatchinUserData(false)
+    // }, []);
   
     if(catchingUserData){
         return <div>Loading...</div>

@@ -6,8 +6,25 @@ import PaidIcon from "@mui/icons-material/Paid";
 import { red } from "@mui/material/colors";
 import { Link } from "react-router-dom";
 import { Stack } from "@mui/system";
+import { useContext } from "react";
+import { AuthContext } from "../context/auth.context";
+import axios from "axios";
 
 function JobPostCard({ post }) {
+  const { user } = useContext(AuthContext);
+
+
+  async function addJobPost(postId){
+    const requestBody = {id:user.id, postId};
+    const API_URL="http://localhost:5005/api/user"
+    try {
+        const response = await axios.put(`${API_URL}/addJobPost`, requestBody);
+        console.log(response.data)
+       } catch (error) {
+         console.log(error);
+       }
+  }
+
   return (
     <Card className="jobCard" sx={{ width: 500, display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
       <Box>
@@ -37,7 +54,7 @@ function JobPostCard({ post }) {
       </Box>
       <CardActions style={{ display: "flex", justifyContent: "space-between" }}>
         <Box>
-          <IconButton aria-label="add to favorites">
+          <IconButton onClick={()=>addJobPost(post._id)} aria-label="add to favorites">
             <FavoriteIcon />
           </IconButton>
           <IconButton aria-label="share">
