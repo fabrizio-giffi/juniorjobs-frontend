@@ -6,12 +6,13 @@ import PaidIcon from "@mui/icons-material/Paid";
 import { red } from "@mui/material/colors";
 import { Link } from "react-router-dom";
 import { Stack } from "@mui/system";
-import { useContext } from "react";
+import { useContext, useState, useEffect } from "react";
 import { AuthContext } from "../context/auth.context";
 import axios from "axios";
 
 function JobPostCard({ post }) {
   const { user } = useContext(AuthContext);
+  const [isFavorited, setIsFavorited] = useState(false);
 
 
   async function addJobPost(postId){
@@ -20,10 +21,19 @@ function JobPostCard({ post }) {
     try {
         const response = await axios.put(`${API_URL}/addJobPost`, requestBody);
         console.log(response.data)
+        const API_URL2="http://localhost:5005/api/user"
+        const responseSecond = await axios.get(`${API_URL2}/${user.id}`);
+        let currentUser = responseSecond.data
+  
+        currentUser.favoriteJobPosts.forEach((e)=>{
+          if(e._id===postId){setIsFavorited(true)}
+        })
        } catch (error) {
          console.log(error);
        }
+       return
   }
+
 
   return (
     <Card className="jobCard" sx={{ width: 500, display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
@@ -54,9 +64,9 @@ function JobPostCard({ post }) {
       </Box>
       <CardActions style={{ display: "flex", justifyContent: "space-between" }}>
         <Box>
-          <IconButton onClick={()=>addJobPost(post._id)} aria-label="add to favorites">
+          {!isFavorited && <IconButton onClick={()=>addJobPost(post._id)} aria-label="add to favorites">
             <FavoriteIcon />
-          </IconButton>
+          </IconButton>}
           <IconButton aria-label="share">
             <ShareIcon />
           </IconButton>
