@@ -148,7 +148,7 @@ function CompanyProfile() {
         </form>
           <div className="input-label">
               <label>profile picture:</label>
-              <CloudinaryUploadWidget />
+              <CloudinaryUploadWidget profilePicture={profilePicture} setProfilePicture={setProfilePicture} />
             </div>
 
         <div className="favorites">
