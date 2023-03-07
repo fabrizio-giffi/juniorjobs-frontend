@@ -29,3 +29,7 @@
 .css-1glvl0p-MuiButtonBase-root-MuiIconButton-root-MuiAutocomplete-clearIndicator {
   display: none !important;
 }
+
+.calendly-inline-widget{
+  height:700px !important;
+}

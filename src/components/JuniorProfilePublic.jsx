@@ -2,6 +2,8 @@ import {useContext, useState, useEffect} from 'react'
 import { AuthContext } from "../context/auth.context";
 import axios from 'axios';
 import { Link, useParams } from 'react-router-dom';
+import { InlineWidget } from "react-calendly";
+
 
 function JuniorProfilePublic() {
   const { user } = useContext(AuthContext);
@@ -14,7 +16,7 @@ function JuniorProfilePublic() {
   const getUserData = async () => {
     try {console.log("PARAMS", id)
       const response = await axios.get(`${API_URL}/api/user/publicprofile/${id}`);
-      
+      console.log(response)
       setUserData(response.data)
     } catch (error) {
       console.log("There was an error getting profileData.", error);
@@ -34,7 +36,7 @@ function JuniorProfilePublic() {
   return userData&&(
     <div>
         <div>
-          <image src={userData.profilPic}/>
+          <imag src={userData.profilPic}/>
         </div> 
         <h1>{userData.firstName} {userData.lastName}</h1>
        {userData.location && <div> {userData.location.country}, {userData.location.city}</div>} 
@@ -46,6 +48,11 @@ function JuniorProfilePublic() {
         <Link to="/">
           <button type='button' >Add to Company favorites</button>
         </Link>
+
+      <div>
+                {/* <Link to={'https://calendly.com/beiteldennis/job-interview'}>Calendly</Link> */}
+                <InlineWidget url="https://calendly.com/beiteldennis/job-interview" />
+        </div>
     </div>
   )
 }

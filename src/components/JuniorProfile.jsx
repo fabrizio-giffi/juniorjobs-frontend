@@ -2,6 +2,7 @@ import {useContext, useState, useEffect} from 'react'
 import { AuthContext } from "../context/auth.context";
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import { InlineWidget } from "react-calendly";
 
 function JuniorProfile() {
     const { user } = useContext(AuthContext);
@@ -20,6 +21,7 @@ function JuniorProfile() {
     const [message, setMessage] = useState();
     const [isEditing, setIsEditing] = useState(false);
     const [newSkill, setNewSkill] = useState();
+    const [calendly, setCalendly] = useState("");
 
   
     const API_URL = "http://localhost:5005/api/user";
@@ -40,6 +42,7 @@ function JuniorProfile() {
         setProfilePic(response.data.profilePic)
         setFavoriteCompanies(response.data.favoriteCompanies)
         setFavoriteJobPosts(response.data.favoriteJobPosts)
+
       } catch (error) {
         console.log(error);
       }
@@ -198,6 +201,16 @@ function JuniorProfile() {
                 onChange={(event) => setProfilePic(event.target.value)}
                 value={profilePic}
               />: <p>{profilePic}</p>}
+            </div>
+            <div className="input-label">
+              <label>Calendly Link:</label>
+              {isEditing?<input
+                style={{ border: "none", outline: "none" }}
+                type="text"
+                placeholder={calendly}
+                onChange={(event) => setCalendly(event.target.value)}
+                value={calendly}
+              />: <p>{calendly}</p>}
             </div>
           </div>
 
