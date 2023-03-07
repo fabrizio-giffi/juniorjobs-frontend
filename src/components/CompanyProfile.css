@@ -4,6 +4,7 @@
   justify-content: left;
   flex-wrap: wrap;
   padding: 0;
+  gap: 15px;
 }
 .favorites{
     width: 100%;
@@ -89,3 +90,12 @@ h6{
 .country{
     padding: 15px;
 }
+
+.skills ul{
+    flex-wrap: wrap;
+}
+
+.country {
+    min-width: 85px;
+}
+

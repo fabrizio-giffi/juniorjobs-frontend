@@ -1,4 +1,4 @@
-import {useContext, useState, useEffect} from 'react'
+import { useContext, useState, useEffect } from "react";
 import { AuthContext } from "../context/auth.context";
 import axios from 'axios';
 import { Link } from 'react-router-dom';
@@ -60,17 +60,20 @@ function JuniorProfile() {
       }
     }
 
-    async function handleSkilldelete(skill){
-        const requestBody = {id, skill};
-        try {
-         setCatchinUserData(true)
-         const response = await axios.put(`${API_URL}/privateprofile/deleteSkill`, requestBody);
-         getProfile()
-         setCatchinUserData(false)
-        } catch (error) {
-          console.log(error);
-        }
+  async function handleSkilldelete(skill) {
+    const requestBody = { id, skill };
+    try {
+      setCatchinUserData(true);
+      const response = await axios.put(
+        `${API_URL}/privateprofile/deleteSkill`,
+        requestBody
+      );
+      getProfile();
+      setCatchinUserData(false);
+    } catch (error) {
+      console.log(error);
     }
+  }
 
     async function handlefavoriteCompanyDelete(companyId){
         const requestBody = {id, companyId};
@@ -89,7 +92,7 @@ function JuniorProfile() {
       firstName,
       lastName,
       country,
-      city
+      city,
     };
 
     try {
@@ -103,44 +106,42 @@ function JuniorProfile() {
     }
   }
 
-  function changeEdit(){
-    if(isEditing== false){setIsEditing(true)}
-    else if(isEditing== true){setIsEditing(false)}
+  function changeEdit() {
+    if (isEditing == false) {
+      setIsEditing(true);
+    } else if (isEditing == true) {
+      setIsEditing(false);
+    }
   }
 
-
-  async function addSkill(event){
+  async function addSkill(event) {
     event.preventDefault();
     const requestBody = {
-      id:user.id,
-      newSkill
+      id: user.id,
+      newSkill,
     };
 
     try {
-      setCatchinUserData(true)
-      const response = await axios.put(
-        `${API_URL}/addNewSkill`,
-        requestBody
-      );
-      getProfile()
-      setCatchinUserData(false)
-      setNewSkill("")
+      setCatchinUserData(true);
+      const response = await axios.put(`${API_URL}/addNewSkill`, requestBody);
+      getProfile();
+      setCatchinUserData(false);
+      setNewSkill("");
     } catch (error) {
       console.log(error);
     }
   }
-    useEffect(() => {
-      getProfile();
-      setCatchinUserData(false)
-    }, []);
+  useEffect(() => {
+    getProfile();
+    setCatchinUserData(false);
+  }, []);
 
-
-    if(catchingUserData){
-        return <div>Loading...</div>
-      }
-    return (
-        <div>
-        {user.role == "junior"&& 
+  if (catchingUserData) {
+    return <div>Loading...</div>;
+  }
+  return (
+    <div>
+      {user.role == "junior" && (
         <form onSubmit={editFields} className="edit-form">
           <div className="title">
             <img
@@ -153,54 +154,74 @@ function JuniorProfile() {
           <div className="information">
             <div className="input-label">
               <label>First Name:</label>
-              {isEditing?<input
-                style={{ border: "none", outline: "none" }}
-                type="text"
-                placeholder={firstName}
-                onChange={(event) => setFirstName(event.target.value)}
-                value={firstName}
-              />: <p>{firstName}</p>}
+              {isEditing ? (
+                <input
+                  style={{ border: "none", outline: "none" }}
+                  type="text"
+                  placeholder={firstName}
+                  onChange={(event) => setFirstName(event.target.value)}
+                  value={firstName}
+                />
+              ) : (
+                <p>{firstName}</p>
+              )}
             </div>
             <div className="input-label">
               <label>Last Name:</label>
-              {isEditing?<input
-                style={{ border: "none", outline: "none" }}
-                type="text"
-                placeholder={lastName}
-                onChange={(event) => setLastName(event.target.value)}
-                value={lastName}
-              />: <p>{lastName}</p>}
+              {isEditing ? (
+                <input
+                  style={{ border: "none", outline: "none" }}
+                  type="text"
+                  placeholder={lastName}
+                  onChange={(event) => setLastName(event.target.value)}
+                  value={lastName}
+                />
+              ) : (
+                <p>{lastName}</p>
+              )}
             </div>
 
             <div className="input-label">
               <label>City:</label>
-              {isEditing?<input
-                style={{ border: "none", outline: "none" }}
-                type="text"
-                placeholder={city}
-                onChange={(event) => setCity(event.target.value)}
-                value={city}
-              />: <p>{city}</p>}
+              {isEditing ? (
+                <input
+                  style={{ border: "none", outline: "none" }}
+                  type="text"
+                  placeholder={city}
+                  onChange={(event) => setCity(event.target.value)}
+                  value={city}
+                />
+              ) : (
+                <p>{city}</p>
+              )}
             </div>
             <div className="input-label">
               <label>Country:</label>
-              {isEditing?<input
-                style={{ border: "none", outline: "none" }}
-                type="text"
-                placeholder={country}
-                onChange={(event) => setCountry(event.target.value)}
-                value={country}
-              />: <p>{country}</p>}
+              {isEditing ? (
+                <input
+                  style={{ border: "none", outline: "none" }}
+                  type="text"
+                  placeholder={country}
+                  onChange={(event) => setCountry(event.target.value)}
+                  value={country}
+                />
+              ) : (
+                <p>{country}</p>
+              )}
             </div>
             <div className="input-label">
               <label>profile picture:</label>
-              {isEditing?<input
-                style={{ border: "none", outline: "none" }}
-                type="text"
-                placeholder={profilePic}
-                onChange={(event) => setProfilePic(event.target.value)}
-                value={profilePic}
-              />: <p>{profilePic}</p>}
+              {isEditing ? (
+                <input
+                  style={{ border: "none", outline: "none" }}
+                  type="text"
+                  placeholder={profilePic}
+                  onChange={(event) => setProfilePic(event.target.value)}
+                  value={profilePic}
+                />
+              ) : (
+                <p>{profilePic}</p>
+              )}
             </div>
             <div className="input-label">
               <label>Calendly Link:</label>
@@ -215,55 +236,86 @@ function JuniorProfile() {
           </div>
 
           {message && <span>{message}</span>}
-          {isEditing?<button type="submit" onClick={changeEdit}>Commit Changes</button>:<button onClick={changeEdit}>Edit information</button>}
+          {isEditing ? (
+            <button type="submit" onClick={changeEdit}>
+              Commit Changes
+            </button>
+          ) : (
+            <button onClick={changeEdit}>Edit information</button>
+          )}
         </form>
-        }
-        <form onSubmit={addSkill}>
-              <label>NewSkill:</label>
-              <input
-                type="text"
-                placeholder={newSkill}
-                onChange={(event) => setNewSkill(event.target.value)}
-                value={newSkill}
-                autoFocus
-              />
-              <button type='submit'>Add Skill</button>
-        </form>
-        <div>Skills
-        {skills.length > 0 && skills.map((skill) =>{
-            return(
-                <div key={skill}>{skill}<button type='button' onClick={()=>handleSkilldelete(skill)}>X</button></div>
-                )
-          })
-        }</div>
-        <div>JobPosts
-        {favoriteJobPosts.length > 0 && favoriteJobPosts.map((jobPost) =>{
-            return(
-                <div key={jobPost._id}>
-                    {jobPost.title}
-                    <div>{jobPost.salaryRange.minimum}-{jobPost.salaryRange.maximum}</div>
-                    <div>{jobPost.company.name}</div>
-                    <Link to={`/jobs/${jobPost._id}`}>
-                        <button type='button' >Show Post</button>
-                    </Link>
-                        <button type='button' onClick={()=>handlefavoriteJobPostsdelete(jobPost._id)}>X</button>
-                </div>)
-          })
-        }</div>
-        <div>Favorite Companies
-        {favoriteCompanies.length > 0 && favoriteCompanies.map((company) =>{
-            return(
-                <div key={company._id}>
-                    <div>{company.name}</div>
-                    <Link to={`/company/${company._id}`}>
-                        <button type='button'>Show Company</button>
-                    </Link>
-                        <button type='button' onClick={()=>handlefavoriteCompanyDelete(company._id)}>X</button>
-                </div>)
-          })
-        }</div>
-        </div>
-    )
-  }
-  
-  export default JuniorProfile;
+      )}
+      <form onSubmit={addSkill}>
+        <label>NewSkill:</label>
+        <input
+          type="text"
+          placeholder={newSkill}
+          onChange={(event) => setNewSkill(event.target.value)}
+          value={newSkill}
+          autoFocus
+        />
+        <button type="submit">Add Skill</button>
+      </form>
+      <div>
+        Skills
+        {skills.length > 0 &&
+          skills.map((skill) => {
+            return (
+              <div key={skill}>
+                {skill}
+                <button type="button" onClick={() => handleSkilldelete(skill)}>
+                  X
+                </button>
+              </div>
+            );
+          })}
+      </div>
+      <div>
+        JobPosts
+        {favoriteJobPosts.length > 0 &&
+          favoriteJobPosts.map((jobPost) => {
+            return (
+              <div key={jobPost._id}>
+                {jobPost.title}
+                <div>
+                  {jobPost.salaryRange.minimum}-{jobPost.salaryRange.maximum}
+                </div>
+                <div>{jobPost.company.name}</div>
+                <Link to={`/jobs/${jobPost._id}`}>
+                  <button type="button">Show Post</button>
+                </Link>
+                <button
+                  type="button"
+                  onClick={() => handlefavoriteJobPostsdelete(jobPost._id)}
+                >
+                  X
+                </button>
+              </div>
+            );
+          })}
+      </div>
+      <div>
+        Favorite Companies
+        {favoriteCompanies.length > 0 &&
+          favoriteCompanies.map((company) => {
+            return (
+              <div key={company._id}>
+                <div>{company.name}</div>
+                <Link to={`/company/${company._id}`}>
+                  <button type="button">Show Company</button>
+                </Link>
+                <button
+                  type="button"
+                  onClick={() => handlefavoriteCompanyDelete(company._id)}
+                >
+                  X
+                </button>
+              </div>
+            );
+          })}
+      </div>
+    </div>
+  );
+}
+
+export default JuniorProfile;
