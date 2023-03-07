@@ -2,11 +2,11 @@ import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../context/auth.context";
 import "./CompanyProfile.css";
-import { Card } from "@mui/material";
 import JobPostCard from "./JobPostCard";
 import CloudinaryUploadWidget from "./CloudinaryUploadWidget";
-import JuniorCard from "./JuniorCard";
 import { Link } from "react-router-dom";
+import ClearIcon from "@mui/icons-material/Clear";
+import { IconButton } from "@mui/material";
 
 const API_URL = "http://localhost:5005/api/company";
 
@@ -33,11 +33,22 @@ function CompanyProfile() {
       setCity(response.data.address.city);
       setCountry(response.data.address.country);
       setProfilePicture(response.data.profilePic);
-      console.log("GET RESPONSE FRONT", response);
     } catch (error) {
       console.log("There was an error getting the profile", error);
     }
   };
+
+  const deleteFavorite = async(favoriteId) => {
+    const id = profile._id
+    const requestBody = {id, favoriteId};
+    try {
+      const response = await axios.put(`${API_URL}/delete/favorite`, requestBody)
+      getProfile()
+    } catch (error) {
+      
+    }
+  }
+
 
   const handleEdit = async (event) => {
     event.preventDefault();
@@ -161,7 +172,6 @@ function CompanyProfile() {
             <h4>All your favorite juniors</h4>
             <ul>
               {profile.favorites.map((favorite) => {
-                console.log("FAVS", favorite);
                 return (
                   <li>
                     <div className="card">
@@ -190,6 +200,9 @@ function CompanyProfile() {
                           <h5>
                             <Link to={`/junior/${favorite._id}`}>details</Link>
                           </h5>
+                          <IconButton>
+                            <ClearIcon onClick={()=>deleteFavorite(favorite._id)}/>
+                          </IconButton>
                         </div>
                       </div>
                     </div>
@@ -204,7 +217,7 @@ function CompanyProfile() {
               {profile.jobPosts.map((post) => {
                 return (
                   <li>
-                    <JobPostCard post={post} />
+                    <JobPostCard post={post} profile={profile} getProfile={getProfile}/>
                   </li>
                 );
               })}
