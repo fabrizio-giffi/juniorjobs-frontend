@@ -10,16 +10,16 @@ const options = { weekday: "long", year: "numeric", month: "long", day: "numeric
 
 function JobPostDetails() {
   const [jobPost, setJobPost] = useState({});
-  const [isLoading, setIsLoading] = useState(true);
   const [dateCreated, setDateCreated] = useState();
   const [editing, setEditing] = useState(false);
   const { id } = useParams();
   const { user } = useContext(AuthContext);
+  const [isFetching, setIsFetching] = useState(true);
 
   const fetchPost = async () => {
     const response = await axios.get(`${API_URL}${id}`);
     setJobPost(response.data);
-    setIsLoading(false);
+    setIsFetching(false);
     const dateObj = new Date(response.data.createdAt);
     setDateCreated(dateObj);
   };
@@ -28,7 +28,7 @@ function JobPostDetails() {
     fetchPost();
   }, []);
 
-  if (isLoading) {
+  if (isFetching) {
     return <p>Loading...</p>;
   }
 

@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Box, Button, TextField } from "@mui/material";
 import axios from "axios";
 import PasswordForm from "../components/PasswordForm";
@@ -8,7 +8,7 @@ import { AuthContext } from "../context/auth.context";
 const API_URL = "http://localhost:5005/auth/";
 
 function LoginPage() {
-  const { storeToken, authenticateUser, role, setRole, isLoading, setIsLoading } = useContext(AuthContext);
+  const { storeToken, authenticateUser, role, setRole } = useContext(AuthContext);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");

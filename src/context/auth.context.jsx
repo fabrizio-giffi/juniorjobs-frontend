@@ -1,6 +1,6 @@
 import React, { useState, useEffect, createContext } from "react";
 import axios from "axios";
-const API_URL = "http://localhost:5005/auth/";
+const API_URL = "http://localhost:5005/";
 
 export const AuthContext = createContext();
 
@@ -19,21 +19,22 @@ function AuthProviderWrapper({ children }) {
 
     if (storedToken) {
       try {
-        const response = await axios.get(`${API_URL}${role === "junior" ? "user" : "company"}/verify`, {
+        const response = await axios.get(`${API_URL}verify`, {
           headers: { Authorization: `Bearer ${storedToken}` },
         });
+        setUser(response.data);
         setIsLoggedIn(true);
         setIsLoading(false);
-        setUser(response.data);
+        console.log("Response data in context", response.data);
       } catch (error) {
+        setUser(null);
         setIsLoggedIn(false);
         setIsLoading(false);
-        setUser(null);
       }
     } else {
+      setUser(null);
       setIsLoggedIn(false);
       setIsLoading(false);
-      setUser(null);
     }
   };
 

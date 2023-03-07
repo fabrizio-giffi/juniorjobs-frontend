@@ -1,24 +1,36 @@
-import { Autocomplete, Box, Button, MenuItem, TextField } from "@mui/material";
+import { Box, Button, MenuItem, TextField } from "@mui/material";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import JobPostCard from "../components/JobPostCard";
-const API_URL = "http://localhost:5005/api/posts";
+import { AuthContext } from "../context/auth.context";
+const API_URL = "http://localhost:5005/api/";
 
 function JobList() {
+  const { user } = useContext(AuthContext);
   const [jobList, setJobList] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [userDB, setUserDB] = useState({});
+  const [updated, setUpdated] = useState(false);
+  const [isFetching, setIsFetching] = useState(true);
   const [geoQuery, setGeoQuery] = useState("");
   const [stackQuery, setStackQuery] = useState([]);
 
-  const fetchPost = async () => {
-    const response = await axios.get(`${API_URL}`);
-    setJobList(response.data.reverse());
-    setIsLoading(false);
+  const fetchData = async () => {
+    const jobList = await axios.get(`${API_URL}posts`);
+    setJobList(jobList.data.reverse());
+    const fetchedUser = await axios.get(`${API_URL}user/${user.id}`);
+    setUserDB(fetchedUser.data);
+    setIsFetching(false);
+    setUpdated(false);
   };
 
   useEffect(() => {
-    fetchPost();
+    console.log("User in JobList.jsx", user);
+    fetchData();
   }, []);
+
+  useEffect(() => {
+    fetchData();
+  }, [updated]);
 
   const countryFilter = [];
   jobList.forEach((post) => {
@@ -38,7 +50,7 @@ function JobList() {
 
   // console.log(countryFilter);
 
-  if (isLoading) {
+  if (isFetching) {
     return <p>Loading...</p>;
   }
 
@@ -85,7 +97,7 @@ function JobList() {
           .filter((post) => (geoQuery.length === 0 ? true : post.address.country === geoQuery))
           // .filter((post) => post.stack.some(stack => stackFilter.includes(stack)) )
           .map((post) => {
-            return <JobPostCard key={post._id} post={post} />;
+            return <JobPostCard key={post._id} post={post} userDB={userDB} setUpdated={setUpdated} />;
           })}
       </Box>
     </>

@@ -2,6 +2,7 @@ import { Route, Routes } from "react-router-dom";
 import "./App.css";
 import CompanyProfilePublic from "./components/CompanyProfilePublic";
 import IsCompany from "./components/IsCompany";
+import IsLoading from "./components/IsLoading";
 import IsLoggedIn from "./components/IsLoggedIn";
 import IsLoggedOut from "./components/IsLoggedOut";
 import JobPostForm from "./components/JobPostForm";
@@ -20,7 +21,14 @@ function App() {
     <div className="App">
       <NavBar />
       <Routes>
-        <Route path="/" element={<HomePage />} />
+        <Route
+          path="/"
+          element={
+            <IsLoading>
+              <HomePage />
+            </IsLoading>
+          }
+        />
         <Route
           path="/login"
           element={
@@ -55,8 +63,8 @@ function App() {
         />
         <Route path="/jobs" element={<JobList />} />
         <Route path="/jobs/:id" element={<JobPostDetails />} />
-        <Route path="/company/:id" element={<CompanyProfilePublic/>} />
-        <Route path="/junior/:id" element={<JuniorProfilePublic/>} />
+        <Route path="/company/:id" element={<CompanyProfilePublic />} />
+        <Route path="/junior/:id" element={<JuniorProfilePublic />} />
         <Route path="*" element={<h1>404 Not Found</h1>} />
       </Routes>
     </div>

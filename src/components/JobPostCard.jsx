@@ -6,26 +6,24 @@ import PaidIcon from "@mui/icons-material/Paid";
 import { red } from "@mui/material/colors";
 import { Link } from "react-router-dom";
 import { Stack } from "@mui/system";
-import { useContext, useState } from "react";
-import { AuthContext } from "../context/auth.context";
 import axios from "axios";
+import { useContext } from "react";
+import { AuthContext } from "../context/auth.context";
 
-function JobPostCard({ post }) {
-  const { user, setUser } = useContext(AuthContext);
-  console.log("FAVORITE JOBLIST", user.favoriteJobPosts);
+function JobPostCard({ post, userDB, setUpdated }) {
+  const { user } = useContext(AuthContext);
 
-  async function addJobPost(postId) {
+  const addJobPost = async (postId) => {
     const requestBody = { id: user.id, postId };
     const API_URL = "http://localhost:5005/api/user";
     try {
       const response = await axios.put(`${API_URL}/addJobPost`, requestBody);
-      const updateUser = { ...user, favoriteJobPosts: [...user.favoriteJobPosts, postId] };
-      setUser(updateUser)
+      setUpdated(true)
     } catch (error) {
       console.log(error);
     }
     return;
-  }
+  };
 
   return (
     <Card
@@ -56,14 +54,14 @@ function JobPostCard({ post }) {
               €{post.salaryRange.minimum} - €{post.salaryRange.maximum}
             </Typography>
           </Stack>
-          <Typography align="start" noWrap variant="body2" color="text.secondary">
+          <Typography noWrap variant="body2" color="text.secondary">
             {post.description.heading}
           </Typography>
         </CardContent>
       </Box>
       <CardActions style={{ display: "flex", justifyContent: "space-between" }}>
         <Box>
-          {!user.favoriteJobPosts.includes(post._id) && (
+          { !userDB.favoriteJobPosts.some(job => job._id === post._id) && (
             <IconButton onClick={() => addJobPost(post._id)} aria-label="add to favorites">
               <FavoriteIcon />
             </IconButton>
