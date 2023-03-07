@@ -1,6 +1,9 @@
-import { Autocomplete, Avatar, Box, Button, MenuItem, Skeleton, TextField, Typography } from "@mui/material";
+import { Avatar, Box, Skeleton, Typography } from "@mui/material";
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
+import CompanyFilter from "../components/filters/CompanyFilter";
+import GeoFilter from "../components/filters/GeoFilter";
+import StackFilter from "../components/filters/StackFilter";
 import JobPostCard from "../components/JobPostCard";
 import { AuthContext } from "../context/auth.context";
 const API_URL = "http://localhost:5005/api/";
@@ -48,6 +51,7 @@ function JobList() {
   //   }
   // };
 
+  //FILTERS
   const countryFilter = [];
   jobList.forEach((post) => {
     if (!countryFilter.includes(post.address.country)) {
@@ -70,8 +74,6 @@ function JobList() {
       }
     });
   });
-
-  // console.log(countryFilter);
 
   if (isFetching) {
     return (
@@ -110,64 +112,12 @@ function JobList() {
     );
   }
 
-  console.log(stackQuery);
-
   return (
     <>
       <h2>JobList</h2>
-      <Box>
-        <TextField
-          style={{ minWidth: "120px" }}
-          type="text"
-          onChange={(event) => setGeoQuery(event.target.value)}
-          id="outlined-basic"
-          label="Country"
-          value={geoQuery}
-          variant="outlined"
-          select
-        >
-          {countryFilter.map((country) => (
-            <MenuItem key={country} value={country}>
-              {country}
-            </MenuItem>
-          ))}
-        </TextField>
-        <Button onClick={() => setGeoQuery("")}>Remove filter</Button>
-      </Box>
-      <Box>
-        <TextField
-          style={{ minWidth: "120px" }}
-          type="text"
-          onChange={(event) => setCompanyQuery(event.target.value)}
-          id="outlined-basic"
-          label="Company"
-          value={companyQuery}
-          variant="outlined"
-          select
-        >
-          {companyFilter.map((company) => (
-            <MenuItem key={company} value={company}>
-              {company}
-            </MenuItem>
-          ))}
-        </TextField>
-        <Button onClick={() => setCompanyQuery("")}>Remove filter</Button>
-      </Box>
-      <Box>
-        <Autocomplete
-          multiple
-          id="tags-outlined"
-          options={stackFilter}
-          getOptionLabel={(option) => option}
-          filterSelectedOptions
-          value={[...stackQuery]}
-          onChange={(event) => setStackQuery([...stackQuery, event.target.innerText])}
-          renderInput={(params) => {
-            return <TextField {...params} label="Stacks" placeholder="Stack" />;
-          }}
-        />
-        <Button onClick={() => setStackQuery([])}>Remove filter</Button>
-      </Box>
+      <GeoFilter countryFilter={countryFilter} setGeoQuery={setGeoQuery} geoQuery={geoQuery} />
+      <CompanyFilter setCompanyQuery={setCompanyQuery} companyQuery={companyQuery} companyFilter={companyFilter} />
+      <StackFilter stackQuery={stackQuery} setStackQuery={setStackQuery} stackFilter={stackFilter} />
 
       <Box sx={{ display: "flex", flexFlow: "row wrap", gap: "2rem", justifyContent: "center" }}>
         {jobList
