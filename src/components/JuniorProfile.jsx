@@ -19,6 +19,7 @@ function JuniorProfile() {
     const [catchingUserData, setCatchinUserData] = useState(true);
     const [message, setMessage] = useState();
     const [isEditing, setIsEditing] = useState(false);
+    const [newSkill, setNewSkill] = useState();
 
   
     const API_URL = "http://localhost:5005/api/user";
@@ -90,6 +91,7 @@ function JuniorProfile() {
       country,
       city
     };
+
     try {
       const response = await axios.put(
         `${API_URL}/edit/${user.id}`,
@@ -106,6 +108,27 @@ function JuniorProfile() {
     else if(isEditing== true){setIsEditing(false)}
   }
 
+
+  async function addSkill(event){
+    event.preventDefault();
+    const requestBody = {
+      id:user.id,
+      newSkill
+    };
+
+    try {
+      setCatchinUserData(true)
+      const response = await axios.put(
+        `${API_URL}/addNewSkill`,
+        requestBody
+      );
+      getProfile()
+      setCatchinUserData(false)
+      console.log(response.data)
+    } catch (error) {
+      console.log(error);
+    }
+  }
     useEffect(() => {
       getProfile();
       setCatchinUserData(false)
@@ -190,6 +213,16 @@ function JuniorProfile() {
           {isEditing?<button type="submit" onClick={changeEdit}>Commit Changes</button>:<button onClick={changeEdit}>Edit information</button>}
         </form>
         }
+        <form onSubmit={addSkill}>
+              <label>NewSkill:</label>
+              <input
+                type="text"
+                placeholder={newSkill}
+                onChange={(event) => setNewSkill(event.target.value)}
+                value={newSkill}
+              />
+              <button type='submit'>Add Skill</button>
+        </form>
         <div>Skills
         {skills.length > 0 && skills.map((skill) =>{
             return(
