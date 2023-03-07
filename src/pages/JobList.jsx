@@ -115,8 +115,8 @@ function JobList() {
   return (
     <>
       <h2>JobList</h2>
-      <GeoFilter countryFilter={countryFilter} setGeoQuery={setGeoQuery} geoQuery={geoQuery} />
-      <CompanyFilter setCompanyQuery={setCompanyQuery} companyQuery={companyQuery} companyFilter={companyFilter} />
+      <GeoFilter geoQuery={geoQuery} setGeoQuery={setGeoQuery} countryFilter={countryFilter} />
+      <CompanyFilter companyQuery={companyQuery} setCompanyQuery={setCompanyQuery} companyFilter={companyFilter} />
       <StackFilter stackQuery={stackQuery} setStackQuery={setStackQuery} stackFilter={stackFilter} />
 
       <Box sx={{ display: "flex", flexFlow: "row wrap", gap: "2rem", justifyContent: "center" }}>

@@ -92,7 +92,7 @@ const JuniorList = () => {
   return (
     juniors.length > 1 && (
       <>
-        <GeoFilter countryFilter={countryFilter} setGeoQuery={setGeoQuery} geoQuery={geoQuery} />
+        <GeoFilter geoQuery={geoQuery} setGeoQuery={setGeoQuery} countryFilter={countryFilter} />
         <StackFilter stackQuery={stackQuery} setStackQuery={setStackQuery} stackFilter={stackFilter} />
 
         <div className="outer-junior-card">
