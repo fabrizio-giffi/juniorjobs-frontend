@@ -12,6 +12,7 @@ function JobList() {
   const [updated, setUpdated] = useState(false);
   const [isFetching, setIsFetching] = useState(true);
   const [geoQuery, setGeoQuery] = useState("");
+  const [companyQuery, setCompanyQuery] = useState("");
   const [stackQuery, setStackQuery] = useState([]);
 
   const fetchData = async () => {
@@ -51,6 +52,13 @@ function JobList() {
   jobList.forEach((post) => {
     if (!countryFilter.includes(post.address.country)) {
       countryFilter.push(post.address.country);
+    }
+  });
+
+  const companyFilter = [];
+  jobList.forEach((post) => {
+    if (!companyFilter.includes(post.company.name)) {
+      companyFilter.push(post.company.name);
     }
   });
 
@@ -114,7 +122,7 @@ function JobList() {
           onChange={(event) => setGeoQuery(event.target.value)}
           id="outlined-basic"
           label="Country"
-          defaultValue={""}
+          value={geoQuery}
           variant="outlined"
           select
         >
@@ -125,6 +133,25 @@ function JobList() {
           ))}
         </TextField>
         <Button onClick={() => setGeoQuery("")}>Remove filter</Button>
+      </Box>
+      <Box>
+        <TextField
+          style={{ minWidth: "120px" }}
+          type="text"
+          onChange={(event) => setCompanyQuery(event.target.value)}
+          id="outlined-basic"
+          label="Company"
+          value={companyQuery}
+          variant="outlined"
+          select
+        >
+          {companyFilter.map((company) => (
+            <MenuItem key={company} value={company}>
+              {company}
+            </MenuItem>
+          ))}
+        </TextField>
+        <Button onClick={() => setCompanyQuery("")}>Remove filter</Button>
       </Box>
       <Box>
         <Autocomplete
@@ -145,9 +172,14 @@ function JobList() {
       <Box sx={{ display: "flex", flexFlow: "row wrap", gap: "2rem", justifyContent: "center" }}>
         {jobList
           .filter((post) => (geoQuery.length === 0 ? true : post.address.country === geoQuery))
+          .filter((post) => (companyQuery.length === 0 ? true : post.company.name === companyQuery))
           .filter((post) => (stackQuery.length === 0 ? true : stackQuery.every((stack) => post.stack.includes(stack))))
           .map((post) => {
-            return <JobPostCard key={post._id} post={post} userDB={userDB} setUpdated={setUpdated} />;
+            return jobList.length > 0 ? (
+              <JobPostCard key={post._id} post={post} userDB={userDB} setUpdated={setUpdated} />
+            ) : (
+              <p>{key}</p>
+            );
           })}
       </Box>
     </>

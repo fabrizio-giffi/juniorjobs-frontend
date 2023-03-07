@@ -4,7 +4,6 @@ import ShareIcon from "@mui/icons-material/Share";
 import ApartmentIcon from "@mui/icons-material/Apartment";
 import PaidIcon from "@mui/icons-material/Paid";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import { red } from "@mui/material/colors";
 import { Link } from "react-router-dom";
 import { Stack } from "@mui/system";
 import axios from "axios";
@@ -34,9 +33,10 @@ function JobPostCard({ post, userDB, setUpdated }) {
       <Box>
         <CardHeader
           avatar={
-            <Avatar sx={{ bgcolor: red[500] }} aria-label="job post">
-              {post.company.profilePic || `${post.company.name[0]}${post.company.name[1]}`}
-            </Avatar>
+            <Avatar
+              aria-label="job post"
+              src={post.company.profilePic}
+            >{`${post.company.name[0]}${post.company.name[1]}`}</Avatar>
           }
           title={post.title}
           subheader={post.company.name}
@@ -62,7 +62,7 @@ function JobPostCard({ post, userDB, setUpdated }) {
       </Box>
       <CardActions style={{ display: "flex", justifyContent: "space-between" }}>
         <Box style={{ display: "flex", justifyContent: "space-between" }}>
-          {!isLoggedIn || !userDB ||userDB.favoriteJobPosts.some((job) => job._id === post._id) ? (
+          {!isLoggedIn || !userDB || userDB.favoriteJobPosts.some((job) => job._id === post._id) ? (
             <IconButton aria-label="add to favorites">
               <FavoriteIcon />
             </IconButton>
@@ -74,7 +74,7 @@ function JobPostCard({ post, userDB, setUpdated }) {
           <IconButton aria-label="share">
             <ShareIcon />
           </IconButton>
-            {/* <p>Job post added to your favorites</p> */}
+          {/* <p>Job post added to your favorites</p> */}
         </Box>
         <Link to={`/jobs/${post._id}`}>
           <Button variant="outlined" type="button">
