@@ -3,6 +3,7 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import ShareIcon from "@mui/icons-material/Share";
 import ApartmentIcon from "@mui/icons-material/Apartment";
 import PaidIcon from "@mui/icons-material/Paid";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import { red } from "@mui/material/colors";
 import { Link } from "react-router-dom";
 import { Stack } from "@mui/system";
@@ -11,14 +12,14 @@ import { useContext } from "react";
 import { AuthContext } from "../context/auth.context";
 
 function JobPostCard({ post, userDB, setUpdated }) {
-  const { user } = useContext(AuthContext);
+  const { user, isLoggedIn } = useContext(AuthContext);
 
   const addJobPost = async (postId) => {
     const requestBody = { id: user.id, postId };
     const API_URL = "http://localhost:5005/api/user";
     try {
       const response = await axios.put(`${API_URL}/addJobPost`, requestBody);
-      setUpdated(true)
+      setUpdated(true);
     } catch (error) {
       console.log(error);
     }
@@ -54,21 +55,26 @@ function JobPostCard({ post, userDB, setUpdated }) {
               €{post.salaryRange.minimum} - €{post.salaryRange.maximum}
             </Typography>
           </Stack>
-          <Typography noWrap variant="body2" color="text.secondary">
+          <Typography style={{ textAlign: "start" }} noWrap variant="body2" color="text.secondary">
             {post.description.heading}
           </Typography>
         </CardContent>
       </Box>
       <CardActions style={{ display: "flex", justifyContent: "space-between" }}>
-        <Box>
-          { !userDB.favoriteJobPosts.some(job => job._id === post._id) && (
-            <IconButton onClick={() => addJobPost(post._id)} aria-label="add to favorites">
+        <Box style={{ display: "flex", justifyContent: "space-between" }}>
+          {!isLoggedIn || userDB.favoriteJobPosts.some((job) => job._id === post._id) ? (
+            <IconButton aria-label="add to favorites">
               <FavoriteIcon />
+            </IconButton>
+          ) : (
+            <IconButton onClick={() => addJobPost(post._id)} aria-label="add to favorites">
+              <FavoriteBorderIcon />
             </IconButton>
           )}
           <IconButton aria-label="share">
             <ShareIcon />
           </IconButton>
+            {/* <p>Job post added to your favorites</p> */}
         </Box>
         <Link to={`/jobs/${post._id}`}>
           <Button variant="outlined" type="button">

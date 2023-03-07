@@ -1,4 +1,4 @@
-import { Box, Button, MenuItem, TextField } from "@mui/material";
+import { Avatar, Box, Button, MenuItem, Skeleton, TextField, Typography } from "@mui/material";
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import JobPostCard from "../components/JobPostCard";
@@ -17,14 +17,15 @@ function JobList() {
   const fetchData = async () => {
     const jobList = await axios.get(`${API_URL}posts`);
     setJobList(jobList.data.reverse());
-    const fetchedUser = await axios.get(`${API_URL}user/${user.id}`);
-    setUserDB(fetchedUser.data);
+    if (user) {
+      const fetchedUser = await axios.get(`${API_URL}user/${user.id}`);
+      setUserDB(fetchedUser.data);
+    }
     setIsFetching(false);
     setUpdated(false);
   };
 
   useEffect(() => {
-    console.log("User in JobList.jsx", user);
     fetchData();
   }, []);
 
@@ -51,7 +52,40 @@ function JobList() {
   // console.log(countryFilter);
 
   if (isFetching) {
-    return <p>Loading...</p>;
+    return (
+      <div>
+        <Box sx={{ display: "flex", alignItems: "center" }}>
+          <Box sx={{ margin: 1 }}>
+            {isFetching ? (
+              <Skeleton variant="circular">
+                <Avatar />
+              </Skeleton>
+            ) : (
+              <Avatar src="https://pbs.twimg.com/profile_images/877631054525472768/Xp5FAPD5_reasonably_small.jpg" />
+            )}
+          </Box>
+          <Box sx={{ width: "50%" }}>
+            {isFetching ? (
+              <Skeleton width="50%">
+                <Typography>.</Typography>
+              </Skeleton>
+            ) : (
+              <Typography>Ted</Typography>
+            )}
+          </Box>
+        </Box>
+        {isFetching ? (
+          <Skeleton variant="rectangular" width="50%">
+            <div style={{ paddingTop: "57%" }} />
+          </Skeleton>
+        ) : (
+          <Image
+            src="https://pi.tedcdn.com/r/talkstar-photos.s3.amazonaws.com/uploads/72bda89f-9bbf-4685-910a-2f151c4f3a8a/NicolaSturgeon_2019T-embed.jpg?w=512"
+            alt=""
+          />
+        )}
+      </div>
+    );
   }
 
   return (
