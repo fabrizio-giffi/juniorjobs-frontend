@@ -52,7 +52,6 @@ function JuniorProfile() {
        const response = await axios.put(`${API_URL}/privateprofile/deleteFavJobPost`, requestBody);
        getProfile()
        setCatchinUserData(false)
-       console.log(response.data)
       } catch (error) {
         console.log(error);
       }
@@ -65,7 +64,6 @@ function JuniorProfile() {
          const response = await axios.put(`${API_URL}/privateprofile/deleteSkill`, requestBody);
          getProfile()
          setCatchinUserData(false)
-         console.log(response.data)
         } catch (error) {
           console.log(error);
         }
@@ -78,7 +76,6 @@ function JuniorProfile() {
             const response = await axios.put(`${API_URL}/privateprofile/deleteSkill`, requestBody);
             getProfile()
             setCatchinUserData(false)
-            console.log(response.data)
            } catch (error) {
              console.log(error);
            }
@@ -124,7 +121,7 @@ function JuniorProfile() {
       );
       getProfile()
       setCatchinUserData(false)
-      console.log(response.data)
+      setNewSkill("")
     } catch (error) {
       console.log(error);
     }
@@ -134,12 +131,7 @@ function JuniorProfile() {
       setCatchinUserData(false)
     }, []);
 
-    // useEffect(() => {
-    //   setCatchinUserData(true)
-    //   getProfile();
-    //   setCatchinUserData(false)
-    // }, []);
-  
+
     if(catchingUserData){
         return <div>Loading...</div>
       }
@@ -220,6 +212,7 @@ function JuniorProfile() {
                 placeholder={newSkill}
                 onChange={(event) => setNewSkill(event.target.value)}
                 value={newSkill}
+                autoFocus
               />
               <button type='submit'>Add Skill</button>
         </form>
