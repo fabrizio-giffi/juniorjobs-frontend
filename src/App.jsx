@@ -63,7 +63,11 @@ function App() {
         />
         <Route path="/jobs" element={<JobList />} />
         <Route path="/jobs/:id" element={<JobPostDetails />} />
-        <Route path="/company/:id" element={<CompanyProfilePublic />} />
+        <Route path="/company/:id" element={
+        <IsLoading>
+          <CompanyProfilePublic />
+        </IsLoading>
+        } />
         <Route path="/junior/:id" element={<JuniorProfilePublic />} />
         <Route path="*" element={<h1>404 Not Found</h1>} />
       </Routes>

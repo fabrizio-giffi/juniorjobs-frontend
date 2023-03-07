@@ -69,11 +69,11 @@ function JuniorProfile() {
         }
     }
 
-    async function handlefavoriteCompanyDelete(CompanyId){
-        const requestBody = {id, CompanyId};
+    async function handlefavoriteCompanyDelete(companyId){
+        const requestBody = {id, companyId};
         try {
             setCatchinUserData(true)
-            const response = await axios.put(`${API_URL}/privateprofile/deleteSkill`, requestBody);
+            const response = await axios.put(`${API_URL}/privateprofile/deleteFavCompany`, requestBody);
             getProfile()
             setCatchinUserData(false)
            } catch (error) {
