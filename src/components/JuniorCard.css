@@ -87,6 +87,12 @@ a:hover{
     color: #35433d;
 }
 
+.details-heart{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
 @media screen and (max-width: 900px) {
     .skills ul{
         flex-direction: column;
