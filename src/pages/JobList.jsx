@@ -1,6 +1,9 @@
-import { Autocomplete, Avatar, Box, Button, MenuItem, Skeleton, TextField, Typography } from "@mui/material";
+import { Avatar, Box, Skeleton, Typography } from "@mui/material";
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
+import CompanyFilter from "../components/filters/CompanyFilter";
+import GeoFilter from "../components/filters/GeoFilter";
+import StackFilter from "../components/filters/StackFilter";
 import JobPostCard from "../components/JobPostCard";
 import { AuthContext } from "../context/auth.context";
 const API_URL = "http://localhost:5005/api/";
@@ -12,6 +15,7 @@ function JobList() {
   const [updated, setUpdated] = useState(false);
   const [isFetching, setIsFetching] = useState(true);
   const [geoQuery, setGeoQuery] = useState("");
+  const [companyQuery, setCompanyQuery] = useState("");
   const [stackQuery, setStackQuery] = useState([]);
 
   const fetchData = async () => {
@@ -47,10 +51,18 @@ function JobList() {
   //   }
   // };
 
+  //FILTERS
   const countryFilter = [];
   jobList.forEach((post) => {
     if (!countryFilter.includes(post.address.country)) {
       countryFilter.push(post.address.country);
+    }
+  });
+
+  const companyFilter = [];
+  jobList.forEach((post) => {
+    if (!companyFilter.includes(post.company.name)) {
+      companyFilter.push(post.company.name);
     }
   });
 
@@ -62,8 +74,6 @@ function JobList() {
       }
     });
   });
-
-  // console.log(countryFilter);
 
   if (isFetching) {
     return (
@@ -102,52 +112,24 @@ function JobList() {
     );
   }
 
-  console.log(stackQuery);
-
   return (
     <>
       <h2>JobList</h2>
-      <Box>
-        <TextField
-          style={{ minWidth: "120px" }}
-          type="text"
-          onChange={(event) => setGeoQuery(event.target.value)}
-          id="outlined-basic"
-          label="Country"
-          defaultValue={""}
-          variant="outlined"
-          select
-        >
-          {countryFilter.map((country) => (
-            <MenuItem key={country} value={country}>
-              {country}
-            </MenuItem>
-          ))}
-        </TextField>
-        <Button onClick={() => setGeoQuery("")}>Remove filter</Button>
-      </Box>
-      <Box>
-        <Autocomplete
-          multiple
-          id="tags-outlined"
-          options={stackFilter}
-          getOptionLabel={(option) => option}
-          filterSelectedOptions
-          value={[...stackQuery]}
-          onChange={(event) => setStackQuery([...stackQuery, event.target.innerText])}
-          renderInput={(params) => {
-            return <TextField {...params} label="Stacks" placeholder="Stack" />;
-          }}
-        />
-        <Button onClick={() => setStackQuery([])}>Remove filter</Button>
-      </Box>
+      <GeoFilter countryFilter={countryFilter} setGeoQuery={setGeoQuery} geoQuery={geoQuery} />
+      <CompanyFilter setCompanyQuery={setCompanyQuery} companyQuery={companyQuery} companyFilter={companyFilter} />
+      <StackFilter stackQuery={stackQuery} setStackQuery={setStackQuery} stackFilter={stackFilter} />
 
       <Box sx={{ display: "flex", flexFlow: "row wrap", gap: "2rem", justifyContent: "center" }}>
         {jobList
           .filter((post) => (geoQuery.length === 0 ? true : post.address.country === geoQuery))
+          .filter((post) => (companyQuery.length === 0 ? true : post.company.name === companyQuery))
           .filter((post) => (stackQuery.length === 0 ? true : stackQuery.every((stack) => post.stack.includes(stack))))
           .map((post) => {
-            return <JobPostCard key={post._id} post={post} userDB={userDB} setUpdated={setUpdated} />;
+            return jobList.length > 0 ? (
+              <JobPostCard key={post._id} post={post} userDB={userDB} setUpdated={setUpdated} />
+            ) : (
+              <p>{key}</p>
+            );
           })}
       </Box>
     </>

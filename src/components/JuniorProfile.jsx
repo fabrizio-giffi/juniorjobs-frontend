@@ -73,21 +73,18 @@ function JuniorProfile() {
     }
   }
 
-  async function handlefavoriteCompanyDelete(CompanyId) {
-    const requestBody = { id, CompanyId };
-    try {
-      setCatchinUserData(true);
-      const response = await axios.put(
-        `${API_URL}/privateprofile/deleteSkill`,
-        requestBody
-      );
-      getProfile();
-      setCatchinUserData(false);
-    } catch (error) {
-      console.log(error);
+    async function handlefavoriteCompanyDelete(companyId){
+        const requestBody = {id, companyId};
+        try {
+            setCatchinUserData(true)
+            const response = await axios.put(`${API_URL}/privateprofile/deleteFavCompany`, requestBody);
+            getProfile()
+            setCatchinUserData(false)
+           } catch (error) {
+             console.log(error);
+           }
     }
-  }
-  async function editFields(event) {
+  async function editFields(event){
     event.preventDefault();
     const requestBody = {
       firstName,

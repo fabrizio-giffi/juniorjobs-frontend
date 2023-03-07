@@ -1,12 +1,23 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import "./CompanyProfile.css";
 import JobPostCardCompanyPage from "./JobPostCardCompanyPage"
 import { useParams } from "react-router-dom";
+import { AuthContext } from "../context/auth.context";
+import { Avatar, Box, Button, Card, CardActions, CardContent, CardHeader, IconButton, Typography } from "@mui/material";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+
 
 const API_URL = "http://localhost:5005/api/company";
 
 function CompanyProfilePublic() {
+  const { user, isLoggedIn } = useContext(AuthContext);
+  const [userDB, setUserDB] = useState({});
+  const [catchingUserData, setCatchinUserData] = useState(true);
+  const [updated, setUpdated] = useState(false);
+
+
   const [profile, setProfile] = useState();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -28,14 +39,56 @@ function CompanyProfilePublic() {
       setCity(response.data.address.city);
       setCountry(response.data.address.country);
       setProfilePicture(response.data.profilePicture);
+      setUpdated(false)
     } catch (error) {
       console.log("There was an error getting the profile", error);
     }
   };
 
+
+
+  const fetchData = async () => {
+    try{
+      const API_URL2 = "http://localhost:5005/api/user";
+        setCatchinUserData(true)
+        const response = await axios.get(`${API_URL2}/${user.id}`);
+        setUserDB(response.data);
+        setCatchinUserData(false)
+        console.log(response.data)
+    }catch (error) {
+      console.log(error)
+    }
+  };
+
+
+
+  const addCompany = async () => {
+    const requestBody = { id: user.id, companyId:id };
+    const API_URL = "http://localhost:5005/api/user";
+    try {
+    setCatchinUserData(true)
+      const response = await axios.put(`${API_URL}/addCompany`, requestBody);
+      setUpdated(true);
+    } catch (error) {
+      console.log(error);
+    }
+    return;
+  }
+
+
   useEffect(() => {
     getProfile();
+    fetchData()
   }, []);
+
+  useEffect(() => {
+  fetchData()
+  }, [updated]);
+
+  if(catchingUserData){
+    return <div>Loading...</div>
+  }
+
 
   return (
     profile && (
@@ -77,6 +130,22 @@ function CompanyProfilePublic() {
             <span>{country}</span>
           </div>
         </div>
+
+
+        {/* <IconButton onClick={() => addCompany(id)} aria-label="add to favorites">
+            <FavoriteBorderIcon />
+        </IconButton> */}
+
+        {!isLoggedIn || userDB.favoriteCompanies.some((company) => company._id === id) ? (
+            <IconButton aria-label="add to favorites">
+              <FavoriteIcon />
+            </IconButton>
+          ) : (
+            <IconButton onClick={() => addCompany(id)} aria-label="add to favorites">
+              <FavoriteBorderIcon />
+            </IconButton>
+          )}
+
         <div className="jobPosts">
           <h4>Job posts from {name}</h4>
           <ul className="ul-jobposts">
