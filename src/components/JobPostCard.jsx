@@ -62,7 +62,7 @@ function JobPostCard({ post, userDB, setUpdated }) {
       </Box>
       <CardActions style={{ display: "flex", justifyContent: "space-between" }}>
         <Box style={{ display: "flex", justifyContent: "space-between" }}>
-          {!isLoggedIn || userDB.favoriteJobPosts.some((job) => job._id === post._id) ? (
+          {!isLoggedIn || !userDB ||userDB.favoriteJobPosts.some((job) => job._id === post._id) ? (
             <IconButton aria-label="add to favorites">
               <FavoriteIcon />
             </IconButton>

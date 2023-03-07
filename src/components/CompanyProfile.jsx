@@ -5,11 +5,13 @@ import "./CompanyProfile.css";
 import { Card } from "@mui/material";
 import JobPostCard from "./JobPostCard";
 import CloudinaryUploadWidget from "./CloudinaryUploadWidget";
+import JuniorCard from "./JuniorCard";
+import { Link } from "react-router-dom";
 
 const API_URL = "http://localhost:5005/api/company";
 
 function CompanyProfile() {
-  const { user } = useContext(AuthContext);
+  const { user, isLoggedIn } = useContext(AuthContext);
   const [profile, setProfile] = useState();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -31,7 +33,7 @@ function CompanyProfile() {
       setCity(response.data.address.city);
       setCountry(response.data.address.country);
       setProfilePicture(response.data.profilePic);
-      console.log("GET RESPONSE FRONT",response)
+      console.log("GET RESPONSE FRONT", response);
     } catch (error) {
       console.log("There was an error getting the profile", error);
     }
@@ -45,7 +47,7 @@ function CompanyProfile() {
       street,
       zipCode,
       city,
-      country
+      country,
     };
     try {
       const response = await axios.put(
@@ -61,18 +63,19 @@ function CompanyProfile() {
   useEffect(() => {
     getProfile();
   }, []);
-  
 
   return (
     profile && (
-      
       <>
-      {console.log(profile)}
         <div> This is the company profile</div>
         <form onSubmit={handleEdit} className="edit-form">
           <div className="title">
             <img
-              src={ profilePicture ? profilePicture : `https://api.dicebear.com/5.x/initials/svg?seed=${name}`}
+              src={
+                profilePicture
+                  ? profilePicture
+                  : `https://api.dicebear.com/5.x/initials/svg?seed=${name}`
+              }
               alt={name}
             />
             <h2>Company information</h2>
@@ -146,27 +149,67 @@ function CompanyProfile() {
           {message && <span>{message}</span>}
           <button type="submit">edit information</button>
         </form>
-          <div className="input-label">
-              <label>profile picture:</label>
-              <CloudinaryUploadWidget profilePicture={profilePicture} setProfilePicture={setProfilePicture} />
-            </div>
-
-        <div className="favorites">
-          <ul>
-            {profile.favorites.map((favorite) => {
-              <li>{favorite}</li>;
-            })}
-          </ul>
+        <div className="input-label">
+          <label>profile picture:</label>
+          <CloudinaryUploadWidget
+            profilePicture={profilePicture}
+            setProfilePicture={setProfilePicture}
+          />
         </div>
-        <div className="jobPosts">
-          <h4>All your job posts</h4>
-          <ul className="ul-jobposts">
-            {profile.jobPosts.map((post) => {
-              <li>
-                <JobPostCard post={post} />
-              </li>;
-            })}
-          </ul>
+        <div className="lists">
+          <div className="favorites">
+            <h4>All your favorite juniors</h4>
+            <ul>
+              {profile.favorites.map((favorite) => {
+                console.log("FAVS", favorite);
+                return (
+                  <li>
+                    <div className="card">
+                      <div className="image-outer">
+                        <img
+                          src={favorite.profilePic}
+                          alt={`${favorite.firstName} ${favorite.lastName}`}
+                        />
+                      </div>
+                      <div className="junior-name">
+                        <h5>{favorite.firstName}</h5>
+                        <h5>{favorite.lastName}</h5>
+                      </div>
+                      <div className="skills">
+                        <h5>
+                          <ul>
+                            {favorite.skills.map((skill) => {
+                              return <li key={skill}>{skill}</li>;
+                            })}
+                          </ul>
+                        </h5>
+                      </div>
+                      <div className="country">
+                        <h5>{favorite.location.country}</h5>
+                        <div className="details-heart">
+                          <h5>
+                            <Link to={`/junior/${favorite._id}`}>details</Link>
+                          </h5>
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+          <div className="jobPosts">
+            <h4>All your job posts</h4>
+            <ul className="ul-jobposts">
+              {profile.jobPosts.map((post) => {
+                return (
+                  <li>
+                    <JobPostCard post={post} />
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
         </div>
       </>
     )

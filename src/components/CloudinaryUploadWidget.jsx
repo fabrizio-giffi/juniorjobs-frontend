@@ -4,7 +4,6 @@ import { AuthContext } from "../context/auth.context";
 const API_URL = "http://localhost:5005/api/company";
 
 const CloudinaryUploadWidget = ({ profilePicture, setProfilePicture }) => {
-  console.log(profilePicture);
   const [imageSelected, setImageSelected] = useState("");
   const { user } = useContext(AuthContext);
 
