@@ -10,10 +10,10 @@
   -webkit-text-size-adjust: 100%;
 
   --viridian: #6b9080;
-  --cambridge: #A4C3B2;
-  --mint-green: #CCE3DE;
-  --azure: #EAF4F4;
-  --mint-cream: #F6FFF8;
+  --cambridge: #a4c3b2;
+  --mint-green: #cce3de;
+  --azure: #eaf4f4;
+  --mint-cream: #f6fff8;
 }
 
 .MuiCardHeader-title {
@@ -22,5 +22,10 @@
 }
 
 .jobCard {
-  background-color: #EAF4F4 !important;
+  background-color: #eaf4f4 !important;
+}
+
+.css-1q79v3g-MuiButtonBase-root-MuiChip-root .MuiChip-deleteIcon,
+.css-1glvl0p-MuiButtonBase-root-MuiIconButton-root-MuiAutocomplete-clearIndicator {
+  display: none !important;
 }

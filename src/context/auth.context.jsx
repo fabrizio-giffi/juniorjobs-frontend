@@ -25,7 +25,6 @@ function AuthProviderWrapper({ children }) {
         setUser(response.data);
         setIsLoggedIn(true);
         setIsLoading(false);
-        console.log("Response data in context", response.data);
       } catch (error) {
         setUser(null);
         setIsLoggedIn(false);

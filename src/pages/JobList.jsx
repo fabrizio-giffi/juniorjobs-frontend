@@ -1,4 +1,4 @@
-import { Avatar, Box, Button, MenuItem, Skeleton, TextField, Typography } from "@mui/material";
+import { Autocomplete, Avatar, Box, Button, MenuItem, Skeleton, TextField, Typography } from "@mui/material";
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import JobPostCard from "../components/JobPostCard";
@@ -32,6 +32,20 @@ function JobList() {
   useEffect(() => {
     fetchData();
   }, [updated]);
+
+  // const handleStack = (event) => {
+  //   console.log(event.target.innerText);
+  //   if (typeof event.target.innerText !== "undefined") {
+  //     setStackQuery([...stackQuery, event.target.innerText]);
+  //   } else {
+  //     console.log(event.target);
+  //     const toDelete = event.target.parentNode.parentNode.childNodes[0].innerText;
+  //     const index = stackQuery.indexOf(toDelete);
+  //     const queryDelete = stackQuery.splice(index, 1);
+  //     console.log("Array after splicing", queryDelete);
+  //     setStackQuery([...queryDelete]);
+  //   }
+  // };
 
   const countryFilter = [];
   jobList.forEach((post) => {
@@ -88,6 +102,8 @@ function JobList() {
     );
   }
 
+  console.log(stackQuery);
+
   return (
     <>
       <h2>JobList</h2>
@@ -111,25 +127,25 @@ function JobList() {
         <Button onClick={() => setGeoQuery("")}>Remove filter</Button>
       </Box>
       <Box>
-        {/* <Autocomplete
+        <Autocomplete
           multiple
           id="tags-outlined"
           options={stackFilter}
           getOptionLabel={(option) => option}
-          defaultValue={[]}
           filterSelectedOptions
-          onChange={(event) => {
-            console.log("EVENT LOOKS LIKE THIS", event.target.firstChild.data);
-            setStackQuery([...stackQuery, event.target.firstChild.data]);
+          value={[...stackQuery]}
+          onChange={(event) => setStackQuery([...stackQuery, event.target.innerText])}
+          renderInput={(params) => {
+            return <TextField {...params} label="Stacks" placeholder="Stack" />;
           }}
-          renderInput={(params) => <TextField {...params} label="Stacks" placeholder="Stack" />}
-        /> */}
-        <Button onClick={() => setGeoQuery("")}>Remove filter</Button>
+        />
+        <Button onClick={() => setStackQuery([])}>Remove filter</Button>
       </Box>
+
       <Box sx={{ display: "flex", flexFlow: "row wrap", gap: "2rem", justifyContent: "center" }}>
         {jobList
           .filter((post) => (geoQuery.length === 0 ? true : post.address.country === geoQuery))
-          // .filter((post) => post.stack.some(stack => stackFilter.includes(stack)) )
+          .filter((post) => (stackQuery.length === 0 ? true : stackQuery.every((stack) => post.stack.includes(stack))))
           .map((post) => {
             return <JobPostCard key={post._id} post={post} userDB={userDB} setUpdated={setUpdated} />;
           })}
