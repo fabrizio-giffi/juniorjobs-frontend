@@ -4,7 +4,8 @@ import { Avatar, Box, Button, Container, Divider, Stack, TextField, Typography }
 import axios from "axios";
 import PasswordForm from "../components/PasswordForm";
 import { AuthContext } from "../context/auth.context";
-import { LoginIcon } from "@mui/icons-material/Login";
+import LockOpenIcon from "@mui/icons-material/LockOpen";
+import { red } from "@mui/material/colors";
 
 const auth_URL = import.meta.env.VITE_AUTH_URL;
 
@@ -21,7 +22,6 @@ function LoginPage() {
     const requestBody = { name, email, password };
     try {
       const response = await axios.post(`${auth_URL}/${role === "junior" ? "user" : "company"}/login`, requestBody);
-      // console.log(`${role === "junior" ? "User" : "Company"} logged in succesfully`, response.data.authToken);
       // response.data.authToken holds the token
       storeToken(response.data.authToken);
       await authenticateUser();
@@ -36,7 +36,7 @@ function LoginPage() {
   return (
     <>
       <Container component="main" maxWidth="xs">
-        <Stack sx={{ marginTop: 8 }} divider={<Divider orientation="vertical" flexItem />} spacing={2} direction="row">
+        <Stack sx={{ marginTop: 10 }} divider={<Divider orientation="vertical" flexItem />} spacing={2} direction="row">
           <Button sx={{ bgcolor: "#6b9080" }} fullWidth variant="contained" onClick={() => setRole("junior")}>
             Junior
           </Button>
@@ -45,7 +45,7 @@ function LoginPage() {
           </Button>
         </Stack>
         <Typography variant="h5" sx={{ marginTop: 3, textAlign: "center" }} gutterBottom>
-          Are you a Junior or a company?
+          Are you a junior or a company?
         </Typography>
       </Container>
       {role && (
@@ -58,7 +58,9 @@ function LoginPage() {
               alignItems: "center",
             }}
           >
-            <Avatar sx={{ m: 1, bgcolor: "#6b9080" }}>{LoginIcon}</Avatar>
+            <Avatar sx={{ m: 1, bgcolor: "#6b9080" }}>
+              <LockOpenIcon />
+            </Avatar>
             <Typography component="h1" variant="h5">
               Log in
             </Typography>
@@ -96,9 +98,23 @@ function LoginPage() {
               </Button>
             </Box>
           </Box>
-          {errorMessage && <p className="error-message">{errorMessage}</p>}
+          {errorMessage && (
+            <Stack
+              sx={{
+                color: "white",
+                bgcolor: red[500],
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                borderRadius: "4px",
+                height: "35px",
+              }}
+            >
+              <Typography>{errorMessage}</Typography>
+            </Stack>
+          )}
           <Stack
-            sx={{ marginTop: 3 }}
+            sx={{ marginTop: 3, display: "flex", justifyContent: "center" }}
             divider={<Divider orientation="vertical" flexItem />}
             spacing={2}
             direction="row"
