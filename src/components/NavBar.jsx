@@ -5,7 +5,7 @@ import "./NavBar.css";
 
 function NavBar() {
   const { isLoggedIn, logOutUser, user } = useContext(AuthContext);
-
+  // console.log(user.role)
 
   return (
     <ul className="ul-navbar">
@@ -13,6 +13,9 @@ function NavBar() {
         <>
           <li>
             <NavLink to="/">Home</NavLink>
+          </li>
+          <li>
+            <NavLink to="/jobs">Jobs</NavLink>
           </li>
           <li>
             <NavLink to="/signup">Signup</NavLink>
@@ -25,7 +28,10 @@ function NavBar() {
       {isLoggedIn && (
         <>
           <li>
-            <NavLink to="/">Home</NavLink>
+            <NavLink to="/">{user.role === "company"? "Juniors": "Home"}</NavLink>
+          </li>
+          <li>
+            <NavLink to="/jobs">Jobs</NavLink>
           </li>
           <li>
             <NavLink to="/profile">Profile</NavLink>
