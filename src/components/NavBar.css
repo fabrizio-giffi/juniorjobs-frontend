@@ -1,7 +1,11 @@
 .ul-navbar{
+    margin-top: 0;
     display: flex;
+    padding: 20px;
+    padding-right: 40px;
     gap: 20px;
     justify-content: flex-end;
+    background: #cce3de;
 }
 
 li{
