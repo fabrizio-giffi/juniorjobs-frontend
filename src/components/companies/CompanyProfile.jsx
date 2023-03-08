@@ -79,114 +79,117 @@ function CompanyProfile() {
     profile && (
       <>
         <div className="page-name"> This is the company profile</div>
-        <div className="form-outer">
-          <form onSubmit={handleEdit} className="edit-form">
-            <div className="title">
-              <img
-                src={
-                  profilePicture
-                    ? profilePicture
-                    : `https://api.dicebear.com/5.x/initials/svg?seed=${name}`
-                }
-                alt={name}
-              />
-              <h2>Company information</h2>
-            </div>
-            <h6>Click on the information to edit</h6>
-            <div className="information">
-              <div className="input-label">
-                <label>Company name:</label>
-                <input
-                  style={{ border: "none", outline: "none" }}
-                  type="text"
-                  placeholder={name}
-                  onChange={(event) => setName(event.target.value)}
-                  value={name}
+        <div className="form-picture">
+          <div className="form-outer">
+            <form onSubmit={handleEdit} className="edit-form">
+              <div className="title">
+                <img
+                  src={
+                    profilePicture
+                      ? profilePicture
+                      : `https://api.dicebear.com/5.x/initials/svg?seed=${name}`
+                  }
+                  alt={name}
                 />
+                <h2>Company information</h2>
               </div>
-              <div className="input-label">
-                <label>Company email:</label>
-                <input
-                  style={{ border: "none", outline: "none" }}
-                  type="text"
-                  placeholder={email}
-                  onChange={(event) => setEmail(event.target.value)}
-                  value={email}
-                />
+              <h6>Click on the information to edit</h6>
+              <div className="information">
+                <div className="input-label">
+                  <label>Company name:</label>
+                  <input
+                    style={{ border: "none", outline: "none" }}
+                    type="text"
+                    placeholder={name}
+                    onChange={(event) => setName(event.target.value)}
+                    value={name}
+                  />
+                </div>
+                <div className="input-label">
+                  <label>Company email:</label>
+                  <input
+                    style={{ border: "none", outline: "none" }}
+                    type="text"
+                    placeholder={email}
+                    onChange={(event) => setEmail(event.target.value)}
+                    value={email}
+                  />
+                </div>
+
+                <span className="address">Address: </span>
+                <div className="input-label">
+                  <label>Street:</label>
+                  <input
+                    style={{ border: "none", outline: "none" }}
+                    type="text"
+                    placeholder={street}
+                    onChange={(event) => setStreet(event.target.value)}
+                    value={street}
+                  />
+                </div>
+                <div className="input-label">
+                  <label>Zip Code:</label>
+                  <input
+                    style={{ border: "none", outline: "none" }}
+                    type="text"
+                    placeholder={zipCode}
+                    onChange={(event) => setZipCode(event.target.value)}
+                    value={zipCode}
+                  />
+                </div>
+                <div className="input-label">
+                  <label>City:</label>
+                  <input
+                    style={{ border: "none", outline: "none" }}
+                    type="text"
+                    placeholder={city}
+                    onChange={(event) => setCity(event.target.value)}
+                    value={city}
+                  />
+                </div>
+                <div className="input-label">
+                  <label>Country:</label>
+                  <input
+                    style={{ border: "none", outline: "none" }}
+                    type="text"
+                    placeholder={country}
+                    onChange={(event) => setCountry(event.target.value)}
+                    value={country}
+                  />
+                </div>
               </div>
 
-              <span className="address">Address: </span>
-              <div className="input-label">
-                <label>Street:</label>
-                <input
-                  style={{ border: "none", outline: "none" }}
-                  type="text"
-                  placeholder={street}
-                  onChange={(event) => setStreet(event.target.value)}
-                  value={street}
-                />
+              {message && <span>{message}</span>}
+              <div className="button">
+                <Button
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  sx={{ bgcolor: "#6b9080", mt: 3, mb: 2 }}
+                >
+                  edit information
+                </Button>
+                {/* <button type="submit"></button> */}
               </div>
-              <div className="input-label">
-                <label>Zip Code:</label>
-                <input
-                  style={{ border: "none", outline: "none" }}
-                  type="text"
-                  placeholder={zipCode}
-                  onChange={(event) => setZipCode(event.target.value)}
-                  value={zipCode}
-                />
-              </div>
-              <div className="input-label">
-                <label>City:</label>
-                <input
-                  style={{ border: "none", outline: "none" }}
-                  type="text"
-                  placeholder={city}
-                  onChange={(event) => setCity(event.target.value)}
-                  value={city}
-                />
-              </div>
-              <div className="input-label">
-                <label>Country:</label>
-                <input
-                  style={{ border: "none", outline: "none" }}
-                  type="text"
-                  placeholder={country}
-                  onChange={(event) => setCountry(event.target.value)}
-                  value={country}
-                />
-              </div>
-            </div>
+            </form>
+          </div>
 
-            {message && <span>{message}</span>}
-            <div className="button">
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                sx={{ bgcolor: "#6b9080", mt: 3, mb: 2 }}
-              >
-                edit information
-              </Button>
-              {/* <button type="submit"></button> */}
-            </div>
-          </form>
+          <div className="profile-pic">
+            <h2>change your profile picture</h2>
+            <CloudinaryUploadWidget
+              profilePicture={profilePicture}
+              setProfilePicture={setProfilePicture}
+            />
+          </div>
         </div>
 
-        <div className="input-label">
-          <label>profile picture:</label>
-          <CloudinaryUploadWidget
-            profilePicture={profilePicture}
-            setProfilePicture={setProfilePicture}
-          />
-        </div>
         <div className="lists">
           <div className="favorites">
             <h4>All your favorite juniors</h4>
             <ul>
               {profile.favorites.map((favorite) => {
                 return (
-                  <li>
+                  <li key={favorite._id}>
                     <div className="card">
                       <div className="image-outer">
                         <img
@@ -213,10 +216,10 @@ function CompanyProfile() {
                           <h5>
                             <Link to={`/junior/${favorite._id}`}>details</Link>
                           </h5>
-                          <IconButton>
-                            <ClearIcon
-                              onClick={() => deleteFavorite(favorite._id)}
-                            />
+                          <IconButton
+                            onClick={() => deleteFavorite(favorite._id)}
+                          >
+                            <ClearIcon />
                           </IconButton>
                         </div>
                       </div>
@@ -231,7 +234,7 @@ function CompanyProfile() {
             <ul className="ul-jobposts">
               {profile.jobPosts.map((post) => {
                 return (
-                  <li>
+                  <li key={post._id}>
                     <JobPostCard
                       post={post}
                       profile={profile}

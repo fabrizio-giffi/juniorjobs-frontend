@@ -1,7 +1,11 @@
+import { Button } from "@mui/material";
 import axios from "axios";
 import { useContext, useState } from "react";
 import { AuthContext } from "../context/auth.context";
-const api_URL = import.meta.env.VITE_API_URL
+import "./CloudinaryUploadWidget.css";
+import UploadFileBtn from "./UploadFileBtn";
+
+const api_URL = import.meta.env.VITE_API_URL;
 
 const CloudinaryUploadWidget = ({ profilePicture, setProfilePicture }) => {
   const [imageSelected, setImageSelected] = useState("");
@@ -12,9 +16,14 @@ const CloudinaryUploadWidget = ({ profilePicture, setProfilePicture }) => {
     formData.append("file", imageSelected);
     formData.append("upload_preset", "qt1a58q1");
     try {
-      const response = await axios.post("https://api.cloudinary.com/v1_1/dbxtlw5rz/image/upload", formData);
+      const response = await axios.post(
+        "https://api.cloudinary.com/v1_1/dbxtlw5rz/image/upload",
+        formData
+      );
       const url = response.data.url;
-      await axios.put(`${api_URL}/company/edit/picture/${user.id}`, { profilePicture: url });
+      await axios.put(`${api_URL}/company/edit/picture/${user.id}`, {
+        profilePicture: url,
+      });
       setProfilePicture(url);
     } catch (error) {
       console.log(error);
@@ -23,15 +32,32 @@ const CloudinaryUploadWidget = ({ profilePicture, setProfilePicture }) => {
 
   return (
     <>
-      <input
-        type="file"
-        onChange={(e) => {
-          setImageSelected(e.target.files[0]);
-        }}
-      />
-      <button onClick={uploadImage}>Upload image</button>
+      <UploadFileBtn />
+      <div className="button-picture">
+        <Button
+          type="submit"
+          variant="contained"
+          sx={{ bgcolor: "#6b9080", mt: 3, mb: 2 }}
+          onClick={uploadImage}
+        >
+          Upload image
+        </Button>
+      </div>
     </>
   );
 };
 
 export default CloudinaryUploadWidget;
+{
+  /* <div className="input">
+        <label className="label-input-pic" htmlFor="inputTag">
+          <input
+            id="inputTag"
+            type="file"
+            onChange={(e) => {
+              setImageSelected(e.target.files[0]);
+            }}
+          />
+        </label>
+      </div> */
+}
