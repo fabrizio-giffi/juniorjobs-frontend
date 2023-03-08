@@ -7,6 +7,7 @@ import CloudinaryUploadWidget from "./CloudinaryUploadWidget";
 import { Link } from "react-router-dom";
 import ClearIcon from "@mui/icons-material/Clear";
 import { IconButton } from "@mui/material";
+import CreateJobPost from "../pages/CreateJobPost";
 
 const API_URL = "http://localhost:5005/api/company";
 
@@ -42,10 +43,10 @@ function CompanyProfile() {
     const id = profile._id
     const requestBody = {id, favoriteId};
     try {
-      const response = await axios.put(`${API_URL}/delete/favorite`, requestBody)
+      const responseUpdate = await axios.put(`${API_URL}/delete/favorite`, requestBody)
       getProfile()
     } catch (error) {
-      
+      console.log(error);
     }
   }
 
@@ -173,7 +174,7 @@ function CompanyProfile() {
             <ul>
               {profile.favorites.map((favorite) => {
                 return (
-                  <li>
+                  <li key={favorite._id}>
                     <div className="card">
                       <div className="image-outer">
                         <img
@@ -200,8 +201,8 @@ function CompanyProfile() {
                           <h5>
                             <Link to={`/junior/${favorite._id}`}>details</Link>
                           </h5>
-                          <IconButton>
-                            <ClearIcon onClick={()=>deleteFavorite(favorite._id)}/>
+                          <IconButton onClick={()=>deleteFavorite(favorite._id)}>
+                            <ClearIcon />
                           </IconButton>
                         </div>
                       </div>
@@ -214,9 +215,9 @@ function CompanyProfile() {
           <div className="jobPosts">
             <h4>All your job posts</h4>
             <ul className="ul-jobposts">
-              {profile.jobPosts.map((post) => {
+              {profile.jobPosts.length <=0 ? (<Link to={"/create-post"} ><span>Click here to add some job posts</span></Link> ) : profile.jobPosts.map((post) => {
                 return (
-                  <li>
+                  <li key={post._id}>
                     <JobPostCard post={post} profile={profile} getProfile={getProfile}/>
                   </li>
                 );

@@ -14,7 +14,7 @@ import ShareIcon from "@mui/icons-material/Share";
 import ApartmentIcon from "@mui/icons-material/Apartment";
 import PaidIcon from "@mui/icons-material/Paid";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { Stack } from "@mui/system";
 import axios from "axios";
 import { useContext } from "react";
@@ -22,7 +22,10 @@ import { AuthContext } from "../context/auth.context";
 import ClearIcon from "@mui/icons-material/Clear";
 
 function JobPostCard({ post, userDB, setUpdated, profile, getProfile }) {
+
   const { user, isLoggedIn } = useContext(AuthContext);
+  
+
   const addJobPost = async (postId) => {
     const requestBody = { id: user.id, postId };
     const API_URL = "http://localhost:5005/api/user";
@@ -36,16 +39,12 @@ function JobPostCard({ post, userDB, setUpdated, profile, getProfile }) {
   };
 
   const deleteJobPost = async (jobPostId) => {
-    const id = profile._id;
-    const requestBody = { id, jobPostId };
     try {
-      const response = await axios.put(
-        `http://localhost:5005/api/company/delete/jobpost`,
-        requestBody
-      );
+      const response = await axios.delete(`http://localhost:5005/api/posts/delete/${jobPostId}`);
       getProfile();
-      console.log(response);
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -95,7 +94,9 @@ function JobPostCard({ post, userDB, setUpdated, profile, getProfile }) {
       </Box>
       <CardActions style={{ display: "flex", justifyContent: "space-between" }}>
         <Box style={{ display: "flex", justifyContent: "space-between" }}>
-          {!isLoggedIn || !userDB || userDB.favoriteJobPosts.some((job) => job._id === post._id) ? (
+          {!isLoggedIn ||
+          !userDB ||
+          userDB.favoriteJobPosts.some((job) => job._id === post._id) ? (
             <IconButton aria-label="add to favorites">
               <FavoriteIcon />
             </IconButton>
@@ -111,7 +112,9 @@ function JobPostCard({ post, userDB, setUpdated, profile, getProfile }) {
             <ShareIcon />
           </IconButton>
 
-          {isLoggedIn && user.role === "company" && post.company._id === profile._id ? (
+          {isLoggedIn &&
+          user.role === "company" &&
+          post.company._id === profile._id ? (
             <IconButton
               onClick={() => {
                 deleteJobPost(post._id);

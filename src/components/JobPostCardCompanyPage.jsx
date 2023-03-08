@@ -18,7 +18,9 @@ import { Link } from "react-router-dom";
 import { Stack } from "@mui/system";
 
 function JobPostCard({ post }) {
-  return (
+
+  
+  return post &&(
     <Card
       sx={{
         width: 500,
