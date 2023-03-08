@@ -4,6 +4,7 @@ function StackFilter({ setStackQuery, stackQuery, stackFilter }) {
   return (
     <Box>
       <Autocomplete
+        sx={{display: "inline-block"}}
         multiple
         id="tags-outlined"
         options={stackFilter}
@@ -19,10 +20,10 @@ function StackFilter({ setStackQuery, stackQuery, stackFilter }) {
           setStackQuery([...stackQuery, event.target.innerText]);
         }}
         renderInput={(params) => {
-          return <TextField {...params} label="Stacks" placeholder="Stack" />;
+          return <div style={{display: "flex", justifyContent:"center", alignItems:"center", }}><TextField {...params}  label="Stacks" placeholder="Stack" sx={{width:"700px",display: "inline-block"}}/></div>;
         }}
       />
-      <Button onClick={() => setStackQuery([])}>Remove filter</Button>
+      <Button sx={{bgcolor: "#6b9080", padding:"15px 20px", margin:"0 20px", textDecoration:"none", color:"inherit"}} onClick={() => setStackQuery([])}>Remove filter</Button>
     </Box>
   );
 }
