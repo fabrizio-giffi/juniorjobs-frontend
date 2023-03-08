@@ -30,9 +30,11 @@ function NavBar() {
           <li>
             <NavLink to="/">{user.role === "company"? "Juniors": "Home"}</NavLink>
           </li>
-          <li>
+          {
+            user.role ==="company" ? "":<li>
             <NavLink to="/jobs">Jobs</NavLink>
           </li>
+          }
           <li>
             <NavLink to="/profile">Profile</NavLink>
           </li>
