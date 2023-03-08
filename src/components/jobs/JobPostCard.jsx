@@ -4,7 +4,7 @@ import ShareIcon from "@mui/icons-material/Share";
 import ApartmentIcon from "@mui/icons-material/Apartment";
 import PaidIcon from "@mui/icons-material/Paid";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import { Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Stack } from "@mui/system";
 import axios from "axios";
 import { useContext } from "react";
@@ -14,9 +14,7 @@ import ClearIcon from "@mui/icons-material/Clear";
 const api_URL = import.meta.env.VITE_API_URL;
 
 function JobPostCard({ post, userDB, setUpdated, profile, getProfile }) {
-
   const { user, isLoggedIn } = useContext(AuthContext);
-  
 
   const addJobPost = async (postId) => {
     const requestBody = { id: user.id, postId };
@@ -31,7 +29,7 @@ function JobPostCard({ post, userDB, setUpdated, profile, getProfile }) {
 
   const deleteJobPost = async (jobPostId) => {
     try {
-      const response = await axios.delete(`http://localhost:5005/api/posts/delete/${jobPostId}`);
+      const response = await axios.delete(`${api_URL}/posts/delete/${jobPostId}`);
       getProfile();
     } catch (error) {
       console.log(error);
@@ -80,9 +78,7 @@ function JobPostCard({ post, userDB, setUpdated, profile, getProfile }) {
       </Box>
       <CardActions style={{ display: "flex", justifyContent: "space-between" }}>
         <Box style={{ display: "flex", justifyContent: "space-between" }}>
-          {!isLoggedIn ||
-          !userDB ||
-          userDB.favoriteJobPosts.some((job) => job._id === post._id) ? (
+          {!isLoggedIn || !userDB || userDB.favoriteJobPosts.some((job) => job._id === post._id) ? (
             <IconButton aria-label="add to favorites">
               <FavoriteIcon />
             </IconButton>
@@ -95,9 +91,7 @@ function JobPostCard({ post, userDB, setUpdated, profile, getProfile }) {
             <ShareIcon />
           </IconButton>
 
-          {isLoggedIn &&
-          user.role === "company" &&
-          post.company._id === profile._id ? (
+          {isLoggedIn && user.role === "company" && post.company._id === profile._id ? (
             <IconButton
               onClick={() => {
                 deleteJobPost(post._id);
