@@ -28,13 +28,17 @@ function NavBar() {
       {isLoggedIn && (
         <>
           <li>
-            <NavLink to="/">{user.role === "company"? "Juniors": "Home"}</NavLink>
+            <NavLink to="/jobs">
+              {user.role === "company" ? "Juniors" : "Jobposts"}
+            </NavLink>
           </li>
-          {
-            user.role ==="company" ? "":<li>
-            <NavLink to="/jobs">Jobs</NavLink>
-          </li>
-          }
+          {user.role === "company" ? (
+            ""
+          ) : (
+            <li>
+              <NavLink to="/jobs">Jobs</NavLink>
+            </li>
+          )}
           <li>
             <NavLink to="/profile">Profile</NavLink>
           </li>
@@ -42,7 +46,7 @@ function NavBar() {
             <li>
               <NavLink to="/create-post">Create job post</NavLink>
             </li>
-          )} 
+          )}
         </>
       )}
       {isLoggedIn && (

@@ -37,6 +37,8 @@ const JuniorList = () => {
     getUsers();
   }, [updated]);
 
+console.log("FETCHING" ,isFetching)
+
   // FILTERS
   const countryFilter = [];
   juniors.forEach((junior) => {
@@ -104,9 +106,6 @@ const JuniorList = () => {
               stackQuery.length === 0 ? true : stackQuery.every((skill) => junior.skills.includes(skill))
             )
             .map((junior) => {
-              {
-                // console.log(junior);
-              }
               return <JuniorCard key={junior._id} junior={junior} userDB={userDB} setUpdated={setUpdated} />;
             })}
         </div>
