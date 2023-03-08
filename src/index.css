@@ -8,12 +8,15 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
-
   --viridian: #6b9080;
   --cambridge: #a4c3b2;
   --mint-green: #cce3de;
   --azure: #eaf4f4;
   --mint-cream: #f6fff8;
+}
+
+body{
+  margin: 0;
 }
 
 .MuiCardHeader-title {
