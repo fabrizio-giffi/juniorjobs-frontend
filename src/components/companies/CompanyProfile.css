@@ -7,12 +7,14 @@
   letter-spacing: 0.08333em;
   text-transform: uppercase;
 }
+.form-picture {
+  display: flex;
+}
 
 .form-outer {
   display: flex;
   justify-content: center;
   width: 50%;
-  /* margin-left: 15px; */
 }
 
 .edit-form {
@@ -88,6 +90,35 @@ h6 {
   background-color: var(--azure);
 }
 
+.profile-pic {
+  background-color: var(--azure);
+  padding: 15px;
+  border: 1px solid var(--azure);
+  border-radius: 5px;
+  -webkit-box-shadow: 0px 2px 2px 1px var(--cambridge);
+  -moz-box-shadow: 0px 2px 2px 1px var(--cambridge);
+  box-shadow: 0px 2px 2px 1px var(--cambridge);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  font-weight: 400;
+  font-size: 0.75rem;
+  line-height: 2.66;
+  letter-spacing: 0.08333em;
+  text-transform: uppercase;
+
+}
+
+.input {
+  display: flex;
+  justify-content: center;
+}
+input {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 .lists {
   display: flex;
   justify-content: space-evenly;
@@ -143,6 +174,6 @@ h6 {
 }
 
 .button {
-    display: flex;
-    justify-content: center;
+  display: flex;
+  justify-content: center;
 }

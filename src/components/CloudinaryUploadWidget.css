@@ -1,0 +1,33 @@
+.input{
+    width: 100%;
+}
+
+.label-input-pic{
+    cursor: pointer;
+}
+
+.button-picture{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.label-input-pic{
+    text-align:center;
+    padding:3%;
+    border: 1px solid var(--azure);
+    border-radius: 5px;
+    width: 75%;
+    -webkit-box-shadow: 0px 2px 2px 1px var(--cambridge);
+    -moz-box-shadow: 0px 2px 2px 1px var(--cambridge);
+    box-shadow: 0px 2px 2px 1px var(--cambridge);
+  }
+
+  label{
+    cursor:pointer;
+  }
+
+  #imageName{
+    color:black;
+  }
