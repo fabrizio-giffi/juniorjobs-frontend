@@ -5,7 +5,7 @@
 }
 
 .card {
-  background-color: var(--mint-green);
+  background-color: var(--azure);
   display: flex;
   border: 1px solid var(--azure);
   border-radius: 5px;

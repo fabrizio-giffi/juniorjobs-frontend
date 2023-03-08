@@ -6,7 +6,7 @@
     padding-right: 40px;
     gap: 20px;
     justify-content: flex-end;
-    background: #cce3de;
+    background: var(--mint-green);
 }
 
 li{
