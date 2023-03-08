@@ -1,17 +1,17 @@
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../context/auth.context";
-import "./CompanyProfile.css";
+import { Link } from "react-router-dom";
 import JobPostCard from "../jobs/JobPostCard";
 import CloudinaryUploadWidget from "../CloudinaryUploadWidget";
-import { Link } from "react-router-dom";
 import ClearIcon from "@mui/icons-material/Clear";
 import { IconButton } from "@mui/material";
+import "./CompanyProfile.css";
 
 const api_URL = import.meta.env.VITE_API_URL;
 
 function CompanyProfile() {
-  const { user, isLoggedIn } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
   const [profile, setProfile] = useState();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");

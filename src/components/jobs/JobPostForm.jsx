@@ -78,7 +78,7 @@ function JobPostForm({ jobPost, isEditing, setEditing }) {
     <>
       <div>JobPostForm</div>
       <Box
-        style={{ display: "flex", gap: "1rem", flexDirection: "column", alignItems: "center" }}
+        style={{ display: "flex", gap: "1rem", flexDirection: "column", alignItems: "center", marginBottom: "35px"}}
         component="form"
         onSubmit={handleSubmit}
         autoComplete="off"
