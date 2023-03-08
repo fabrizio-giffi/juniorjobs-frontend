@@ -1,12 +1,13 @@
 import { useContext } from "react";
-import JobList from "./JobList";
+import JobList from "../components/jobs/JobList";
 import { AuthContext } from "../context/auth.context";
-import JuniorList from "../components/JuniorList";
+import JuniorList from "../components/juniors/JuniorList";
 
 const HomePage = () => {
   const { user, isLoggedIn } = useContext(AuthContext);
+  console.log();
 
-  return !isLoggedIn || user.role === 'junior' ? (
+  return !isLoggedIn || user.role === "junior" ? (
     <div>
       <JobList />
     </div>
@@ -15,6 +16,6 @@ const HomePage = () => {
       <JuniorList />
     </div>
   );
-}
+};
 
 export default HomePage;

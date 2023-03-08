@@ -1,6 +1,6 @@
 import React, { useState, useEffect, createContext } from "react";
 import axios from "axios";
-const API_URL = "http://localhost:5005/";
+const index_URL = import.meta.env.VITE_INDEX_URL;
 
 export const AuthContext = createContext();
 
@@ -19,7 +19,7 @@ function AuthProviderWrapper({ children }) {
 
     if (storedToken) {
       try {
-        const response = await axios.get(`${API_URL}verify`, {
+        const response = await axios.get(`${index_URL}/verify`, {
           headers: { Authorization: `Bearer ${storedToken}` },
         });
         setUser(response.data);

@@ -1,22 +1,20 @@
 import axios from "axios";
 import { useEffect, useState, useContext } from "react";
-import "./CompanyProfile.css";
-import JobPostCardCompanyPage from "./JobPostCardCompanyPage"
+import "../components/companies/CompanyProfile.css";
+import JobPostCardCompanyPage from "./jobs/JobPostCardCompanyPage";
 import { useParams } from "react-router-dom";
 import { AuthContext } from "../context/auth.context";
-import { Avatar, Box, Button, Card, CardActions, CardContent, CardHeader, IconButton, Typography } from "@mui/material";
+import { IconButton } from "@mui/material";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 
-
-const API_URL = "http://localhost:5005/api/company";
+const api_URL = import.meta.env.VITE_API_URL;
 
 function CompanyProfilePublic() {
   const { user, isLoggedIn } = useContext(AuthContext);
   const [userDB, setUserDB] = useState({});
   const [catchingUserData, setCatchinUserData] = useState(true);
   const [updated, setUpdated] = useState(false);
-
 
   const [profile, setProfile] = useState();
   const [name, setName] = useState("");
@@ -30,7 +28,7 @@ function CompanyProfilePublic() {
 
   const getProfile = async () => {
     try {
-      const response = await axios.get(`${API_URL}/${id}`);
+      const response = await axios.get(`${api_URL}/company/${id}`);
       setProfile(response.data);
       setName(response.data.name);
       setEmail(response.data.email);
@@ -39,56 +37,50 @@ function CompanyProfilePublic() {
       setCity(response.data.address.city);
       setCountry(response.data.address.country);
       setProfilePicture(response.data.profilePicture);
-      setUpdated(false)
+      setUpdated(false);
     } catch (error) {
       console.log("There was an error getting the profile", error);
     }
   };
 
-
-
   const fetchData = async () => {
-    try{
-      const API_URL2 = "http://localhost:5005/api/user";
-        setCatchinUserData(true)
-        const response = await axios.get(`${API_URL2}/${user.id}`);
-        setUserDB(response.data);
-        setCatchinUserData(false)
-        console.log(response.data)
-    }catch (error) {
-      console.log(error)
+    try {
+      setCatchinUserData(true);
+      const response = await axios.get(`${api_URL}/user/${user.id}`);
+      setUserDB(response.data);
+      setCatchinUserData(false);
+      console.log(response.data);
+    } catch (error) {
+      console.log(error);
     }
   };
 
-
-
   const addCompany = async () => {
-    const requestBody = { id: user.id, companyId:id };
-    const API_URL = "http://localhost:5005/api/user";
+    const requestBody = { id: user.id, companyId: id };
     try {
-    setCatchinUserData(true)
-      const response = await axios.put(`${API_URL}/addCompany`, requestBody);
+      setCatchinUserData(true);
+      const response = await axios.put(`${api_URL}/user/addCompany`, requestBody);
       setUpdated(true);
     } catch (error) {
       console.log(error);
     }
     return;
-  }
-
+  };
 
   useEffect(() => {
     getProfile();
-    fetchData()
+    fetchData();
   }, []);
 
   useEffect(() => {
-  fetchData()
+    fetchData();
   }, [updated]);
 
-  if(catchingUserData){
-    return <div>Loading...</div>
+  if (catchingUserData) {
+    return <div>Loading...</div>;
   }
 
+  console.log(user.role);
 
   return (
     profile && (
@@ -96,10 +88,7 @@ function CompanyProfilePublic() {
         <div> This is the profile of {name}</div>
 
         <div className="title">
-          <img
-            src={`https://api.dicebear.com/5.x/initials/svg?seed=${name}`}
-            alt={name}
-          />
+          <img src={`https://api.dicebear.com/5.x/initials/svg?seed=${name}`} alt={name} />
           <h2>Company information</h2>
         </div>
         <div className="information">
@@ -112,7 +101,9 @@ function CompanyProfilePublic() {
             <span>{email}</span>
           </div>
 
-          <span className="address"><u>Address </u> </span>
+          <span className="address">
+            <u>Address </u>{" "}
+          </span>
           <div className="input-label">
             <label>Street:</label>
             <span>{street}</span>
@@ -131,28 +122,23 @@ function CompanyProfilePublic() {
           </div>
         </div>
 
-
-        {/* <IconButton onClick={() => addCompany(id)} aria-label="add to favorites">
+        {!isLoggedIn || user.role === "company" ? (
+          ""
+        ) : user.role === "junior" && userDB?.favoriteCompanies.some((company) => company._id === id) ? (
+          <IconButton aria-label="add to favorites">
+            <FavoriteIcon />
+          </IconButton>
+        ) : (
+          <IconButton onClick={() => addCompany(id)} aria-label="add to favorites">
             <FavoriteBorderIcon />
-        </IconButton> */}
-
-        {!isLoggedIn || userDB.favoriteCompanies.some((company) => company._id === id) ? (
-            <IconButton aria-label="add to favorites">
-              <FavoriteIcon />
-            </IconButton>
-          ) : (
-            <IconButton onClick={() => addCompany(id)} aria-label="add to favorites">
-              <FavoriteBorderIcon />
-            </IconButton>
-          )}
+          </IconButton>
+        )}
 
         <div className="jobPosts">
           <h4>Job posts from {name}</h4>
           <ul className="ul-jobposts">
             {profile.jobPosts.map((post) => {
-              return (
-                <JobPostCardCompanyPage key={post._id} post={post}/>
-              );
+              return <JobPostCardCompanyPage key={post._id} post={post} />;
             })}
           </ul>
         </div>

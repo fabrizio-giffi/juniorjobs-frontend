@@ -1,14 +1,4 @@
-import {
-  Avatar,
-  Box,
-  Button,
-  Card,
-  CardActions,
-  CardContent,
-  CardHeader,
-  IconButton,
-  Typography,
-} from "@mui/material";
+import { Avatar, Box, Button, Card, CardActions, CardContent, CardHeader, IconButton, Typography } from "@mui/material";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ShareIcon from "@mui/icons-material/Share";
 import ApartmentIcon from "@mui/icons-material/Apartment";
@@ -18,8 +8,10 @@ import { Link, useParams } from "react-router-dom";
 import { Stack } from "@mui/system";
 import axios from "axios";
 import { useContext } from "react";
-import { AuthContext } from "../context/auth.context";
+import { AuthContext } from "../../context/auth.context";
 import ClearIcon from "@mui/icons-material/Clear";
+
+const api_URL = import.meta.env.VITE_API_URL;
 
 function JobPostCard({ post, userDB, setUpdated, profile, getProfile }) {
 
@@ -28,9 +20,8 @@ function JobPostCard({ post, userDB, setUpdated, profile, getProfile }) {
 
   const addJobPost = async (postId) => {
     const requestBody = { id: user.id, postId };
-    const API_URL = "http://localhost:5005/api/user";
     try {
-      const response = await axios.put(`${API_URL}/addJobPost`, requestBody);
+      const response = await axios.put(`${api_URL}/user/addJobPost`, requestBody);
       setUpdated(true);
     } catch (error) {
       console.log(error);
@@ -82,12 +73,7 @@ function JobPostCard({ post, userDB, setUpdated, profile, getProfile }) {
               €{post.salaryRange.minimum} - €{post.salaryRange.maximum}
             </Typography>
           </Stack>
-          <Typography
-            style={{ textAlign: "start" }}
-            noWrap
-            variant="body2"
-            color="text.secondary"
-          >
+          <Typography style={{ textAlign: "start" }} noWrap variant="body2" color="text.secondary">
             {post.description.heading}
           </Typography>
         </CardContent>
@@ -101,10 +87,7 @@ function JobPostCard({ post, userDB, setUpdated, profile, getProfile }) {
               <FavoriteIcon />
             </IconButton>
           ) : (
-            <IconButton
-              onClick={() => addJobPost(post._id)}
-              aria-label="add to favorites"
-            >
+            <IconButton onClick={() => addJobPost(post._id)} aria-label="add to favorites">
               <FavoriteBorderIcon />
             </IconButton>
           )}

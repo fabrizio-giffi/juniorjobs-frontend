@@ -1,4 +1,4 @@
-import JobPostForm from "../components/JobPostForm";
+import JobPostForm from "../components/jobs/JobPostForm";
 
 function CreateJobPost() {
   return (

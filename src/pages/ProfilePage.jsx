@@ -1,6 +1,6 @@
 import { useContext } from "react";
-import CompanyProfile from "../components/CompanyProfile";
-import JuniorProfile from "../components/JuniorProfile";
+import CompanyProfile from "../components/companies/CompanyProfile";
+import JuniorProfile from "../components/juniors/JuniorProfile";
 import { AuthContext } from "../context/auth.context";
 
 function ProfilePage() {

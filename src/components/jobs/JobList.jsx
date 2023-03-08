@@ -1,12 +1,13 @@
 import { Avatar, Box, Skeleton, Typography } from "@mui/material";
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
-import CompanyFilter from "../components/filters/CompanyFilter";
-import GeoFilter from "../components/filters/GeoFilter";
-import StackFilter from "../components/filters/StackFilter";
-import JobPostCard from "../components/JobPostCard";
-import { AuthContext } from "../context/auth.context";
-const API_URL = "http://localhost:5005/api/";
+import CompanyFilter from "../filters/CompanyFilter";
+import GeoFilter from "../filters/GeoFilter";
+import StackFilter from "../filters/StackFilter";
+import JobPostCard from "./JobPostCard";
+import { AuthContext } from "../../context/auth.context";
+
+const api_URL = import.meta.env.VITE_API_URL;
 
 function JobList() {
   const { user } = useContext(AuthContext);
@@ -19,10 +20,10 @@ function JobList() {
   const [stackQuery, setStackQuery] = useState([]);
 
   const fetchData = async () => {
-    const jobList = await axios.get(`${API_URL}posts`);
+    const jobList = await axios.get(`${api_URL}/posts`);
     setJobList(jobList.data.reverse());
     if (user) {
-      const fetchedUser = await axios.get(`${API_URL}user/${user.id}`);
+      const fetchedUser = await axios.get(`${api_URL}/user/${user.id}`);
       setUserDB(fetchedUser.data);
     }
     setIsFetching(false);
@@ -36,20 +37,6 @@ function JobList() {
   useEffect(() => {
     fetchData();
   }, [updated]);
-
-  // const handleStack = (event) => {
-  //   console.log(event.target.innerText);
-  //   if (typeof event.target.innerText !== "undefined") {
-  //     setStackQuery([...stackQuery, event.target.innerText]);
-  //   } else {
-  //     console.log(event.target);
-  //     const toDelete = event.target.parentNode.parentNode.childNodes[0].innerText;
-  //     const index = stackQuery.indexOf(toDelete);
-  //     const queryDelete = stackQuery.splice(index, 1);
-  //     console.log("Array after splicing", queryDelete);
-  //     setStackQuery([...queryDelete]);
-  //   }
-  // };
 
   //FILTERS
   const countryFilter = [];
