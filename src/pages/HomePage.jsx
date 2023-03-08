@@ -5,7 +5,6 @@ import JuniorList from "../components/juniors/JuniorList";
 
 const HomePage = () => {
   const { user, isLoggedIn } = useContext(AuthContext);
-  console.log();
 
   return !isLoggedIn || user.role === "junior" ? (
     <div>
