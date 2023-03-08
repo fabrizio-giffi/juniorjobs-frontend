@@ -1,4 +1,4 @@
-import { Box, Button, MenuItem, TextField } from "@mui/material";
+import { Box, Button, Container, Divider, MenuItem, Stack, TextField, Typography } from "@mui/material";
 import axios from "axios";
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -7,9 +7,9 @@ import { AuthContext } from "../../context/auth.context";
 const api_URL = import.meta.env.VITE_API_URL;
 
 const jobTypes = [
-  { value: "full time", label: "full time" },
-  { value: "part time", label: "part time" },
-  { value: "freelance", label: "freelance" },
+  { value: "full time", label: "Full time" },
+  { value: "part time", label: "Part time" },
+  { value: "freelance", label: "Freelance" },
 ];
 
 function JobPostForm({ jobPost, isEditing, setEditing }) {
@@ -75,10 +75,17 @@ function JobPostForm({ jobPost, isEditing, setEditing }) {
   };
 
   return (
-    <>
-      <div>JobPostForm</div>
+    <Container component="main" maxWidth="md">
+      <Box sx={{ m: 3 }}>
+        <Typography variant="h4" gutterBottom>
+          {!isEditing ? "Create a new job post" : "Edit your job post"}
+        </Typography>
+        <Typography variant="subtitle2" gutterBottom>
+          * All fields are required
+        </Typography>
+      </Box>
       <Box
-        style={{ display: "flex", gap: "1rem", flexDirection: "column", alignItems: "center", marginBottom: "35px"}}
+        style={{ display: "flex", gap: "1rem", flexDirection: "column", alignItems: "center", marginBottom: "35px" }}
         component="form"
         onSubmit={handleSubmit}
         autoComplete="off"
@@ -117,13 +124,14 @@ function JobPostForm({ jobPost, isEditing, setEditing }) {
           id="outlined-basic"
           label="Stack"
           variant="outlined"
+          helperText="Separate inputs with a comma (e.g. React, Bootstrap)"
           required
           fullWidth
         />
         <TextField
           type="text"
           multiline
-          rows={4}
+          rows={2}
           value={heading}
           onChange={(event) => setHeading(event.target.value)}
           id="outlined-basic"
@@ -135,7 +143,7 @@ function JobPostForm({ jobPost, isEditing, setEditing }) {
         <TextField
           type="text"
           multiline
-          rows={3}
+          rows={2}
           value={tasks}
           onChange={(event) => setTasks(event.target.value)}
           id="outlined-basic"
@@ -147,7 +155,7 @@ function JobPostForm({ jobPost, isEditing, setEditing }) {
         <TextField
           type="text"
           multiline
-          rows={3}
+          rows={2}
           value={requirements}
           onChange={(event) => setRequirements(event.target.value)}
           id="outlined-basic"
@@ -159,7 +167,7 @@ function JobPostForm({ jobPost, isEditing, setEditing }) {
         <TextField
           type="text"
           multiline
-          rows={3}
+          rows={2}
           value={benefits}
           onChange={(event) => setBenefits(event.target.value)}
           id="outlined-basic"
@@ -220,24 +228,25 @@ function JobPostForm({ jobPost, isEditing, setEditing }) {
         />
         <>
           {!isEditing && (
-            <Button type="submit" variant="contained">
-              Create new Post
+            <Button sx={{ bgcolor: "#6b9080" }} type="submit" variant="contained">
+              Submit Post
             </Button>
           )}
           {isEditing && (
             <>
-              {" "}
-              <Button variant="outlined" type="button" onClick={handleEdit}>
-                Submit changes
-              </Button>
-              <Button variant="outlined" type="button" onClick={() => setEditing(false)}>
-                Cancel
-              </Button>
+              <Stack sx={{ mt: 3, display: "flex", width: "100%", gap: 5 }} spacing={2} direction="row">
+                <Button fullWidth variant="contained" sx={{ bgcolor: "#6b9080" }} onClick={handleEdit}>
+                  Submit changes
+                </Button>
+                <Button fullWidth variant="contained" sx={{ bgcolor: "#6b9080" }} onClick={() => setEditing(false)}>
+                  Cancel
+                </Button>
+              </Stack>
             </>
           )}
         </>
       </Box>
-    </>
+    </Container>
   );
 }
 

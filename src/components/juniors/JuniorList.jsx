@@ -2,9 +2,11 @@ import JuniorCard from "./JuniorCard";
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../context/auth.context";
-import { Avatar, Box, Skeleton, Typography } from "@mui/material";
+import { Avatar, Box, Grid, Skeleton, Typography } from "@mui/material";
 import GeoFilter from "../filters/GeoFilter";
 import StackFilter from "../filters/StackFilter";
+import './JuniorCard.css'
+import { Container } from "@mui/system";
 
 const api_URL = import.meta.env.VITE_API_URL;
 
@@ -93,8 +95,16 @@ const JuniorList = () => {
   return (
     juniors.length > 1 && (
       <>
-        <GeoFilter geoQuery={geoQuery} setGeoQuery={setGeoQuery} countryFilter={countryFilter} />
-        <StackFilter stackQuery={stackQuery} setStackQuery={setStackQuery} stackFilter={stackFilter} />
+      <Container sx={{margin: "30px 0", width:"100% !important"}} >
+        <Grid container  direction={"column"} columnSpacing={{ xs: 1, sm: 2, md: 3 }} justifyContent={"center"} alignContent={"center"}>
+          <Grid item>
+            <GeoFilter geoQuery={geoQuery} setGeoQuery={setGeoQuery} countryFilter={countryFilter}  />
+          </Grid>
+          <Grid item>
+            <StackFilter stackQuery={stackQuery} setStackQuery={setStackQuery} stackFilter={stackFilter} />
+          </Grid>
+        </Grid>
+      </Container>
 
         <div className="outer-junior-card">
           {juniors
