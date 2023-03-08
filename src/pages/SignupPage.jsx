@@ -37,7 +37,7 @@ function SignupPage() {
   return (
     <>
       <Container component="main" maxWidth="xs">
-        <Stack sx={{ marginTop: 10 }} divider={<Divider orientation="vertical" flexItem />} spacing={2} direction="row">
+        <Stack sx={{ mt: 10 }} divider={<Divider orientation="vertical" flexItem />} spacing={2} direction="row">
           <Button sx={{ bgcolor: "#6b9080" }} fullWidth variant="contained" onClick={() => setRole("junior")}>
             Junior
           </Button>
@@ -45,7 +45,7 @@ function SignupPage() {
             Company
           </Button>
         </Stack>
-        <Typography variant="h5" sx={{ marginTop: 3, textAlign: "center" }} gutterBottom>
+        <Typography variant="h5" sx={{ mt: 3, textAlign: "center" }} gutterBottom>
           Are you a junior or a company?
         </Typography>
       </Container>
@@ -53,7 +53,7 @@ function SignupPage() {
         <Container component="main" maxWidth="xs">
           <Box
             sx={{
-              marginTop: 3,
+              mt: 3,
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
@@ -121,7 +121,7 @@ function SignupPage() {
             </Stack>
           )}
           <Stack
-            sx={{ marginTop: 3, display: "flex", justifyContent: "center" }}
+            sx={{ mt: 3, display: "flex", justifyContent: "center" }}
             divider={<Divider orientation="vertical" flexItem />}
             spacing={2}
             direction="row"
