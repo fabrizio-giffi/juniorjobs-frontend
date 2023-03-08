@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import JobPostCard from "../jobs/JobPostCard";
 import CloudinaryUploadWidget from "../CloudinaryUploadWidget";
 import ClearIcon from "@mui/icons-material/Clear";
-import { IconButton } from "@mui/material";
+import { IconButton, Button } from "@mui/material";
 import "./CompanyProfile.css";
 
 const api_URL = import.meta.env.VITE_API_URL;
@@ -42,7 +42,10 @@ function CompanyProfile() {
     const id = profile._id;
     const requestBody = { id, favoriteId };
     try {
-      const response = await axios.put(`${api_URL}/company/delete/favorite`, requestBody);
+      const response = await axios.put(
+        `${api_URL}/company/delete/favorite`,
+        requestBody
+      );
       getProfile();
     } catch (error) {}
   };
@@ -58,7 +61,10 @@ function CompanyProfile() {
       country,
     };
     try {
-      const response = await axios.put(`${api_URL}/company/edit/${user.id}`, requestBody);
+      const response = await axios.put(
+        `${api_URL}/company/edit/${user.id}`,
+        requestBody
+      );
       setMessage(response.data.message);
     } catch (error) {
       console.log(error);
@@ -72,87 +78,107 @@ function CompanyProfile() {
   return (
     profile && (
       <>
-        <div> This is the company profile</div>
-        <form onSubmit={handleEdit} className="edit-form">
-          <div className="title">
-            <img
-              src={profilePicture ? profilePicture : `https://api.dicebear.com/5.x/initials/svg?seed=${name}`}
-              alt={name}
-            />
-            <h2>Company information</h2>
-          </div>
-          <h6>Click on the information to edit</h6>
-          <div className="information">
-            <div className="input-label">
-              <label>Company name:</label>
-              <input
-                style={{ border: "none", outline: "none" }}
-                type="text"
-                placeholder={name}
-                onChange={(event) => setName(event.target.value)}
-                value={name}
+        <div className="page-name"> This is the company profile</div>
+        <div className="form-outer">
+          <form onSubmit={handleEdit} className="edit-form">
+            <div className="title">
+              <img
+                src={
+                  profilePicture
+                    ? profilePicture
+                    : `https://api.dicebear.com/5.x/initials/svg?seed=${name}`
+                }
+                alt={name}
               />
+              <h2>Company information</h2>
             </div>
-            <div className="input-label">
-              <label>Company email:</label>
-              <input
-                style={{ border: "none", outline: "none" }}
-                type="text"
-                placeholder={email}
-                onChange={(event) => setEmail(event.target.value)}
-                value={email}
-              />
+            <h6>Click on the information to edit</h6>
+            <div className="information">
+              <div className="input-label">
+                <label>Company name:</label>
+                <input
+                  style={{ border: "none", outline: "none" }}
+                  type="text"
+                  placeholder={name}
+                  onChange={(event) => setName(event.target.value)}
+                  value={name}
+                />
+              </div>
+              <div className="input-label">
+                <label>Company email:</label>
+                <input
+                  style={{ border: "none", outline: "none" }}
+                  type="text"
+                  placeholder={email}
+                  onChange={(event) => setEmail(event.target.value)}
+                  value={email}
+                />
+              </div>
+
+              <span className="address">Address: </span>
+              <div className="input-label">
+                <label>Street:</label>
+                <input
+                  style={{ border: "none", outline: "none" }}
+                  type="text"
+                  placeholder={street}
+                  onChange={(event) => setStreet(event.target.value)}
+                  value={street}
+                />
+              </div>
+              <div className="input-label">
+                <label>Zip Code:</label>
+                <input
+                  style={{ border: "none", outline: "none" }}
+                  type="text"
+                  placeholder={zipCode}
+                  onChange={(event) => setZipCode(event.target.value)}
+                  value={zipCode}
+                />
+              </div>
+              <div className="input-label">
+                <label>City:</label>
+                <input
+                  style={{ border: "none", outline: "none" }}
+                  type="text"
+                  placeholder={city}
+                  onChange={(event) => setCity(event.target.value)}
+                  value={city}
+                />
+              </div>
+              <div className="input-label">
+                <label>Country:</label>
+                <input
+                  style={{ border: "none", outline: "none" }}
+                  type="text"
+                  placeholder={country}
+                  onChange={(event) => setCountry(event.target.value)}
+                  value={country}
+                />
+              </div>
             </div>
 
-            <span className="address">Address: </span>
-            <div className="input-label">
-              <label>Street:</label>
-              <input
-                style={{ border: "none", outline: "none" }}
-                type="text"
-                placeholder={street}
-                onChange={(event) => setStreet(event.target.value)}
-                value={street}
-              />
+            {message && <span>{message}</span>}
+            <div className="button">
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                sx={{ bgcolor: "#6b9080", mt: 3, mb: 2 }}
+              >
+                edit information
+              </Button>
+              {/* <button type="submit"></button> */}
             </div>
-            <div className="input-label">
-              <label>Zip Code:</label>
-              <input
-                style={{ border: "none", outline: "none" }}
-                type="text"
-                placeholder={zipCode}
-                onChange={(event) => setZipCode(event.target.value)}
-                value={zipCode}
-              />
-            </div>
-            <div className="input-label">
-              <label>City:</label>
-              <input
-                style={{ border: "none", outline: "none" }}
-                type="text"
-                placeholder={city}
-                onChange={(event) => setCity(event.target.value)}
-                value={city}
-              />
-            </div>
-            <div className="input-label">
-              <label>Country:</label>
-              <input
-                style={{ border: "none", outline: "none" }}
-                type="text"
-                placeholder={country}
-                onChange={(event) => setCountry(event.target.value)}
-                value={country}
-              />
-            </div>
-          </div>
+          </form>
+        </div>
 
-          {message && <span>{message}</span>}
-          <button type="submit">edit information</button>
-        </form>
         <div className="input-label">
           <label>profile picture:</label>
-          <CloudinaryUploadWidget profilePicture={profilePicture} setProfilePicture={setProfilePicture} />
+          <CloudinaryUploadWidget
+            profilePicture={profilePicture}
+            setProfilePicture={setProfilePicture}
+          />
         </div>
         <div className="lists">
           <div className="favorites">
@@ -163,7 +189,10 @@ function CompanyProfile() {
                   <li>
                     <div className="card">
                       <div className="image-outer">
-                        <img src={favorite.profilePic} alt={`${favorite.firstName} ${favorite.lastName}`} />
+                        <img
+                          src={favorite.profilePic}
+                          alt={`${favorite.firstName} ${favorite.lastName}`}
+                        />
                       </div>
                       <div className="junior-name">
                         <h5>{favorite.firstName}</h5>
@@ -185,7 +214,9 @@ function CompanyProfile() {
                             <Link to={`/junior/${favorite._id}`}>details</Link>
                           </h5>
                           <IconButton>
-                            <ClearIcon onClick={() => deleteFavorite(favorite._id)} />
+                            <ClearIcon
+                              onClick={() => deleteFavorite(favorite._id)}
+                            />
                           </IconButton>
                         </div>
                       </div>
@@ -201,7 +232,11 @@ function CompanyProfile() {
               {profile.jobPosts.map((post) => {
                 return (
                   <li>
-                    <JobPostCard post={post} profile={profile} getProfile={getProfile} />
+                    <JobPostCard
+                      post={post}
+                      profile={profile}
+                      getProfile={getProfile}
+                    />
                   </li>
                 );
               })}

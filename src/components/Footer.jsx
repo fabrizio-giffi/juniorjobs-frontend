@@ -8,43 +8,44 @@ import GitHubIcon from "@mui/icons-material/GitHub";
 
 export default function Footer() {
   return (
-    <div
-      className="footer"
-    >
+    <div className="footer">
       <Container>
         <Grid padding="25px" marginTop={"20px"}>
           <Grid item xs={12} sm={12} md={12} sx={{ textAlign: "center" }}>
-            <Typography align="center" variant="overline">
-              Made with <FavoriteIcon fontSize="small" sx={{ color: "red" }} />{" "}
-              by{" "}
+            <div className="footer-text">
+              <span> Made With </span>
+              <FavoriteIcon fontSize="small" sx={{ color: "red" }} />
+              <span> by </span>
               <Link to={"https://www.linkedin.com/in/fabriziogiffi/"}>
-                Fabrizio
+                <span>Fabrizio, </span>
               </Link>
-              ,{" "}
               <Link
                 to={"https://www.linkedin.com/in/dean-stavenuiter-38a216248/"}
               >
-                Dean
-              </Link>{" "}
-              and{" "}
-              <Link to={"https://www.linkedin.com/in/dennis-beitel-75b207176/"}>
-                Dennis
+                <span>Dean </span>
               </Link>
-            </Typography>
-          </Grid>
-          <Grid item xs={12} sm={12} md={12} sx={{ textAlign: "center" }}>
-            <Typography align="center" variant="overline">
-              GitHub Repos Frontend:{" "}
+              <span>and </span>
+              <Link to={"https://www.linkedin.com/in/dennis-beitel-75b207176/"}>
+                <span>Dennis </span>
+              </Link>
+            </div>
+            <div className="github-repos">
+              <span>GitHub Repos: </span>
               <Link
                 to={"https://github.com/fabrizio-giffi/juniorjobs-frontend"}
               >
-                <GitHubIcon fontSize="small" />
-              </Link>{" "}
-              Backend:{" "}
-              <Link to={"https://github.com/fabrizio-giffi/juniorjobs-backend"}>
-                <GitHubIcon fontSize="small" />
+                <span>
+                  Frontend: <GitHubIcon fontSize="small" />
+                </span>
               </Link>
-            </Typography>
+              <span>
+                <Link
+                  to={"https://github.com/fabrizio-giffi/juniorjobs-backend"}
+                >
+                  Backend: <GitHubIcon fontSize="small" />
+                </Link>
+              </span>
+            </div>
           </Grid>
         </Grid>
       </Container>

@@ -1,8 +1,25 @@
 .footer{
-    background-color: #cce3de;
-    height: 120px;
+    background-color: var(--mint-green);
+    min-height: 120px;
     width: 100%;
+    font-family: "Roboto","Helvetica","Arial",sans-serif;
+    font-weight: 400;
+    font-size: 0.75rem;
+    line-height: 2.66;
+    letter-spacing: 0.08333em;
+    text-transform: uppercase;
+    text-align: center;
+    display: flex;
+    flex-wrap: wrap;
 }
 .css-1jwdrmt-MuiGrid-root{
     margin: 0 !important;
 }
+
+@media screen and (max-width: 400px) {
+    .github-repos{
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+    }
+  }
