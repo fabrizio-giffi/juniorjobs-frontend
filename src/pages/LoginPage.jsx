@@ -1,6 +1,6 @@
 import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Avatar, Box, Button, Container, Divider, Stack, TextField, Typography } from "@mui/material";
+import { Avatar, Box, Button, CircularProgress, Container, Divider, Stack, TextField, Typography } from "@mui/material";
 import axios from "axios";
 import PasswordForm from "../components/PasswordForm";
 import { AuthContext } from "../context/auth.context";
@@ -15,20 +15,24 @@ function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState(undefined);
+  const [isSpinning, setIsSpinning] = useState(false);
   const navigate = useNavigate();
 
   const handleLogin = async (event) => {
     event.preventDefault();
+    setIsSpinning(true);
     const requestBody = { name, email, password };
     try {
       const response = await axios.post(`${auth_URL}/${role === "junior" ? "user" : "company"}/login`, requestBody);
       // response.data.authToken holds the token
+      setIsSpinning(false);
       storeToken(response.data.authToken);
       await authenticateUser();
       navigate("/profile");
     } catch (error) {
       const errorDescription = error.response.data.message;
       setErrorMessage(errorDescription);
+      setIsSpinning(false);
       console.log("There was an error with the login.", errorDescription);
     }
   };
@@ -93,9 +97,17 @@ function LoginPage() {
                 />
               )}
               <PasswordForm setPassword={setPassword} password={password} />
-              <Button type="submit" fullWidth variant="contained" sx={{ bgcolor: "#6b9080", mt: 3, mb: 2 }}>
-                Log In
-              </Button>
+              <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+                <Button
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  sx={{ bgcolor: "#6b9080", mt: 3, mb: 2, position: "relative" }}
+                >
+                  Log In
+                </Button>
+                {isSpinning && <CircularProgress size={20} sx={{ position: "absolute", mt: 11 }} />}
+              </Box>
             </Box>
           </Box>
           {errorMessage && (
