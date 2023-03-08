@@ -4,7 +4,7 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import "./JuniorCard.css";
 import { useContext } from "react";
-import { AuthContext } from "../context/auth.context";
+import { AuthContext } from "../../context/auth.context";
 import axios from "axios";
 
 const JuniorCard = ({ junior, userDB, setUpdated }) => {

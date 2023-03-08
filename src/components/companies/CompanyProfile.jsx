@@ -1,9 +1,9 @@
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
-import { AuthContext } from "../context/auth.context";
+import { AuthContext } from "../../context/auth.context";
 import "./CompanyProfile.css";
-import JobPostCard from "./JobPostCard";
-import CloudinaryUploadWidget from "./CloudinaryUploadWidget";
+import JobPostCard from "../jobs/JobPostCard";
+import CloudinaryUploadWidget from "../CloudinaryUploadWidget";
 import { Link } from "react-router-dom";
 import ClearIcon from "@mui/icons-material/Clear";
 import { IconButton } from "@mui/material";

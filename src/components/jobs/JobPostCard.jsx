@@ -18,7 +18,7 @@ import { Link } from "react-router-dom";
 import { Stack } from "@mui/system";
 import axios from "axios";
 import { useContext } from "react";
-import { AuthContext } from "../context/auth.context";
+import { AuthContext } from "../../context/auth.context";
 import ClearIcon from "@mui/icons-material/Clear";
 
 function JobPostCard({ post, userDB, setUpdated, profile, getProfile }) {

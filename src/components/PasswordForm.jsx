@@ -4,7 +4,7 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { useState } from "react";
 
 function PasswordForm({ setPassword, password }) {
-  // MANTINE
+  
   const [showPassword, setShowPassword] = useState(false);
   const handleClickShowPassword = () => setShowPassword((show) => !show);
   const handleMouseDownPassword = (event) => {

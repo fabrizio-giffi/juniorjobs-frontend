@@ -2,7 +2,7 @@ import { Box, Button, MenuItem, TextField } from "@mui/material";
 import axios from "axios";
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { AuthContext } from "../context/auth.context";
+import { AuthContext } from "../../context/auth.context";
 
 const API_URL = "http://localhost:5005/api/posts";
 

@@ -1,10 +1,10 @@
 import JuniorCard from "./JuniorCard";
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
-import { AuthContext } from "../context/auth.context";
+import { AuthContext } from "../../context/auth.context";
 import { Avatar, Box, Skeleton, Typography } from "@mui/material";
-import GeoFilter from "./filters/GeoFilter";
-import StackFilter from "./filters/StackFilter";
+import GeoFilter from "../filters/GeoFilter";
+import StackFilter from "../filters/StackFilter";
 
 const JuniorList = () => {
   const { user } = useContext(AuthContext);

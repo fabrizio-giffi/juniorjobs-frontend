@@ -1,17 +1,14 @@
 import { Route, Routes } from "react-router-dom";
 import "./App.css";
 import CompanyProfilePublic from "./components/CompanyProfilePublic";
-import IsCompany from "./components/IsCompany";
-import IsLoading from "./components/IsLoading";
-import IsLoggedIn from "./components/IsLoggedIn";
-import IsLoggedOut from "./components/IsLoggedOut";
-import JobPostForm from "./components/JobPostForm";
-import JuniorProfile from "./components/JuniorProfile";
-import JuniorProfilePublic from "./components/JuniorProfilePublic";
+import IsCompany from "./components/middlewares/IsCompany";
+import IsLoading from "./components/middlewares/IsLoading";
+import IsLoggedIn from "./components/middlewares/IsLoggedIn";
+import IsLoggedOut from "./components/middlewares/IsLoggedOut";
+import JuniorProfilePublic from "./pages/JuniorProfilePublic";
 import NavBar from "./components/NavBar";
 import CreateJobPost from "./pages/CreateJobPost";
 import HomePage from "./pages/HomePage";
-import JobList from "./pages/JobList";
 import JobPostDetails from "./pages/JobPostDetails";
 import LoginPage from "./pages/LoginPage";
 import ProfilePage from "./pages/ProfilePage";
@@ -61,13 +58,22 @@ function App() {
             </IsCompany>
           }
         />
-        <Route path="/jobs" element={<JobList />} />
-        <Route path="/jobs/:id" element={<JobPostDetails />} />
-        <Route path="/company/:id" element={
-        <IsLoading>
-          <CompanyProfilePublic />
-        </IsLoading>
-        } />
+        <Route
+          path="/jobs/:id"
+          element={
+            <IsLoading>
+              <JobPostDetails />
+            </IsLoading>
+          }
+        />
+        <Route
+          path="/company/:id"
+          element={
+            <IsLoading>
+              <CompanyProfilePublic />
+            </IsLoading>
+          }
+        />
         <Route path="/junior/:id" element={<JuniorProfilePublic />} />
         <Route path="*" element={<h1>404 Not Found</h1>} />
       </Routes>
