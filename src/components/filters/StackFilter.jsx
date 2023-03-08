@@ -9,8 +9,15 @@ function StackFilter({ setStackQuery, stackQuery, stackFilter }) {
         options={stackFilter}
         getOptionLabel={(option) => option}
         filterSelectedOptions
+        disableClearable
         value={[...stackQuery]}
-        onChange={(event) => setStackQuery([...stackQuery, event.target.innerText])}
+        onChange={(event) => {
+          event.preventDefault();
+          if (event.code === "Backspace" || event.code === "Enter") {
+            return;
+          }
+          setStackQuery([...stackQuery, event.target.innerText]);
+        }}
         renderInput={(params) => {
           return <TextField {...params} label="Stacks" placeholder="Stack" />;
         }}

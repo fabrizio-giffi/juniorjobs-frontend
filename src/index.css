@@ -25,11 +25,10 @@
   background-color: #eaf4f4 !important;
 }
 
-.css-1q79v3g-MuiButtonBase-root-MuiChip-root .MuiChip-deleteIcon,
-.css-1glvl0p-MuiButtonBase-root-MuiIconButton-root-MuiAutocomplete-clearIndicator {
+.MuiAutocomplete-hasPopupIcon .MuiChip-deleteIcon {
   display: none !important;
 }
 
-.calendly-inline-widget{
-  height:700px !important;
+.calendly-inline-widget {
+  height: 700px !important;
 }
