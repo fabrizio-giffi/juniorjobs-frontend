@@ -15,7 +15,7 @@ function SignupPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState(undefined);
-  // const [isSpinning, setIsSpinning] = useState(true);
+  const [isSpinning, setIsSpinning] = useState(false);
   const navigate = useNavigate();
 
   const handleSignup = async (event) => {
@@ -24,12 +24,12 @@ function SignupPage() {
     const requestBody = { name, email, password };
     try {
       const response = await axios.post(`${auth_URL}/${role === "junior" ? "user" : "company"}/signup`, requestBody);
-      // setIsSpinning(false);
+      setIsSpinning(false);
       if (response.status === 201) navigate("/login");
     } catch (error) {
       const errorDescription = error.response.data.message;
       setErrorMessage(errorDescription);
-      // setIsSpinning(false);
+      setIsSpinning(false);
       console.log("There was an error with the signup.", errorDescription);
     }
   };
@@ -92,12 +92,17 @@ function SignupPage() {
                 required
               />
               <PasswordForm setPassword={setPassword} password={password} />
-              <Stack>
-                <Button type="submit" fullWidth variant="contained" sx={{ bgcolor: "#6b9080", mt: 3, mb: 2 }}>
+              <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+                <Button
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  sx={{ bgcolor: "#6b9080", mt: 3, mb: 2, position: "relative" }}
+                >
                   Sign Up
                 </Button>
-                {/* {isSpinning && <CircularProgress />} */}
-              </Stack>
+                {isSpinning && <CircularProgress size={20} sx={{ position: "absolute", mt: 11 }} />}
+              </Box>
             </Box>
           </Box>
           {errorMessage && (
