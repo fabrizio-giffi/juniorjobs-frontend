@@ -13,8 +13,12 @@ import JobPostDetails from "./pages/JobPostDetails";
 import LoginPage from "./pages/LoginPage";
 import ProfilePage from "./pages/ProfilePage";
 import SignupPage from "./pages/SignupPage";
+import Footer from "./components/Footer";
+import { height } from "@mui/system";
+
 function App() {
   return (
+    <div style={{height: "100vh"}}>
     <div className="App">
       <NavBar />
       <Routes>
@@ -77,6 +81,8 @@ function App() {
         <Route path="/junior/:id" element={<JuniorProfilePublic />} />
         <Route path="*" element={<h1>404 Not Found</h1>} />
       </Routes>
+    </div>
+    <Footer/>
     </div>
   );
 }
