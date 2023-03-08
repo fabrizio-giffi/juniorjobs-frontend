@@ -6,7 +6,8 @@ import GeoFilter from "../filters/GeoFilter";
 import StackFilter from "../filters/StackFilter";
 import JobPostCard from "./JobPostCard";
 import { AuthContext } from "../../context/auth.context";
-const API_URL = "http://localhost:5005/api/";
+
+const api_URL = import.meta.env.VITE_API_URL;
 
 function JobList() {
   const { user } = useContext(AuthContext);
@@ -19,10 +20,10 @@ function JobList() {
   const [stackQuery, setStackQuery] = useState([]);
 
   const fetchData = async () => {
-    const jobList = await axios.get(`${API_URL}posts`);
+    const jobList = await axios.get(`${api_URL}/posts`);
     setJobList(jobList.data.reverse());
     if (user) {
-      const fetchedUser = await axios.get(`${API_URL}user/${user.id}`);
+      const fetchedUser = await axios.get(`${api_URL}/user/${user.id}`);
       setUserDB(fetchedUser.data);
     }
     setIsFetching(false);

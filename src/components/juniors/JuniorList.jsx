@@ -6,6 +6,8 @@ import { Avatar, Box, Skeleton, Typography } from "@mui/material";
 import GeoFilter from "../filters/GeoFilter";
 import StackFilter from "../filters/StackFilter";
 
+const api_URL = import.meta.env.VITE_API_URL;
+
 const JuniorList = () => {
   const { user } = useContext(AuthContext);
   const [juniors, setJuniors] = useState([]);
@@ -16,10 +18,10 @@ const JuniorList = () => {
   const [stackQuery, setStackQuery] = useState([]);
 
   const getUsers = async () => {
-    const response = await axios.get("http://localhost:5005/api/user");
+    const response = await axios.get(`${api_URL}/user`);
     setJuniors(response.data.reverse());
     if (user) {
-      const getCompany = await axios.get(`http://localhost:5005/api/company/${user.id}`);
+      const getCompany = await axios.get(`${api_URL}/company/${user.id}`);
       setUserDB(getCompany.data);
       console.log("USERDB", userDB);
     }

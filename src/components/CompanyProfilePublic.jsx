@@ -8,7 +8,7 @@ import { IconButton } from "@mui/material";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 
-const API_URL = "http://localhost:5005/api/company";
+const api_URL = import.meta.env.VITE_API_URL;
 
 function CompanyProfilePublic() {
   const { user, isLoggedIn } = useContext(AuthContext);
@@ -28,7 +28,7 @@ function CompanyProfilePublic() {
 
   const getProfile = async () => {
     try {
-      const response = await axios.get(`${API_URL}/${id}`);
+      const response = await axios.get(`${api_URL}/company/${id}`);
       setProfile(response.data);
       setName(response.data.name);
       setEmail(response.data.email);
@@ -45,9 +45,8 @@ function CompanyProfilePublic() {
 
   const fetchData = async () => {
     try {
-      const API_URL2 = "http://localhost:5005/api/user";
       setCatchinUserData(true);
-      const response = await axios.get(`${API_URL2}/${user.id}`);
+      const response = await axios.get(`${api_URL}/user/${user.id}`);
       setUserDB(response.data);
       setCatchinUserData(false);
       console.log(response.data);
@@ -58,10 +57,9 @@ function CompanyProfilePublic() {
 
   const addCompany = async () => {
     const requestBody = { id: user.id, companyId: id };
-    const API_URL = "http://localhost:5005/api/user";
     try {
       setCatchinUserData(true);
-      const response = await axios.put(`${API_URL}/addCompany`, requestBody);
+      const response = await axios.put(`${api_URL}/user/addCompany`, requestBody);
       setUpdated(true);
     } catch (error) {
       console.log(error);

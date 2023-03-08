@@ -7,14 +7,15 @@ import { useContext } from "react";
 import { AuthContext } from "../../context/auth.context";
 import axios from "axios";
 
+const api_URL = import.meta.env.VITE_API_URL;
+
 const JuniorCard = ({ junior, userDB, setUpdated }) => {
   const { user, isLoggedIn } = useContext(AuthContext);
 
   const addJunior = async (juniorId) => {
     const requestBody = { id: user.id, juniorId };
-    const API_URL = "http://localhost:5005/api/company";
     try {
-      await axios.put(`${API_URL}/addFavoriteJunior`, requestBody);
+      await axios.put(`${api_URL}/company/addFavoriteJunior`, requestBody);
       setUpdated(true);
     } catch (error) {
       console.log(error);

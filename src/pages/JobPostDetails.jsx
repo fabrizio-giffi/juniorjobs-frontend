@@ -4,7 +4,8 @@ import { useContext, useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import JobPostForm from "../components/jobs/JobPostForm";
 import { AuthContext } from "../context/auth.context";
-const API_URL = "http://localhost:5005/api/posts/";
+
+const api_URL = import.meta.env.VITE_API_URL;
 
 const options = { weekday: "long", year: "numeric", month: "long", day: "numeric" };
 
@@ -17,7 +18,7 @@ function JobPostDetails() {
   const [isFetching, setIsFetching] = useState(true);
 
   const fetchPost = async () => {
-    const response = await axios.get(`${API_URL}${id}`);
+    const response = await axios.get(`${api_URL}/posts/${id}`);
     setJobPost(response.data);
     setIsFetching(false);
     const dateObj = new Date(response.data.createdAt);

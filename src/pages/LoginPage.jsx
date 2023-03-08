@@ -5,7 +5,7 @@ import axios from "axios";
 import PasswordForm from "../components/PasswordForm";
 import { AuthContext } from "../context/auth.context";
 
-const API_URL = "http://localhost:5005/auth/";
+const auth_URL = import.meta.env.VITE_AUTH_URL;
 
 function LoginPage() {
   const { storeToken, authenticateUser, role, setRole } = useContext(AuthContext);
@@ -19,7 +19,7 @@ function LoginPage() {
     event.preventDefault();
     const requestBody = { name, email, password };
     try {
-      const response = await axios.post(`${API_URL}${role === "junior" ? "user" : "company"}/login`, requestBody);
+      const response = await axios.post(`${auth_URL}/${role === "junior" ? "user" : "company"}/login`, requestBody);
       // console.log(`${role === "junior" ? "User" : "Company"} logged in succesfully`, response.data.authToken);
       // response.data.authToken holds the token
       storeToken(response.data.authToken);

@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 import ClearIcon from "@mui/icons-material/Clear";
 import { IconButton } from "@mui/material";
 
-const API_URL = "http://localhost:5005/api/company";
+const api_URL = import.meta.env.VITE_API_URL;
 
 function CompanyProfile() {
   const { user, isLoggedIn } = useContext(AuthContext);
@@ -24,7 +24,7 @@ function CompanyProfile() {
 
   const getProfile = async () => {
     try {
-      const response = await axios.get(`${API_URL}/${user.id}`);
+      const response = await axios.get(`${api_URL}/company/${user.id}`);
       setProfile(response.data);
       setName(response.data.name);
       setEmail(response.data.email);
@@ -38,17 +38,14 @@ function CompanyProfile() {
     }
   };
 
-  const deleteFavorite = async(favoriteId) => {
-    const id = profile._id
-    const requestBody = {id, favoriteId};
+  const deleteFavorite = async (favoriteId) => {
+    const id = profile._id;
+    const requestBody = { id, favoriteId };
     try {
-      const response = await axios.put(`${API_URL}/delete/favorite`, requestBody)
-      getProfile()
-    } catch (error) {
-      
-    }
-  }
-
+      const response = await axios.put(`${api_URL}/company/delete/favorite`, requestBody);
+      getProfile();
+    } catch (error) {}
+  };
 
   const handleEdit = async (event) => {
     event.preventDefault();
@@ -61,10 +58,7 @@ function CompanyProfile() {
       country,
     };
     try {
-      const response = await axios.put(
-        `${API_URL}/edit/${user.id}`,
-        requestBody
-      );
+      const response = await axios.put(`${api_URL}/company/edit/${user.id}`, requestBody);
       setMessage(response.data.message);
     } catch (error) {
       console.log(error);
@@ -82,11 +76,7 @@ function CompanyProfile() {
         <form onSubmit={handleEdit} className="edit-form">
           <div className="title">
             <img
-              src={
-                profilePicture
-                  ? profilePicture
-                  : `https://api.dicebear.com/5.x/initials/svg?seed=${name}`
-              }
+              src={profilePicture ? profilePicture : `https://api.dicebear.com/5.x/initials/svg?seed=${name}`}
               alt={name}
             />
             <h2>Company information</h2>
@@ -162,10 +152,7 @@ function CompanyProfile() {
         </form>
         <div className="input-label">
           <label>profile picture:</label>
-          <CloudinaryUploadWidget
-            profilePicture={profilePicture}
-            setProfilePicture={setProfilePicture}
-          />
+          <CloudinaryUploadWidget profilePicture={profilePicture} setProfilePicture={setProfilePicture} />
         </div>
         <div className="lists">
           <div className="favorites">
@@ -176,10 +163,7 @@ function CompanyProfile() {
                   <li>
                     <div className="card">
                       <div className="image-outer">
-                        <img
-                          src={favorite.profilePic}
-                          alt={`${favorite.firstName} ${favorite.lastName}`}
-                        />
+                        <img src={favorite.profilePic} alt={`${favorite.firstName} ${favorite.lastName}`} />
                       </div>
                       <div className="junior-name">
                         <h5>{favorite.firstName}</h5>
@@ -201,7 +185,7 @@ function CompanyProfile() {
                             <Link to={`/junior/${favorite._id}`}>details</Link>
                           </h5>
                           <IconButton>
-                            <ClearIcon onClick={()=>deleteFavorite(favorite._id)}/>
+                            <ClearIcon onClick={() => deleteFavorite(favorite._id)} />
                           </IconButton>
                         </div>
                       </div>
@@ -217,7 +201,7 @@ function CompanyProfile() {
               {profile.jobPosts.map((post) => {
                 return (
                   <li>
-                    <JobPostCard post={post} profile={profile} getProfile={getProfile}/>
+                    <JobPostCard post={post} profile={profile} getProfile={getProfile} />
                   </li>
                 );
               })}

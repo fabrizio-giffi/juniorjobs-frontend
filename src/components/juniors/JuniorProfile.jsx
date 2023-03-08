@@ -1,73 +1,55 @@
 import { useContext, useState, useEffect } from "react";
 import { AuthContext } from "../../context/auth.context";
-import axios from 'axios';
-import { Link } from 'react-router-dom';
+import axios from "axios";
+import { Link } from "react-router-dom";
 import { InlineWidget } from "react-calendly";
 
 function JuniorProfile() {
-    const { user } = useContext(AuthContext);
-    const [userData, setUserData] = useState();
-    const [id, setId] = useState('');
-    const [firstName, setFirstName] = useState("");
-    const [email, setEmail] = useState("");
-    const [lastName, setLastName] = useState("");
-    const [country, setCountry] = useState("");
-    const [city, setCity] = useState("");
-    const [skills, setSkills] = useState([]);
-    const [profilePic, setProfilePic] = useState("");
-    const [favoriteJobPosts, setFavoriteJobPosts] = useState([]);
-    const [favoriteCompanies, setFavoriteCompanies] = useState([]);
-    const [catchingUserData, setCatchinUserData] = useState(true);
-    const [message, setMessage] = useState();
-    const [isEditing, setIsEditing] = useState(false);
-    const [newSkill, setNewSkill] = useState();
-    const [calendly, setCalendly] = useState("");
+  const { user } = useContext(AuthContext);
+  const [userData, setUserData] = useState();
+  const [id, setId] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [email, setEmail] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [country, setCountry] = useState("");
+  const [city, setCity] = useState("");
+  const [skills, setSkills] = useState([]);
+  const [profilePic, setProfilePic] = useState("");
+  const [favoriteJobPosts, setFavoriteJobPosts] = useState([]);
+  const [favoriteCompanies, setFavoriteCompanies] = useState([]);
+  const [catchingUserData, setCatchinUserData] = useState(true);
+  const [message, setMessage] = useState();
+  const [isEditing, setIsEditing] = useState(false);
+  const [newSkill, setNewSkill] = useState();
+  const [calendly, setCalendly] = useState("");
 
-  
-    const API_URL = "http://localhost:5005/api/user";
+  const api_URL = import.meta.env.VITE_API_URL;
 
-
-    const getProfile = async () => {
-      try {
-        const response = await axios.get(`${API_URL}/${user.id}`);
-        console.log(response.data)
-        setUserData(response.data)
-        setId(response.data._id)
-        setFirstName(response.data.firstName)
-        setEmail(response.data.email)
-        setLastName(response.data.lastName)
-        setCountry(response.data.location.country)
-        setCity(response.data.location.city)
-        setSkills(response.data.skills)
-        setProfilePic(response.data.profilePic)
-        setFavoriteCompanies(response.data.favoriteCompanies)
-        setFavoriteJobPosts(response.data.favoriteJobPosts)
-
-      } catch (error) {
-        console.log(error);
-      }
-    };
-  
-    async function handlefavoriteJobPostsdelete (postId){
-      const requestBody = {id, postId};
-      try {
-       setCatchinUserData(true)
-       const response = await axios.put(`${API_URL}/privateprofile/deleteFavJobPost`, requestBody);
-       getProfile()
-       setCatchinUserData(false)
-      } catch (error) {
-        console.log(error);
-      }
+  const getProfile = async () => {
+    try {
+      const response = await axios.get(`${api_URL}/user/${user.id}`);
+      console.log(response.data);
+      setUserData(response.data);
+      setId(response.data._id);
+      setFirstName(response.data.firstName);
+      setEmail(response.data.email);
+      setLastName(response.data.lastName);
+      setCountry(response.data.location.country);
+      setCity(response.data.location.city);
+      setSkills(response.data.skills);
+      setProfilePic(response.data.profilePic);
+      setFavoriteCompanies(response.data.favoriteCompanies);
+      setFavoriteJobPosts(response.data.favoriteJobPosts);
+    } catch (error) {
+      console.log(error);
     }
+  };
 
-  async function handleSkilldelete(skill) {
-    const requestBody = { id, skill };
+  async function handlefavoriteJobPostsdelete(postId) {
+    const requestBody = { id, postId };
     try {
       setCatchinUserData(true);
-      const response = await axios.put(
-        `${API_URL}/privateprofile/deleteSkill`,
-        requestBody
-      );
+      const response = await axios.put(`${api_URL}/user/privateprofile/deleteFavJobPost`, requestBody);
       getProfile();
       setCatchinUserData(false);
     } catch (error) {
@@ -75,18 +57,30 @@ function JuniorProfile() {
     }
   }
 
-    async function handlefavoriteCompanyDelete(companyId){
-        const requestBody = {id, companyId};
-        try {
-            setCatchinUserData(true)
-            const response = await axios.put(`${API_URL}/privateprofile/deleteFavCompany`, requestBody);
-            getProfile()
-            setCatchinUserData(false)
-           } catch (error) {
-             console.log(error);
-           }
+  async function handleSkilldelete(skill) {
+    const requestBody = { id, skill };
+    try {
+      setCatchinUserData(true);
+      const response = await axios.put(`${api_URL}/user/privateprofile/deleteSkill`, requestBody);
+      getProfile();
+      setCatchinUserData(false);
+    } catch (error) {
+      console.log(error);
     }
-  async function editFields(event){
+  }
+
+  async function handlefavoriteCompanyDelete(companyId) {
+    const requestBody = { id, companyId };
+    try {
+      setCatchinUserData(true);
+      const response = await axios.put(`${api_URL}/user/privateprofile/deleteFavCompany`, requestBody);
+      getProfile();
+      setCatchinUserData(false);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  async function editFields(event) {
     event.preventDefault();
     const requestBody = {
       firstName,
@@ -96,10 +90,7 @@ function JuniorProfile() {
     };
 
     try {
-      const response = await axios.put(
-        `${API_URL}/edit/${user.id}`,
-        requestBody
-      );
+      const response = await axios.put(`${api_URL}/user/edit/${user.id}`, requestBody);
       setMessage(response.data.message);
     } catch (error) {
       console.log(error);
@@ -123,7 +114,7 @@ function JuniorProfile() {
 
     try {
       setCatchinUserData(true);
-      const response = await axios.put(`${API_URL}/addNewSkill`, requestBody);
+      const response = await axios.put(`${api_URL}/user/addNewSkill`, requestBody);
       getProfile();
       setCatchinUserData(false);
       setNewSkill("");
@@ -144,10 +135,7 @@ function JuniorProfile() {
       {user.role == "junior" && (
         <form onSubmit={editFields} className="edit-form">
           <div className="title">
-            <img
-              src={`https://api.dicebear.com/5.x/initials/svg?seed=${firstName}`}
-              alt={firstName}
-            />
+            <img src={`https://api.dicebear.com/5.x/initials/svg?seed=${firstName}`} alt={firstName} />
             <h2>User information</h2>
           </div>
           {/* <h6>Click on the information to edit</h6> */}
@@ -225,13 +213,17 @@ function JuniorProfile() {
             </div>
             <div className="input-label">
               <label>Calendly Link:</label>
-              {isEditing?<input
-                style={{ border: "none", outline: "none" }}
-                type="text"
-                placeholder={calendly}
-                onChange={(event) => setCalendly(event.target.value)}
-                value={calendly}
-              />: <p>{calendly}</p>}
+              {isEditing ? (
+                <input
+                  style={{ border: "none", outline: "none" }}
+                  type="text"
+                  placeholder={calendly}
+                  onChange={(event) => setCalendly(event.target.value)}
+                  value={calendly}
+                />
+              ) : (
+                <p>{calendly}</p>
+              )}
             </div>
           </div>
 
@@ -284,10 +276,7 @@ function JuniorProfile() {
                 <Link to={`/jobs/${jobPost._id}`}>
                   <button type="button">Show Post</button>
                 </Link>
-                <button
-                  type="button"
-                  onClick={() => handlefavoriteJobPostsdelete(jobPost._id)}
-                >
+                <button type="button" onClick={() => handlefavoriteJobPostsdelete(jobPost._id)}>
                   X
                 </button>
               </div>
@@ -304,10 +293,7 @@ function JuniorProfile() {
                 <Link to={`/company/${company._id}`}>
                   <button type="button">Show Company</button>
                 </Link>
-                <button
-                  type="button"
-                  onClick={() => handlefavoriteCompanyDelete(company._id)}
-                >
+                <button type="button" onClick={() => handlefavoriteCompanyDelete(company._id)}>
                   X
                 </button>
               </div>

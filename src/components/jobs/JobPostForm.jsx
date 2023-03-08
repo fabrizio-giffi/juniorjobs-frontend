@@ -4,7 +4,7 @@ import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/auth.context";
 
-const API_URL = "http://localhost:5005/api/posts";
+const api_URL = import.meta.env.VITE_API_URL;
 
 const jobTypes = [
   { value: "full time", label: "full time" },
@@ -44,7 +44,7 @@ function JobPostForm({ jobPost, isEditing, setEditing }) {
     };
 
     try {
-      const response = await axios.post(API_URL, newJobBody);
+      const response = await axios.post(`${api_URL}/posts`, newJobBody);
       if (response.status === 201) navigate(`/jobs/${response.data.id}`);
     } catch (error) {
       console.log("There was an error creating the post", error);
@@ -67,7 +67,7 @@ function JobPostForm({ jobPost, isEditing, setEditing }) {
     };
 
     try {
-      const response = await axios.put(`${API_URL}/${jobPost._id}`, editJobBody);
+      const response = await axios.put(`${api_URL}/posts/${jobPost._id}`, editJobBody);
       console.log(response.data);
     } catch (error) {
       console.log("There was an error creating the post", error);

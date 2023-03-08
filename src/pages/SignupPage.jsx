@@ -5,9 +5,9 @@ import axios from "axios";
 import PasswordForm from "../components/PasswordForm";
 import { AuthContext } from "../context/auth.context";
 
-const API_URL = "http://localhost:5005/auth/";
+const auth_URL = import.meta.env.VITE_AUTH_URL;
 
-function SignupPage(props) {
+function SignupPage() {
   const { role, setRole } = useContext(AuthContext);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -19,8 +19,7 @@ function SignupPage(props) {
     event.preventDefault();
     const requestBody = { name, email, password };
     try {
-      const response = await axios.post(`${API_URL}${role === "junior" ? "user" : "company"}/signup`, requestBody);
-      // console.log(`${role === "junior" ? "User" : "Company"} created succesfully`, response.data);
+      const response = await axios.post(`${auth_URL}${role === "junior" ? "user" : "company"}/signup`, requestBody);
       if (response.status === 201) navigate("/login");
     } catch (error) {
       const errorDescription = error.response.data.message;
