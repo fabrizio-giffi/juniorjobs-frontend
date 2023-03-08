@@ -2,11 +2,9 @@ import * as React from 'react';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-// import Link from '@mui/material/Link';
 import {Link} from 'react-router-dom'
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import './Landing.css'
-import { padding } from '@mui/system';
 
 function Copyright() {
   return (
@@ -55,7 +53,9 @@ export default function Landing() {
         </div>
         <div className='collumn'>
             <div className='triangle'></div>
-            <div className='background-image displaynone'></div>
+            <div className='background-image displaynone'>
+              <img src='../../src/assets/markus-winkler-7iSEHWsxPLw-unsplash.jpg' alt="" />
+            </div>
         </div>
 
 

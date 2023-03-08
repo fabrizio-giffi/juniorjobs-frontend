@@ -1,0 +1,14 @@
+.containerstuff{
+    margin-top: 30px !important;
+    margin-bottom: 30px ;
+    
+}
+.collumn{
+    display: flex;
+    flex-direction: column;
+}
+.css-8sa402-MuiContainer-root{
+    /* max-width: unset !important; */
+    margin: 0 !important;
+    padding: 0 !important;
+}

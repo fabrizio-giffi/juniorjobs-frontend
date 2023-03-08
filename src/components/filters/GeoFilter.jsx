@@ -4,7 +4,7 @@ function GeoFilter({ setGeoQuery, geoQuery, countryFilter }) {
   return (
     <Box>
       <TextField
-        style={{ minWidth: "120px" }}
+        style={{ minWidth: "120px", width:"700px" }}
         type="text"
         onChange={(event) => setGeoQuery(event.target.value)}
         id="outlined-basic"
@@ -19,7 +19,7 @@ function GeoFilter({ setGeoQuery, geoQuery, countryFilter }) {
           </MenuItem>
         ))}
       </TextField>
-      <Button onClick={() => setGeoQuery("")}>Remove filter</Button>
+      <Button sx={{bgcolor: "#6b9080", padding:"15px 20px", margin:"0 20px", textDecoration:"none", color:"inherit"}} onClick={() => setGeoQuery("")}>Remove filter</Button>
     </Box>
   );
 }
