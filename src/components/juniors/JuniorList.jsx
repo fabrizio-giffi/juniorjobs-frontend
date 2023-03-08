@@ -23,7 +23,6 @@ const JuniorList = () => {
     if (user) {
       const getCompany = await axios.get(`${api_URL}/company/${user.id}`);
       setUserDB(getCompany.data);
-      console.log("USERDB", userDB);
     }
     setUpdated(false);
     setIsFetching(false);
@@ -37,12 +36,10 @@ const JuniorList = () => {
     getUsers();
   }, [updated]);
 
-console.log("FETCHING" ,isFetching)
-
   // FILTERS
   const countryFilter = [];
   juniors.forEach((junior) => {
-    if (!countryFilter.includes(junior.location.country)) {
+    if (typeof junior.location !== "undefined" && !countryFilter.includes(junior.location.country)) {
       countryFilter.push(junior.location.country);
     }
   });
@@ -101,6 +98,7 @@ console.log("FETCHING" ,isFetching)
 
         <div className="outer-junior-card">
           {juniors
+            .filter((junior) => junior.firstName || junior.lastName)
             .filter((junior) => (geoQuery.length === 0 ? true : junior.location.country === geoQuery))
             .filter((junior) =>
               stackQuery.length === 0 ? true : stackQuery.every((skill) => junior.skills.includes(skill))

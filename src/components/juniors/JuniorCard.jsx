@@ -41,7 +41,7 @@ const JuniorCard = ({ junior, userDB, setUpdated }) => {
         </h5>
       </div>
       <div className="country">
-        <h5>{junior.location.country}</h5>
+        <h5>{typeof junior.location !== "undefined" ? junior.location.country : "N/A"}</h5>
         <div className="details-heart">
           <h5>
             <Link to={`/junior/${junior._id}`}>details</Link>
