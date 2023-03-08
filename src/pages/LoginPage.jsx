@@ -5,7 +5,6 @@ import axios from "axios";
 import PasswordForm from "../components/PasswordForm";
 import { AuthContext } from "../context/auth.context";
 import { LoginIcon } from "@mui/icons-material/Login";
-import "./auth.css";
 
 const auth_URL = import.meta.env.VITE_AUTH_URL;
 
