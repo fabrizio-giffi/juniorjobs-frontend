@@ -28,7 +28,7 @@ function LoginPage() {
     } catch (error) {
       const errorDescription = error.response.data.message;
       setErrorMessage(errorDescription);
-      console.log("There was an error with the signup.", errorDescription);
+      console.log("There was an error with the login.", errorDescription);
     }
   };
 
