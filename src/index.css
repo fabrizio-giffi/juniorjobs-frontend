@@ -15,8 +15,13 @@
   --mint-cream: #f6fff8;
 }
 
-body{
+body {
   margin: 0;
+}
+
+button:hover {
+  color: darkslategrey;
+  background-color: var(--mint-green) !important;
 }
 
 .MuiCardHeader-title {

@@ -1,9 +1,11 @@
 import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Box, Button, TextField } from "@mui/material";
+import { Avatar, Box, Button, Container, Divider, Stack, TextField, Typography } from "@mui/material";
 import axios from "axios";
 import PasswordForm from "../components/PasswordForm";
 import { AuthContext } from "../context/auth.context";
+import { LoginIcon } from "@mui/icons-material/Login";
+import "./auth.css";
 
 const auth_URL = import.meta.env.VITE_AUTH_URL;
 
@@ -33,50 +35,81 @@ function LoginPage() {
   };
 
   return (
-    <div className="SignupPage">
-      <h1>Login</h1>
-      <div>
-        <h3>Are you a Junior or a company?</h3>
-        <div>
-          <Button onClick={() => setRole("junior")}>Junior</Button>
-          <Button onClick={() => setRole("company")}>Company</Button>
-        </div>
-      </div>
+    <>
+      <Container component="main" maxWidth="xs">
+        <Stack sx={{ marginTop: 8 }} divider={<Divider orientation="vertical" flexItem />} spacing={2} direction="row">
+          <Button sx={{ bgcolor: "#6b9080" }} fullWidth variant="contained" onClick={() => setRole("junior")}>
+            Junior
+          </Button>
+          <Button sx={{ bgcolor: "#6b9080" }} fullWidth variant="contained" onClick={() => setRole("company")}>
+            Company
+          </Button>
+        </Stack>
+        <Typography variant="h5" sx={{ marginTop: 3, textAlign: "center" }} gutterBottom>
+          Are you a Junior or a company?
+        </Typography>
+      </Container>
       {role && (
-        <form onSubmit={handleLogin}>
-          <Box sx={{ display: "flex", gap: "1rem", flexDirection: "column" }}>
-            {role === "company" && (
-              <TextField
-                value={name}
-                onChange={(event) => setName(event.target.value)}
-                id="outlined-basic"
-                label="Company Name"
-                variant="outlined"
-                required
-              />
-            )}
-            {role === "junior" && (
-              <TextField
-                type="email"
-                value={email}
-                onChange={(event) => setEmail(event.target.value)}
-                id="outlined-basic"
-                label="Email"
-                variant="outlined"
-                required
-              />
-            )}
-            <PasswordForm setPassword={setPassword} password={password} />
-            <Button type="submit">Login</Button>
+        <Container component="main" maxWidth="xs">
+          <Box
+            sx={{
+              marginTop: 3,
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            <Avatar sx={{ m: 1, bgcolor: "#6b9080" }}>{LoginIcon}</Avatar>
+            <Typography component="h1" variant="h5">
+              Log in
+            </Typography>
+            <Box component="form" onSubmit={handleLogin} noValidate sx={{ mt: 1 }}>
+              {role === "company" && (
+                <TextField
+                  margin="normal"
+                  variant="outlined"
+                  fullWidth
+                  id="company-name"
+                  autoFocus
+                  value={name}
+                  onChange={(event) => setName(event.target.value)}
+                  label="Company Name"
+                  required
+                />
+              )}
+              {role === "junior" && (
+                <TextField
+                  margin="normal"
+                  variant="outlined"
+                  fullWidth
+                  id="email"
+                  autoFocus
+                  type="email"
+                  value={email}
+                  onChange={(event) => setEmail(event.target.value)}
+                  label="Email"
+                  required
+                />
+              )}
+              <PasswordForm setPassword={setPassword} password={password} />
+              <Button type="submit" fullWidth variant="contained" sx={{ bgcolor: "#6b9080", mt: 3, mb: 2 }}>
+                Log In
+              </Button>
+            </Box>
           </Box>
-        </form>
+          {errorMessage && <p className="error-message">{errorMessage}</p>}
+          <Stack
+            sx={{ marginTop: 3 }}
+            divider={<Divider orientation="vertical" flexItem />}
+            spacing={2}
+            direction="row"
+          >
+            <Typography>Don't have an account yet?</Typography>
+            <Link to={"/signup"}>Sign Up</Link>
+          </Stack>
+        </Container>
       )}
-
-      {errorMessage && <p className="error-message">{errorMessage}</p>}
-
-      <p>Don't have an account yet?</p>
-      <Link to={"/signup"}> Sign Up</Link>
-    </div>
+    </>
   );
 }
 

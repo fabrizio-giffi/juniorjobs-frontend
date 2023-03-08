@@ -4,20 +4,19 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { useState } from "react";
 
 function PasswordForm({ setPassword, password }) {
-  
   const [showPassword, setShowPassword] = useState(false);
   const handleClickShowPassword = () => setShowPassword((show) => !show);
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
   return (
-    <FormControl required variant="outlined">
-      <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+    <FormControl fullWidth margin="normal" required variant="outlined">
+      <InputLabel htmlFor="password">Password</InputLabel>
       <OutlinedInput
         value={password}
         autoComplete="new-password"
         onChange={(event) => setPassword(event.target.value)}
-        id="outlined-adornment-password"
+        id="password"
         type={showPassword ? "text" : "password"}
         endAdornment={
           <InputAdornment position="end">
