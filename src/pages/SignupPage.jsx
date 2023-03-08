@@ -19,7 +19,7 @@ function SignupPage() {
     event.preventDefault();
     const requestBody = { name, email, password };
     try {
-      const response = await axios.post(`${auth_URL}${role === "junior" ? "user" : "company"}/signup`, requestBody);
+      const response = await axios.post(`${auth_URL}/${role === "junior" ? "user" : "company"}/signup`, requestBody);
       if (response.status === 201) navigate("/login");
     } catch (error) {
       const errorDescription = error.response.data.message;
