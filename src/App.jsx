@@ -14,7 +14,6 @@ import LoginPage from "./pages/LoginPage";
 import ProfilePage from "./pages/ProfilePage";
 import SignupPage from "./pages/SignupPage";
 import Footer from "./components/Footer";
-import { height } from "@mui/system";
 import Landing from "./pages/Landing";
 
 function App() {
