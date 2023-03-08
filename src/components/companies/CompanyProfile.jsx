@@ -173,13 +173,14 @@ function CompanyProfile() {
               </div>
             </form>
           </div>
-
-          <div className="profile-pic">
-            <h2>change your profile picture</h2>
-            <CloudinaryUploadWidget
-              profilePicture={profilePicture}
-              setProfilePicture={setProfilePicture}
-            />
+          <div className="profile-pic-outer">
+            <div className="profile-pic">
+              <h2>change your profile picture</h2>
+              <CloudinaryUploadWidget
+                profilePicture={profilePicture}
+                setProfilePicture={setProfilePicture}
+              />
+            </div>
           </div>
         </div>
 
@@ -234,7 +235,7 @@ function CompanyProfile() {
             <ul className="ul-jobposts">
               {profile.jobPosts.map((post) => {
                 return (
-                  <li key={post._id}>
+                  <li className="jobpost-li" key={post._id}>
                     <JobPostCard
                       post={post}
                       profile={profile}
