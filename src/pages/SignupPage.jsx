@@ -1,6 +1,6 @@
 import { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Avatar, Box, Button, Container, Divider, Stack, TextField, Typography } from "@mui/material";
+import { Avatar, Box, Button, CircularProgress, Container, Divider, Stack, TextField, Typography } from "@mui/material";
 import axios from "axios";
 import PasswordForm from "../components/PasswordForm";
 import { AuthContext } from "../context/auth.context";
@@ -15,17 +15,21 @@ function SignupPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState(undefined);
+  // const [isSpinning, setIsSpinning] = useState(true);
   const navigate = useNavigate();
 
   const handleSignup = async (event) => {
     event.preventDefault();
+    setIsSpinning(true);
     const requestBody = { name, email, password };
     try {
       const response = await axios.post(`${auth_URL}/${role === "junior" ? "user" : "company"}/signup`, requestBody);
+      // setIsSpinning(false);
       if (response.status === 201) navigate("/login");
     } catch (error) {
       const errorDescription = error.response.data.message;
       setErrorMessage(errorDescription);
+      // setIsSpinning(false);
       console.log("There was an error with the signup.", errorDescription);
     }
   };
@@ -88,9 +92,12 @@ function SignupPage() {
                 required
               />
               <PasswordForm setPassword={setPassword} password={password} />
-              <Button type="submit" fullWidth variant="contained" sx={{ bgcolor: "#6b9080", mt: 3, mb: 2 }}>
-                Sign Up
-              </Button>
+              <Stack>
+                <Button type="submit" fullWidth variant="contained" sx={{ bgcolor: "#6b9080", mt: 3, mb: 2 }}>
+                  Sign Up
+                </Button>
+                {/* {isSpinning && <CircularProgress />} */}
+              </Stack>
             </Box>
           </Box>
           {errorMessage && (
