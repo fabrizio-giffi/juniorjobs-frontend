@@ -140,3 +140,9 @@ a:hover {
     min-width: 350px;
   }
 }
+
+@media (min-width: 1250px) {
+  span.MuiSkeleton-rounded {
+    width: 750px;
+  }
+}

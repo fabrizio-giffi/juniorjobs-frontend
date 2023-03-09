@@ -1,4 +1,4 @@
-import { Avatar, Box, Container, Skeleton, Typography } from "@mui/material";
+import { Box, Container, Skeleton, Typography } from "@mui/material";
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import CompanyFilter from "../filters/CompanyFilter";
@@ -26,7 +26,7 @@ function JobList() {
       const fetchedUser = await axios.get(`${api_URL}/user/${user.id}`);
       setUserDB(fetchedUser.data);
     }
-    setIsFetching(true);
+    setIsFetching(false);
     setUpdated(false);
   };
 
@@ -69,28 +69,21 @@ function JobList() {
           className="filterCtn"
           sx={{
             mt: 3,
-            mb: 3,
             display: "flex",
-            justifyContent: "center",
+            flexDirection: "column",
             alignItems: "center",
             gap: 1,
           }}
         >
-          <Box sx={{ display: "flex", alignItems: "center" }}>
-            <Box sx={{ margin: 1 }}>
-              <Skeleton variant="circular">
-                <Avatar />
-              </Skeleton>
-            </Box>
-            <Box sx={{ width: "50%" }}>
-              <Skeleton width="50%">
-                <Typography>.</Typography>
-              </Skeleton>
-            </Box>
+          <Skeleton sx={{ mb: 8 }} variant="rounded" width="500px" height="40px" />
+          <Box width="lg" sx={{ display: "flex", flexWrap: "nowrap", gap: 3, mb:3 }}>
+            <Skeleton variant="rounded" width="370px" height="300px" />
+            <Skeleton variant="rounded" width="370px" height="300px" />
           </Box>
-          <Skeleton variant="rectangular" width="50%">
-            <div style={{ paddingTop: "57%" }} />
-          </Skeleton>
+          <Box width="lg" sx={{ display: "flex", gap: 3 }}>
+            <Skeleton variant="rounded" width="370px" height="300px" />
+            <Skeleton variant="rounded" width="370px" height="300px" />
+          </Box>
         </Container>
       </>
     );

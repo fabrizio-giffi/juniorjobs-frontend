@@ -63,21 +63,23 @@ const JuniorList = () => {
   if (isFetching) {
     return (
       <>
-        <Box sx={{ display: "flex", alignItems: "center" }}>
-          <Box sx={{ margin: 1 }}>
-            <Skeleton variant="circular">
-              <Avatar />
-            </Skeleton>
-          </Box>
-          <Box sx={{ width: "50%" }}>
-            <Skeleton width="50%">
-              <Typography>.</Typography>
-            </Skeleton>
-          </Box>
-        </Box>
-        <Skeleton variant="rectangular" width="50%">
-          <div style={{ paddingTop: "57%" }} />
-        </Skeleton>
+        <Container
+          className="filterCtn"
+          sx={{
+            mt: 8,
+            mb: 3,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            gap: 5,
+          }}
+        >
+          <Skeleton variant="rounded" sx={{ minWidth: "300px", maxWidth: "600px" }} height="40px" />
+          <Skeleton variant="rounded" sx={{ mt: 3, minWidth: "370px" }} height="140px" />
+          <Skeleton variant="rounded" sx={{ minWidth: "370px" }} height="140px" />
+          <Skeleton variant="rounded" sx={{ minWidth: "370px" }} height="140px" />
+          <Skeleton variant="rounded" sx={{ minWidth: "370px" }} height="140px" />
+        </Container>
       </>
     );
   }
