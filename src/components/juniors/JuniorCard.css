@@ -116,7 +116,7 @@ a:hover {
     align-items: center;
   }
   .country {
-    flex-direction: row;
+    flex-direction: column;
     gap: 15px;
   }
   .details-heart {

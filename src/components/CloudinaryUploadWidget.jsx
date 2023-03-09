@@ -30,7 +30,6 @@ const CloudinaryUploadWidget = ({ setProfilePicture }) => {
       console.log(error);
     }
   };
-  console.log("imageSelected: ", imageSelected);
   return (
     <>
       <UploadFileBtn imageSelected={imageSelected} setImageSelected={setImageSelected} />
