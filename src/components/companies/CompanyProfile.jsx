@@ -78,7 +78,6 @@ function CompanyProfile() {
   return (
     profile && (
       <>
-        <div className="page-name"> This is the company profile</div>
         <div className="form-picture">
           <div className="form-outer">
             <form onSubmit={handleEdit} className="edit-junior-form">
