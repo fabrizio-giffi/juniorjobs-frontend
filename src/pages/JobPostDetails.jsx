@@ -91,7 +91,9 @@ function JobPostDetails() {
               {" "}
               <Typography variant="h6">HR Contact: {jobPost.email}</Typography>
               <Link to={`/company/${jobPost.company._id}`}>
-                <h4>{jobPost.company.name}</h4>
+                <Typography sx={{fontSize: "30px", fontWeight:"600", color:"var(--mint-green)", padding:"10px 0"}}>
+                    {jobPost.company.name}
+                </Typography>
               </Link>
               <Typography>
                 {jobPost.address.city} - {jobPost.address.country}

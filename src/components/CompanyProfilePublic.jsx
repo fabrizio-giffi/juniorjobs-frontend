@@ -4,9 +4,10 @@ import "../components/companies/CompanyProfile.css";
 import JobPostCardCompanyPage from "./jobs/JobPostCardCompanyPage";
 import { useParams } from "react-router-dom";
 import { AuthContext } from "../context/auth.context";
-import { IconButton } from "@mui/material";
+import { IconButton, Typography } from "@mui/material";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
+import './CompanyProfilePublic.css'
 
 const api_URL = import.meta.env.VITE_API_URL;
 
@@ -85,55 +86,57 @@ function CompanyProfilePublic() {
   return (
     profile && (
       <>
-        <div> This is the profile of {name}</div>
+      <div className="containerflexCompanyPublic">
+      <div className="shadowBoxCompanyPublic">
+      <div className="containerflexCompanyPublic">
 
-        <div className="title">
-          <img src={`https://api.dicebear.com/5.x/initials/svg?seed=${name}`} alt={name} />
-          <h2>Company information</h2>
-        </div>
-        <div className="information">
-          <div className="input-label">
-            <label>Company name:</label>
-            <span>{name}</span>
+          <div className="title companyInfoPadding">
+            <img src={`https://api.dicebear.com/5.x/initials/svg?seed=${name}`} alt={name} />
+            <Typography variant="h3">Company information</Typography>
           </div>
-          <div className="input-label">
-            <label>Company email:</label>
-            <span>{email}</span>
+          <div className="paddingCompanyPublic">
+
+          <div className="containerRowCompanyPublic">
+            <div className="containerflexCompanyPublicList">
+              <Typography variant="h5">Company name: </Typography>
+              <Typography variant="h5">Company email: </Typography>
+              {/* <Typography variant="h5">Address:</Typography> */}
+              <Typography variant="h5">Company street: </Typography>
+              <Typography variant="h5">Zip Code:</Typography>
+              <Typography variant="h5">City:</Typography>
+              <Typography variant="h5">Country:</Typography>
+            </div>
+            <div className="containerflexCompanyPublicList companyInfoMargin">
+            <Typography variant="h5">{name}</Typography>
+            <Typography variant="h5">{email}</Typography>
+            <Typography variant="h5">{street}</Typography>
+            <Typography variant="h5">{zipCode}</Typography>
+            <Typography variant="h5">{city}</Typography>
+            <Typography variant="h5">{country}</Typography>
+            </div>
           </div>
 
-          <span className="address">
-            <u>Address </u>{" "}
-          </span>
-          <div className="input-label">
-            <label>Street:</label>
-            <span>{street}</span>
-          </div>
-          <div className="input-label">
-            <label>Zip Code:</label>
-            <span>{zipCode}</span>
-          </div>
-          <div className="input-label">
-            <label>City:</label>
-            <span>{city}</span>
-          </div>
-          <div className="input-label">
-            <label>Country:</label>
-            <span>{country}</span>
           </div>
         </div>
 
-        {!isLoggedIn || user.role === "company" ? (
-          ""
-        ) : user.role === "junior" && userDB?.favoriteCompanies.some((company) => company._id === id) ? (
-          <IconButton aria-label="add to favorites">
-            <FavoriteIcon />
-          </IconButton>
-        ) : (
-          <IconButton onClick={() => addCompany(id)} aria-label="add to favorites">
-            <FavoriteBorderIcon />
-          </IconButton>
-        )}
-
+        <div className="containerflexCompanyPublic">
+            <Typography variant="h6" >
+                Add Company To your favorites
+            </Typography>
+          {!isLoggedIn || user.role === "company" ? (
+            ""
+          ) : user.role === "junior" && userDB?.favoriteCompanies.some((company) => company._id === id) ? (
+            <IconButton aria-label="add to favorites">
+              <FavoriteIcon />
+            </IconButton>
+          ) : (
+            <IconButton onClick={() => addCompany(id)} aria-label="add to favorites">
+              <FavoriteBorderIcon />
+            </IconButton>
+          )}
+        </div>
+        </div>
+        </div>
         <div className="jobPosts">
           <h4>Job posts from {name}</h4>
           <ul className="ul-jobposts">
