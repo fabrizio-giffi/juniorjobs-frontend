@@ -18,79 +18,72 @@ import Landing from "./pages/Landing";
 
 function App() {
   return (
-    <div style={{height: "100vhs"}}>
-    <div className="App">
-      <NavBar />
-      <Routes>
-        <Route
-          path="/"
-          element={
-            <IsLoading>
-              <Landing />
-            </IsLoading>
-          }
-        />
-        <Route
-          path="/jobs"
-          element={
-            <IsLoading>
-              <HomePage />
-            </IsLoading>
-          }
-        />
-        <Route
-          path="/login"
-          element={
-            <IsLoggedOut>
-              <LoginPage />
-            </IsLoggedOut>
-          }
-        />
-        <Route
-          path="/signup"
-          element={
-            <IsLoggedOut>
-              <SignupPage />
-            </IsLoggedOut>
-          }
-        />
-        <Route
-          path="/profile"
-          element={
-            <IsLoggedIn>
-              <ProfilePage />
-            </IsLoggedIn>
-          }
-        />
-        <Route
-          path="/create-post"
-          element={
-            <IsCompany>
-              <CreateJobPost />
-            </IsCompany>
-          }
-        />
-        <Route
-          path="/jobs/:id"
-          element={
-            <IsLoading>
-              <JobPostDetails />
-            </IsLoading>
-          }
-        />
-        <Route
-          path="/company/:id"
-          element={
-            <IsLoading>
-              <CompanyProfilePublic />
-            </IsLoading>
-          }
-        />
-        <Route path="/junior/:id" element={<JuniorProfilePublic />} />
-        <Route path="*" element={<h1>404 Not Found</h1>} />
-      </Routes>
-    </div>
-    <Footer/>
+    <div style={{ height: "100vhs" }}>
+      <div className="App">
+        <NavBar />
+        <Routes>
+          <Route path="/" element={<Landing />} />
+          <Route
+            path="/jobs"
+            element={
+              <IsLoading>
+                <HomePage />
+              </IsLoading>
+            }
+          />
+          <Route
+            path="/login"
+            element={
+              <IsLoggedOut>
+                <LoginPage />
+              </IsLoggedOut>
+            }
+          />
+          <Route
+            path="/signup"
+            element={
+              <IsLoggedOut>
+                <SignupPage />
+              </IsLoggedOut>
+            }
+          />
+          <Route
+            path="/profile"
+            element={
+              <IsLoggedIn>
+                <ProfilePage />
+              </IsLoggedIn>
+            }
+          />
+          <Route
+            path="/create-post"
+            element={
+              <IsCompany>
+                <CreateJobPost />
+              </IsCompany>
+            }
+          />
+          <Route
+            path="/jobs/:id"
+            element={
+              <IsLoading>
+                <JobPostDetails />
+              </IsLoading>
+            }
+          />
+          <Route
+            path="/company/:id"
+            element={
+              <IsLoading>
+                <CompanyProfilePublic />
+              </IsLoading>
+            }
+          />
+          <Route path="/junior/:id" element={<JuniorProfilePublic />} />
+          <Route path="*" element={<h1>404 Not Found</h1>} />
+        </Routes>
+      </div>
+      <Footer />
     </div>
   );
 }
