@@ -1,4 +1,14 @@
-import { Avatar, Box, Button, Card, CardActions, CardContent, CardHeader, IconButton, Typography } from "@mui/material";
+import {
+  Avatar,
+  Box,
+  Button,
+  Card,
+  CardActions,
+  CardContent,
+  CardHeader,
+  IconButton,
+  Typography,
+} from "@mui/material";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ShareIcon from "@mui/icons-material/Share";
 import ApartmentIcon from "@mui/icons-material/Apartment";
@@ -19,7 +29,10 @@ function JobPostCard({ post, userDB, setUpdated, profile, getProfile }) {
   const addJobPost = async (postId) => {
     const requestBody = { id: user.id, postId };
     try {
-      const response = await axios.put(`${api_URL}/user/addJobPost`, requestBody);
+      const response = await axios.put(
+        `${api_URL}/user/addJobPost`,
+        requestBody
+      );
       setUpdated(true);
     } catch (error) {
       console.log(error);
@@ -29,7 +42,9 @@ function JobPostCard({ post, userDB, setUpdated, profile, getProfile }) {
 
   const deleteJobPost = async (jobPostId) => {
     try {
-      const response = await axios.delete(`${api_URL}/posts/delete/${jobPostId}`);
+      const response = await axios.delete(
+        `${api_URL}/posts/delete/${jobPostId}`
+      );
       getProfile();
     } catch (error) {
       console.log(error);
@@ -71,19 +86,29 @@ function JobPostCard({ post, userDB, setUpdated, profile, getProfile }) {
               €{post.salaryRange.minimum} - €{post.salaryRange.maximum}
             </Typography>
           </Stack>
-          <Typography style={{ textAlign: "start" }} noWrap variant="body2" color="text.secondary">
+          <Typography
+            style={{ textAlign: "start" }}
+            noWrap
+            variant="body2"
+            color="text.secondary"
+          >
             {post.description.heading}
           </Typography>
         </CardContent>
       </Box>
       <CardActions style={{ display: "flex", justifyContent: "space-between" }}>
         <Box style={{ display: "flex", justifyContent: "space-between" }}>
-          {!isLoggedIn || !userDB || userDB.favoriteJobPosts.some((job) => job._id === post._id) ? (
+          {!isLoggedIn ||
+          !userDB ||
+          userDB.favoriteJobPosts.some((job) => job._id === post._id) ? (
             <IconButton aria-label="add to favorites">
               <FavoriteIcon />
             </IconButton>
           ) : (
-            <IconButton onClick={() => addJobPost(post._id)} aria-label="add to favorites">
+            <IconButton
+              onClick={() => addJobPost(post._id)}
+              aria-label="add to favorites"
+            >
               <FavoriteBorderIcon />
             </IconButton>
           )}
@@ -91,7 +116,9 @@ function JobPostCard({ post, userDB, setUpdated, profile, getProfile }) {
             <ShareIcon />
           </IconButton>
 
-          {isLoggedIn && user.role === "company" && post.company._id === profile._id ? (
+          {isLoggedIn &&
+          user.role === "company" &&
+          post.company._id === profile._id ? (
             <IconButton
               onClick={() => {
                 deleteJobPost(post._id);
@@ -102,10 +129,13 @@ function JobPostCard({ post, userDB, setUpdated, profile, getProfile }) {
           ) : (
             ""
           )}
-          {/* <p>Job post added to your favorites</p> */}
         </Box>
         <Link to={`/jobs/${post._id}`}>
-          <Button variant="outlined" type="button">
+          <Button
+            variant="contained"
+            sx={{ bgcolor: "#6b9080", mt: 3, mb: 2 }}
+            type="button"
+          >
             See details
           </Button>
         </Link>

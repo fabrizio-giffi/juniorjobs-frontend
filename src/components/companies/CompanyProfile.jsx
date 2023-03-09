@@ -115,7 +115,6 @@ function CompanyProfile() {
                     value={email}
                   />
                 </div>
-
                 <span className="address">Address: </span>
                 <div className="input-label">
                   <label>Street:</label>
@@ -158,7 +157,6 @@ function CompanyProfile() {
                   />
                 </div>
               </div>
-
               {message && <span>{message}</span>}
               <div className="button">
                 <Button
@@ -169,7 +167,6 @@ function CompanyProfile() {
                 >
                   edit information
                 </Button>
-                {/* <button type="submit"></button> */}
               </div>
             </form>
           </div>

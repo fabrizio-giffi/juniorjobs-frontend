@@ -97,7 +97,6 @@ function CompanyProfilePublic() {
             <div className="containerflexCompanyPublicList">
               <Typography variant="h5">Company name: </Typography>
               <Typography variant="h5">Company email: </Typography>
-              {/* <Typography variant="h5">Address:</Typography> */}
               <Typography variant="h5">Company street: </Typography>
               <Typography variant="h5">Zip Code:</Typography>
               <Typography variant="h5">City:</Typography>
@@ -134,11 +133,15 @@ function CompanyProfilePublic() {
         </div>
         </div>
         </div>
-        <div className="jobPosts">
+        <div className="jobPosts-public">
           <h4>Job posts from {name}</h4>
-          <ul className="ul-jobposts">
+          <ul className="ul-jobposts-public">
             {profile.jobPosts.map((post) => {
-              return <JobPostCardCompanyPage key={post._id} post={post} />;
+               return(
+               <li>
+                <JobPostCardCompanyPage key={post._id} post={post} />
+              </li>
+               )
             })}
           </ul>
         </div>

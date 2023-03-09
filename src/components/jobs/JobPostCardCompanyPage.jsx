@@ -58,7 +58,8 @@ function JobPostCard({ post }) {
             </IconButton>
           </Box>
           <Link to={`/jobs/${post._id}`}>
-            <Button variant="outlined" type="button">
+            <Button    variant="contained"
+            sx={{ bgcolor: "#6b9080", mt: 3, mb: 2 }} type="button">
               See details
             </Button>
           </Link>

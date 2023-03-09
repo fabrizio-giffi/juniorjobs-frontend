@@ -1,40 +1,70 @@
-.containerflexCompanyPublic{
+.containerflexCompanyPublic {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.containerRowCompanyPublic {
+  display: flex;
+  flex-direction: row;
+}
+
+.containerflexCompanyPublicList {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.shadowBoxCompanyPublic {
+  border: 0px solid grey;
+  border-radius: 30px;
+  margin: 50px;
+  margin-top: 30px;
+  margin-bottom: 30px !important;
+  -webkit-box-shadow: 2px 2px 15px -3px rgba(0, 0, 0, 0.51);
+  box-shadow: 2px 2px 15px -3px rgba(0, 0, 0, 0.51);
+  padding: 20px 150px !important;
+}
+
+.paddingCompanyPublic {
+  padding: 50px 0px;
+}
+
+.companyInfoPadding {
+  padding-top: 20px;
+}
+.companyInfoMargin {
+  margin-left: 60px;
+}
+
+.jobPosts-public {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  flex-wrap: wrap;
+  text-align: center;
+  min-width: 350px;
+}
+
+.ul-jobposts-public {
     display: flex;
-    flex-direction: column;
+    flex-wrap: wrap;
     justify-content: center;
-    align-items: center;
+    margin: 0;
+    padding: 0;
 }
-
-.containerRowCompanyPublic{
+.ul-jobposts-public li > .MuiPaper-root {
+    width: 350px !important;
+    border-radius: 5px !important;
+    background-color: var(--azure) !important;
     display: flex;
-    flex-direction: row;
-}
-
-.containerflexCompanyPublicList{
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-}
-
-.shadowBoxCompanyPublic{
-    border: 0px solid grey ;
-    border-radius:30px;
-    margin: 50px;
-    margin-top:30px;
-    margin-bottom:30px !important;
-    -webkit-box-shadow: 2px 2px 15px -3px rgba(0,0,0,0.51);
-    box-shadow: 2px 2px 15px -3px rgba(0,0,0,0.51);
-    padding:20px 150px !important
-}
-
-
-.paddingCompanyPublic{
-    padding: 50px 0px;
-}
-
-.companyInfoPadding{
-    padding-top: 20px;
-}
-.companyInfoMargin{
-    margin-left: 60px;
-}
+    border: 1px solid var(--azure) !important;
+    width: 450px !important;
+    -webkit-box-shadow: 0px 2px 2px 1px var(--cambridge) !important;
+    -moz-box-shadow: 0px 2px 2px 1px var(--cambridge) !important;
+    box-shadow: 0px 2px 2px 1px var(--cambridge) !important;
+    color: #35433d !important;
+    max-width: 450px !important;
+    min-width: 400px !important;
+  }
