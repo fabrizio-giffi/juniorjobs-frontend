@@ -30,7 +30,7 @@ const JuniorCard = ({ junior, userDB, setUpdated, setGeoQuery, setStackQuery, st
   return (
     <div className="card">
       <div className="image-outer">
-        <img src={junior.profilePic} alt={`${junior.firstName} ${junior.lastName}`} />
+        <img src={junior.profilePic || `https://api.dicebear.com/5.x/initials/svg?seed=${junior.firstName}`} alt={`${junior.firstName} ${junior.lastName}`} />
       </div>
       <div className="junior-name">
         <h5>{junior.firstName}</h5>
@@ -73,7 +73,7 @@ const JuniorCard = ({ junior, userDB, setUpdated, setGeoQuery, setStackQuery, st
           <h5>
             <Link to={`/junior/${junior._id}`}>details</Link>
           </h5>
-          {(userDB && !isLoggedIn) || userDB.favorites.some((favorite) => favorite._id === junior._id) ? (
+          {!isLoggedIn || !userDB || userDB.favorites?.some((favorite) => favorite._id === junior._id) ? (
             <IconButton aria-label="add to favorites">
               <FavoriteIcon />
             </IconButton>

@@ -6,7 +6,7 @@ import { Avatar, Box, Skeleton, Typography } from "@mui/material";
 import GeoFilter from "../filters/GeoFilter";
 import StackFilter from "../filters/StackFilter";
 import "./JuniorCard.css";
-import "./JuniorList.css"
+import "./JuniorList.css";
 import { Container } from "@mui/system";
 
 const api_URL = import.meta.env.VITE_API_URL;
@@ -14,7 +14,7 @@ const api_URL = import.meta.env.VITE_API_URL;
 const JuniorList = () => {
   const { user } = useContext(AuthContext);
   const [juniors, setJuniors] = useState([]);
-  const [isFetching, setIsFetching] = useState(true);
+  const [isFetching, setIsFetching] = useState(false);
   const [userDB, setUserDB] = useState({});
   const [updated, setUpdated] = useState(false);
   const [geoQuery, setGeoQuery] = useState("");
@@ -58,38 +58,23 @@ const JuniorList = () => {
 
   if (isFetching) {
     return (
-      <div>
+      <>
         <Box sx={{ display: "flex", alignItems: "center" }}>
           <Box sx={{ margin: 1 }}>
-            {isFetching ? (
-              <Skeleton variant="circular">
-                <Avatar />
-              </Skeleton>
-            ) : (
-              <Avatar src="https://pbs.twimg.com/profile_images/877631054525472768/Xp5FAPD5_reasonably_small.jpg" />
-            )}
+            <Skeleton variant="circular">
+              <Avatar />
+            </Skeleton>
           </Box>
           <Box sx={{ width: "50%" }}>
-            {isFetching ? (
-              <Skeleton width="50%">
-                <Typography>.</Typography>
-              </Skeleton>
-            ) : (
-              <Typography>Ted</Typography>
-            )}
+            <Skeleton width="50%">
+              <Typography>.</Typography>
+            </Skeleton>
           </Box>
         </Box>
-        {isFetching ? (
-          <Skeleton variant="rectangular" width="50%">
-            <div style={{ paddingTop: "57%" }} />
-          </Skeleton>
-        ) : (
-          <Image
-            src="https://pi.tedcdn.com/r/talkstar-photos.s3.amazonaws.com/uploads/72bda89f-9bbf-4685-910a-2f151c4f3a8a/NicolaSturgeon_2019T-embed.jpg?w=512"
-            alt=""
-          />
-        )}
-      </div>
+        <Skeleton variant="rectangular" width="50%">
+          <div style={{ paddingTop: "57%" }} />
+        </Skeleton>
+      </>
     );
   }
 

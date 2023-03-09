@@ -70,15 +70,15 @@ function JobPostDetails() {
             {jobPost.title}
           </Typography>
           <Box sx={{ display: "flex" }} disablePadding>
-            <Typography variant="overline">
+            <ListItemIcon variant="overline">
               <HomeRepairServiceIcon sx={{ mr: 1 }} />
-              {jobPost.description.jobtype}
-            </Typography>
+              <Typography variant="overline">{jobPost.description.jobtype}</Typography>
+            </ListItemIcon>
           </Box>
           <List sx={{ display: "flex" }}>
             {jobPost.stack.map((element) => (
               <ListItem key={element} disablePadding>
-                <ListItemIcon>
+                <ListItemIcon sx={{ display: "flex", alignItems: "center" }}>
                   <LabelRoundedIcon sx={{ mr: 1 }} />
                   <Typography variant="overline">{element}</Typography>
                 </ListItemIcon>
