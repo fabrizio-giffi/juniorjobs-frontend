@@ -1,4 +1,4 @@
-import JuniorCard from "./JuniorCard";
+import JuniorCardPublic from "./JuniorCardPublic";
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../context/auth.context";
@@ -113,7 +113,7 @@ const JuniorList = () => {
             )
             .map((junior) => {
               return (
-                <JuniorCard
+                <JuniorCardPublic
                   stackQuery={stackQuery}
                   setStackQuery={setStackQuery}
                   setGeoQuery={setGeoQuery}

@@ -204,7 +204,7 @@ input {
    /* max-width: 350px; */
 }
 
-.MuiPaper-root {
+.MuiPaper-root.jobCard {
   width: 350px !important;
   border-radius: 5px !important;
   background-color: var(--azure) !important;
