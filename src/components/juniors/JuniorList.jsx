@@ -42,7 +42,11 @@ const JuniorList = () => {
   // FILTERS
   const countryFilter = [];
   juniors.forEach((junior) => {
-    if (typeof junior.location !== "undefined" && !countryFilter.includes(junior.location.country)) {
+    if (
+      typeof junior.location !== "undefined" &&
+      !countryFilter.includes(junior.location.country) &&
+      junior.location.country !== ""
+    ) {
       countryFilter.push(junior.location.country);
     }
   });
@@ -84,14 +88,20 @@ const JuniorList = () => {
         <Container
           className="filterCtn"
           sx={{
+            mt: 3,
+            mb: 3,
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
+            gap: 1,
           }}
         >
           <GeoFilter geoQuery={geoQuery} setGeoQuery={setGeoQuery} countryFilter={countryFilter} />
           <StackFilter stackQuery={stackQuery} setStackQuery={setStackQuery} stackFilter={stackFilter} />
         </Container>
+        <Typography sx={{ textAlign: "center", mb: 3 }} variant="h4" gutterBottom>
+          Available juniors
+        </Typography>
 
         <div className="outer-junior-card">
           {juniors

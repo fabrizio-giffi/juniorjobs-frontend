@@ -41,7 +41,7 @@ function JobList() {
   //FILTERS
   const countryFilter = [];
   jobList.forEach((post) => {
-    if (!countryFilter.includes(post.address.country)) {
+    if (!countryFilter.includes(post.address.country) && post.address.country !== "") {
       countryFilter.push(post.address.country);
     }
   });
@@ -109,6 +109,7 @@ function JobList() {
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
+          gap: 1,
         }}
       >
         <GeoFilter geoQuery={geoQuery} setGeoQuery={setGeoQuery} countryFilter={countryFilter} />
@@ -116,7 +117,7 @@ function JobList() {
         <StackFilter stackQuery={stackQuery} setStackQuery={setStackQuery} stackFilter={stackFilter} />
       </Container>
       <Container component="main" maxWidth="lg">
-        <Typography sx={{ ml: 5 }} variant="h4" gutterBottom>
+        <Typography sx={{ textAlign: "center", mb: 3 }} variant="h4" gutterBottom>
           Current job posts
         </Typography>
         <Box sx={{ display: "flex", flexFlow: "row wrap", gap: "2rem", justifyContent: "center" }}>
