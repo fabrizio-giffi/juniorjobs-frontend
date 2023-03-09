@@ -12,7 +12,7 @@ const jobTypes = [
   { value: "freelance", label: "Freelance" },
 ];
 
-function JobPostForm({ jobPost, isEditing, setEditing }) {
+function JobPostForm({ jobPost, isEditing, setEditing, setIsFetching }) {
   const [title, setTitle] = useState(jobPost?.title || "");
   const [jobtype, setJobtype] = useState(jobPost?.description.jobtype || "full time");
   const [heading, setHeading] = useState(jobPost?.description.heading || "");
@@ -30,6 +30,7 @@ function JobPostForm({ jobPost, isEditing, setEditing }) {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    console.log("Why am I here????");
     const newJobBody = {
       title,
       description: { jobtype, heading, tasks, requirements, benefits },
@@ -53,6 +54,7 @@ function JobPostForm({ jobPost, isEditing, setEditing }) {
 
   const handleEdit = async (event) => {
     event.preventDefault();
+    setIsFetching(true);
     const editJobBody = {
       title,
       description: { jobtype, heading, tasks, requirements, benefits },
@@ -68,7 +70,7 @@ function JobPostForm({ jobPost, isEditing, setEditing }) {
 
     try {
       const response = await axios.put(`${api_URL}/posts/${jobPost._id}`, editJobBody);
-      console.log(response.data);
+      setEditing(false);
     } catch (error) {
       console.log("There was an error creating the post", error);
     }
@@ -87,7 +89,6 @@ function JobPostForm({ jobPost, isEditing, setEditing }) {
       <Box
         style={{ display: "flex", gap: "1rem", flexDirection: "column", alignItems: "center", marginBottom: "35px" }}
         component="form"
-        onSubmit={handleSubmit}
         autoComplete="off"
       >
         <TextField
@@ -228,7 +229,7 @@ function JobPostForm({ jobPost, isEditing, setEditing }) {
         />
         <>
           {!isEditing && (
-            <Button sx={{ bgcolor: "#6b9080" }} type="submit" variant="contained">
+            <Button sx={{ bgcolor: "#6b9080" }} type="submit" variant="contained" onClick={handleSubmit}>
               Submit Post
             </Button>
           )}

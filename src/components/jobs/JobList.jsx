@@ -1,4 +1,4 @@
-import { Avatar, Box, Skeleton, Typography } from "@mui/material";
+import { Avatar, Box, Container, Skeleton, Typography } from "@mui/material";
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import CompanyFilter from "../filters/CompanyFilter";
@@ -101,24 +101,40 @@ function JobList() {
 
   return (
     <>
-      <h2>JobList</h2>
-      <GeoFilter geoQuery={geoQuery} setGeoQuery={setGeoQuery} countryFilter={countryFilter} />
-      <CompanyFilter companyQuery={companyQuery} setCompanyQuery={setCompanyQuery} companyFilter={companyFilter} />
-      <StackFilter stackQuery={stackQuery} setStackQuery={setStackQuery} stackFilter={stackFilter} />
-
-      <Box sx={{ display: "flex", flexFlow: "row wrap", gap: "2rem", justifyContent: "center" }}>
-        {jobList
-          .filter((post) => (geoQuery.length === 0 ? true : post.address.country === geoQuery))
-          .filter((post) => (companyQuery.length === 0 ? true : post.company.name === companyQuery))
-          .filter((post) => (stackQuery.length === 0 ? true : stackQuery.every((stack) => post.stack.includes(stack))))
-          .map((post) => {
-            return jobList.length > 0 ? (
-              <JobPostCard key={post._id} post={post} userDB={userDB} setUpdated={setUpdated} />
-            ) : (
-              <p>{key}</p>
-            );
-          })}
-      </Box>
+      <Container
+        className="filterCtn"
+        sx={{
+          mt: 3,
+          mb: 3,
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <GeoFilter geoQuery={geoQuery} setGeoQuery={setGeoQuery} countryFilter={countryFilter} />
+        <CompanyFilter companyQuery={companyQuery} setCompanyQuery={setCompanyQuery} companyFilter={companyFilter} />
+        <StackFilter stackQuery={stackQuery} setStackQuery={setStackQuery} stackFilter={stackFilter} />
+      </Container>
+      <Container component="main" maxWidth="lg">
+        <Typography sx={{ ml: 5 }} variant="h4" gutterBottom>
+          Current job posts
+        </Typography>
+        <Box sx={{ display: "flex", flexFlow: "row wrap", gap: "2rem", justifyContent: "center" }}>
+          {jobList
+            .filter((post) => (geoQuery.length === 0 ? true : post.address.country === geoQuery))
+            .filter((post) => (companyQuery.length === 0 ? true : post.company.name === companyQuery))
+            .filter((post) =>
+              stackQuery.length === 0 ? true : stackQuery.every((stack) => post.stack.includes(stack))
+            )
+            .map((post) => {
+              return jobList.length > 0 ? (
+                <JobPostCard key={post._id} post={post} userDB={userDB} setUpdated={setUpdated} />
+              ) : (
+                <p>{key}</p>
+              );
+            })}
+        </Box>
+      </Container>
     </>
   );
 }

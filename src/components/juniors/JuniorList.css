@@ -1,0 +1,5 @@
+@media (max-width: 1250px) {
+  .filterCtn {
+    flex-direction: column;
+  }
+}

@@ -1,10 +1,11 @@
-import { Box, Button, MenuItem, TextField } from "@mui/material";
+import { Box, IconButton, MenuItem, TextField } from "@mui/material";
+import ClearIcon from "@mui/icons-material/Clear";
 
 function GeoFilter({ setGeoQuery, geoQuery, countryFilter }) {
   return (
-    <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+    <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", gap: 1 }}>
       <TextField
-        sx={{ width: "200px" }}
+        sx={{ minWidth: "200px", maxWidth: "md" }}
         type="text"
         onChange={(event) => setGeoQuery(event.target.value)}
         id="outlined-basic"
@@ -19,9 +20,9 @@ function GeoFilter({ setGeoQuery, geoQuery, countryFilter }) {
           </MenuItem>
         ))}
       </TextField>
-      <Button variant="contained" sx={{ bgcolor: "#6b9080" }} onClick={() => setGeoQuery("")}>
-        X
-      </Button>
+      <IconButton size="small" aria-label="remove filters" onClick={() => setGeoQuery("")}>
+        <ClearIcon fontSize="inherit"/>
+      </IconButton>
     </Box>
   );
 }
