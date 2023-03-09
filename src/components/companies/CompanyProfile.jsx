@@ -16,12 +16,12 @@ function CompanyProfile() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState(null);
-  const [street, setStreet] = useState("Please fill in your street");
-  const [zipCode, setZipCode] = useState("Please fill in your zip code");
-  const [city, setCity] = useState("Please fill in your city");
-  const [country, setCountry] = useState("Please fill in your country");
+  const [street, setStreet] = useState("");
+  const [zipCode, setZipCode] = useState("");
+  const [city, setCity] = useState("");
+  const [country, setCountry] = useState("");
   const [profilePicture, setProfilePicture] = useState();
-
+console.log(profile)
   const getProfile = async () => {
     try {
       const response = await axios.get(`${api_URL}/company/${user.id}`);
@@ -191,7 +191,7 @@ function CompanyProfile() {
                       <div className="card">
                         <div className="image-outer">
                           <img
-                            src={favorite.profilePic}
+                            src={`https://api.dicebear.com/5.x/initials/svg?seed=${favorite.firstName[0]}${favorite.lastName[0]}`}
                             alt={`${favorite.firstName} ${favorite.lastName}`}
                           />
                         </div>
