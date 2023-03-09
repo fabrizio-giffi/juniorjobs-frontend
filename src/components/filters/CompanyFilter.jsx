@@ -1,8 +1,9 @@
-import { Box, Button, MenuItem, TextField } from "@mui/material";
+import { Box, IconButton, MenuItem, TextField } from "@mui/material";
+import ClearIcon from "@mui/icons-material/Clear";
 
 function CompanyFilter({ setCompanyQuery, companyQuery, companyFilter }) {
   return (
-    <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+    <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", gap: 1 }}>
       <TextField
         sx={{ width: "200px" }}
         type="text"
@@ -19,9 +20,9 @@ function CompanyFilter({ setCompanyQuery, companyQuery, companyFilter }) {
           </MenuItem>
         ))}
       </TextField>
-      <Button variant="contained" sx={{ bgcolor: "#6b9080" }} onClick={() => setCompanyQuery("")}>
-        X
-      </Button>
+      <IconButton size="small" aria-label="remove filters" onClick={() => setCompanyQuery("")}>
+        <ClearIcon fontSize="inherit" />
+      </IconButton>
     </Box>
   );
 }

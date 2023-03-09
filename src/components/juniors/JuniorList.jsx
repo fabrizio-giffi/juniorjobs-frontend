@@ -6,6 +6,7 @@ import { Avatar, Box, Skeleton, Typography } from "@mui/material";
 import GeoFilter from "../filters/GeoFilter";
 import StackFilter from "../filters/StackFilter";
 import "./JuniorCard.css";
+import "./JuniorList.css"
 import { Container } from "@mui/system";
 
 const api_URL = import.meta.env.VITE_API_URL;
@@ -95,7 +96,14 @@ const JuniorList = () => {
   return (
     juniors.length > 0 && (
       <>
-        <Container sx={{ xs: "wrap", md: "nowrap", display: "flex", justifyContent: "center", alignItems: "center" }}>
+        <Container
+          className="filterCtn"
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
           <GeoFilter geoQuery={geoQuery} setGeoQuery={setGeoQuery} countryFilter={countryFilter} />
           <StackFilter stackQuery={stackQuery} setStackQuery={setStackQuery} stackFilter={stackFilter} />
         </Container>
