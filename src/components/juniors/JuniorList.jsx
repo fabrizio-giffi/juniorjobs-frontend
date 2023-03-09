@@ -42,7 +42,11 @@ const JuniorList = () => {
   // FILTERS
   const countryFilter = [];
   juniors.forEach((junior) => {
-    if (typeof junior.location !== "undefined" && !countryFilter.includes(junior.location.country)) {
+    if (
+      typeof junior.location !== "undefined" &&
+      !countryFilter.includes(junior.location.country) &&
+      junior.location.country !== ""
+    ) {
       countryFilter.push(junior.location.country);
     }
   });

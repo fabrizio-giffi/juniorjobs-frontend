@@ -41,7 +41,7 @@ function JobList() {
   //FILTERS
   const countryFilter = [];
   jobList.forEach((post) => {
-    if (!countryFilter.includes(post.address.country)) {
+    if (!countryFilter.includes(post.address.country) && post.address.country !== "") {
       countryFilter.push(post.address.country);
     }
   });
