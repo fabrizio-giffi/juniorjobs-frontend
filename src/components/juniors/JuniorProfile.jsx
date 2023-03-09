@@ -36,6 +36,7 @@ function JuniorProfile() {
       setLastName(response.data.lastName);
       setCountry(response.data.location.country);
       setCity(response.data.location.city);
+      setCalendly(response.data.calendly)
       setSkills(response.data.skills);
       setProfilePic(response.data.profilePic);
       setFavoriteCompanies(response.data.favoriteCompanies);
