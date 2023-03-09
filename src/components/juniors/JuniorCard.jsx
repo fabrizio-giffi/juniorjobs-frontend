@@ -30,7 +30,7 @@ const JuniorCard = ({ junior, userDB, setUpdated, setGeoQuery, setStackQuery, st
   return (
     <div className="card">
       <div className="image-outer">
-        <img src={junior.profilePic} alt={`${junior.firstName} ${junior.lastName}`} />
+        <img src={junior.profilePic || `https://api.dicebear.com/5.x/initials/svg?seed=${junior.firstName}`} alt={`${junior.firstName} ${junior.lastName}`} />
       </div>
       <div className="junior-name">
         <h5>{junior.firstName}</h5>
