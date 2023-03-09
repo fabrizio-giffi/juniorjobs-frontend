@@ -5,7 +5,7 @@
     align-items: center;
 }
 .shadowBox{
-    border:1px solid grey ;
+    border: 0px solid grey ;
     border-radius:30px;
     margin: 50px;
     margin-top:30px;

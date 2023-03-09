@@ -96,6 +96,7 @@ function JuniorProfile() {
       lastName,
       country,
       city,
+      calendly
     };
 
     try {
