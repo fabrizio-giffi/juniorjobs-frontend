@@ -2,9 +2,9 @@ import { Box, Button, MenuItem, TextField } from "@mui/material";
 
 function GeoFilter({ setGeoQuery, geoQuery, countryFilter }) {
   return (
-    <Box>
+    <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
       <TextField
-        style={{ minWidth: "120px", width:"700px" }}
+        sx={{ width: "200px" }}
         type="text"
         onChange={(event) => setGeoQuery(event.target.value)}
         id="outlined-basic"
@@ -19,7 +19,9 @@ function GeoFilter({ setGeoQuery, geoQuery, countryFilter }) {
           </MenuItem>
         ))}
       </TextField>
-      <Button sx={{bgcolor: "#6b9080", padding:"15px 20px", margin:"0 20px", textDecoration:"none", color:"inherit"}} onClick={() => setGeoQuery("")}>Remove filter</Button>
+      <Button variant="contained" sx={{ bgcolor: "#6b9080" }} onClick={() => setGeoQuery("")}>
+        X
+      </Button>
     </Box>
   );
 }

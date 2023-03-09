@@ -2,9 +2,9 @@ import { Box, Button, MenuItem, TextField } from "@mui/material";
 
 function CompanyFilter({ setCompanyQuery, companyQuery, companyFilter }) {
   return (
-    <Box>
+    <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
       <TextField
-        style={{ minWidth: "120px" }}
+        sx={{ width: "200px" }}
         type="text"
         onChange={(event) => setCompanyQuery(event.target.value)}
         id="outlined-basic"
@@ -19,7 +19,9 @@ function CompanyFilter({ setCompanyQuery, companyQuery, companyFilter }) {
           </MenuItem>
         ))}
       </TextField>
-      <Button onClick={() => setCompanyQuery("")}>Remove filter</Button>
+      <Button variant="contained" sx={{ bgcolor: "#6b9080" }} onClick={() => setCompanyQuery("")}>
+        X
+      </Button>
     </Box>
   );
 }

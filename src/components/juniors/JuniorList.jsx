@@ -2,10 +2,10 @@ import JuniorCard from "./JuniorCard";
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../context/auth.context";
-import { Avatar, Box, Grid, Skeleton, Typography } from "@mui/material";
+import { Avatar, Box, Skeleton, Typography } from "@mui/material";
 import GeoFilter from "../filters/GeoFilter";
 import StackFilter from "../filters/StackFilter";
-import './JuniorCard.css'
+import "./JuniorCard.css";
 import { Container } from "@mui/system";
 
 const api_URL = import.meta.env.VITE_API_URL;
@@ -93,28 +93,33 @@ const JuniorList = () => {
   }
 
   return (
-    juniors.length > 1 && (
+    juniors.length > 0 && (
       <>
-      <Container sx={{margin: "30px 0", width:"100% !important"}} >
-        <Grid container  direction={"column"} columnSpacing={{ xs: 1, sm: 2, md: 3 }} justifyContent={"center"} alignContent={"center"}>
-          <Grid item>
-            <GeoFilter geoQuery={geoQuery} setGeoQuery={setGeoQuery} countryFilter={countryFilter}  />
-          </Grid>
-          <Grid item>
-            <StackFilter stackQuery={stackQuery} setStackQuery={setStackQuery} stackFilter={stackFilter} />
-          </Grid>
-        </Grid>
-      </Container>
+        <Container sx={{ xs: "wrap", md: "nowrap", display: "flex", justifyContent: "center", alignItems: "center" }}>
+          <GeoFilter geoQuery={geoQuery} setGeoQuery={setGeoQuery} countryFilter={countryFilter} />
+          <StackFilter stackQuery={stackQuery} setStackQuery={setStackQuery} stackFilter={stackFilter} />
+        </Container>
 
         <div className="outer-junior-card">
           {juniors
+            // Filter out the juniors that have an undefined firstName or lastName
             .filter((junior) => junior.firstName || junior.lastName)
             .filter((junior) => (geoQuery.length === 0 ? true : junior.location.country === geoQuery))
             .filter((junior) =>
               stackQuery.length === 0 ? true : stackQuery.every((skill) => junior.skills.includes(skill))
             )
             .map((junior) => {
-              return <JuniorCard key={junior._id} junior={junior} userDB={userDB} setUpdated={setUpdated} />;
+              return (
+                <JuniorCard
+                  stackQuery={stackQuery}
+                  setStackQuery={setStackQuery}
+                  setGeoQuery={setGeoQuery}
+                  key={junior._id}
+                  junior={junior}
+                  userDB={userDB}
+                  setUpdated={setUpdated}
+                />
+              );
             })}
         </div>
       </>

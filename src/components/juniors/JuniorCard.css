@@ -44,6 +44,8 @@
 
 .skills {
   width: 50%;
+.skills {
+  width: 50%;
 }
 
 .skills ul {
@@ -78,16 +80,22 @@
 }
 .country h5 {
   margin: 0;
+  margin: 0;
 }
 
+a {
+  color: #5e746a;
 a {
   color: #5e746a;
 }
 
 a:hover {
   color: #35433d;
+a:hover {
+  color: #35433d;
 }
 
+.details-heart {
 .details-heart {
   display: flex;
   flex-direction: row;

@@ -1,7 +1,6 @@
 import { Button } from "@mui/material";
 import React, { useRef, useState } from "react";
 import "./CloudinaryUploadWidget";
-// Style the Button component
 
 const UploadFileBtn = () => {
   const [fileName, setFileName] = useState("");

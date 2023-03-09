@@ -1,15 +1,16 @@
 import { Link } from "react-router-dom";
-import { IconButton } from "@mui/material";
+import { Button, IconButton } from "@mui/material";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import "./JuniorCard.css";
 import { useContext } from "react";
 import { AuthContext } from "../../context/auth.context";
 import axios from "axios";
+import PublicIcon from "@mui/icons-material/Public";
 
 const api_URL = import.meta.env.VITE_API_URL;
 
-const JuniorCard = ({ junior, userDB, setUpdated }) => {
+const JuniorCard = ({ junior, userDB, setUpdated, setGeoQuery, setStackQuery, stackQuery }) => {
   const { user, isLoggedIn } = useContext(AuthContext);
 
   const addJunior = async (juniorId) => {
@@ -20,6 +21,10 @@ const JuniorCard = ({ junior, userDB, setUpdated }) => {
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const handleClick = (skill) => {
+    if (!stackQuery.includes(skill)) setStackQuery([...stackQuery, skill]);
   };
 
   return (
@@ -35,13 +40,35 @@ const JuniorCard = ({ junior, userDB, setUpdated }) => {
         <h5>
           <ul>
             {junior.skills.map((skill) => {
-              return <li key={skill}>{skill}</li>;
+              return (
+                <Button
+                  sx={{ bgcolor: "#EAF4F4", color: "slategray", textTransform: "none" }}
+                  variant="contained"
+                  onClick={() => handleClick(skill)}
+                  key={skill}
+                >
+                  {skill}
+                </Button>
+              );
             })}
           </ul>
         </h5>
       </div>
       <div className="country">
-        <h5>{typeof junior.location !== "undefined" ? junior.location.country : "N/A"}</h5>
+        <Button
+          sx={{
+            bgcolor: "#EAF4F4",
+            color: "slategray",
+            textTransform: "none",
+            minWidth: "100px",
+            position: "relative",
+          }}
+          variant="contained"
+          onClick={() => setGeoQuery(junior.location.country)}
+        >
+          <PublicIcon sx={{ position: "absolute", right: "-8px", bottom: "20px" }} />
+          {typeof junior.location !== "undefined" ? junior.location.country : "N/A"}
+        </Button>
         <div className="details-heart">
           <h5>
             <Link to={`/junior/${junior._id}`}>details</Link>

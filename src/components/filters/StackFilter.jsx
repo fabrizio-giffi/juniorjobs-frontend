@@ -2,9 +2,8 @@ import { Autocomplete, Box, Button, TextField } from "@mui/material";
 
 function StackFilter({ setStackQuery, stackQuery, stackFilter }) {
   return (
-    <Box>
+    <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
       <Autocomplete
-        sx={{display: "inline-block"}}
         multiple
         id="tags-outlined"
         options={stackFilter}
@@ -20,10 +19,16 @@ function StackFilter({ setStackQuery, stackQuery, stackFilter }) {
           setStackQuery([...stackQuery, event.target.innerText]);
         }}
         renderInput={(params) => {
-          return <div style={{display: "flex", justifyContent:"center", alignItems:"center", }}><TextField {...params}  label="Stacks" placeholder="Stack" sx={{width:"700px",display: "inline-block"}}/></div>;
+          return (
+            <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+              <TextField {...params} label="Stacks" placeholder="Stack" sx={{ minWidth: "200px" }} />
+            </div>
+          );
         }}
       />
-      <Button sx={{bgcolor: "#6b9080", padding:"15px 20px", margin:"0 20px", textDecoration:"none", color:"inherit"}} onClick={() => setStackQuery([])}>Remove filter</Button>
+      <Button variant="contained" sx={{ bgcolor: "#6b9080" }} onClick={() => setStackQuery([])}>
+        X
+      </Button>
     </Box>
   );
 }

@@ -14,6 +14,8 @@ import { Link, useParams } from "react-router-dom";
 import JobPostForm from "../components/jobs/JobPostForm";
 import { AuthContext } from "../context/auth.context";
 import LabelRoundedIcon from "@mui/icons-material/LabelRounded";
+import HomeRepairServiceIcon from '@mui/icons-material/HomeRepairService';
+import { Box } from "@mui/system";
 
 const api_URL = import.meta.env.VITE_API_URL;
 
@@ -44,20 +46,29 @@ function JobPostDetails() {
   }
 
   return (
-    <Container component="main" maxWidth="md">
+    <Container component="main" maxWidth="md" sx={{border:"0px solid grey", borderRadius:"30px", marginTop:"30px", marginBottom:"30px !important", "-webkit-box-shadow": "2px 2px 15px -3px rgba(0,0,0,0.51)", 
+    "box-shadow": "2px 2px 15px -3px rgba(0,0,0,0.51)", padding:"20px 50px !important"}}>
       {!editing && (
         <>
           {" "}
-          <Typography variant="h5" gutterBottom>
+          <Typography variant="h3" paddingTop={"30px"}  gutterBottom>
             {jobPost.title}
           </Typography>
-          <Typography>{jobPost.description.jobtype}</Typography>
+          <Box sx={{ display: "flex" }} disablePadding>
+            <Typography variant="overline" >
+            <HomeRepairServiceIcon sx={{ mr: 1 }}/>
+                {jobPost.description.jobtype}
+            </Typography>
+          </Box>
+
           <List sx={{ display: "flex" }}>
             {jobPost.stack.map((element) => (
               <ListItem key={element} disablePadding>
                 <ListItemIcon>
                   <LabelRoundedIcon sx={{ mr: 1 }} />
-                  {element}
+                  <Typography variant="overline">
+                    {element}
+                  </Typography>
                 </ListItemIcon>
                 <ListItemText />
               </ListItem>
@@ -66,7 +77,7 @@ function JobPostDetails() {
           {isLoggedIn ? (
             <>
               {" "}
-              <Typography>HR Contact: {jobPost.email}</Typography>
+              <Typography variant="h6">HR Contact: {jobPost.email}</Typography>
               <Link to={`/company/${jobPost.company._id}`}>
                 <h4>{jobPost.company.name}</h4>
               </Link>
@@ -93,7 +104,7 @@ function JobPostDetails() {
               <Typography variant="body1" gutterBottom>
                 €<span>{jobPost.salaryRange.minimum}</span> - €<span>{jobPost.salaryRange.maximum}</span>
               </Typography>
-              <p>Created: {dateCreated.toLocaleDateString("en-US", options)}</p>{" "}
+              <p style={{marginBottom:"40px"}}>Created: {dateCreated.toLocaleDateString("en-US", options)}</p>{" "}
             </>
           ) : (
             <p>Log in or sign up to see more informations</p>

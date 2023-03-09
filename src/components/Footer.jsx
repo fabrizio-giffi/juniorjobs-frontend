@@ -1,9 +1,9 @@
 import React from "react";
 import "./Footer.css";
-import { Box, Container } from "@mui/system";
+import { Container } from "@mui/system";
 import { Link } from "react-router-dom";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-import { Grid, Typography } from "@mui/material";
+import { Grid } from "@mui/material";
 import GitHubIcon from "@mui/icons-material/GitHub";
 
 export default function Footer() {
