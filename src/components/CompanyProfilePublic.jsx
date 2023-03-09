@@ -50,7 +50,6 @@ function CompanyProfilePublic() {
       const response = await axios.get(`${api_URL}/user/${user.id}`);
       setUserDB(response.data);
       setCatchinUserData(false);
-      console.log(response.data);
     } catch (error) {
       console.log(error);
     }
@@ -80,8 +79,6 @@ function CompanyProfilePublic() {
   if (catchingUserData) {
     return <div>Loading...</div>;
   }
-
-  console.log(user.role);
 
   return (
     profile && (

@@ -30,7 +30,6 @@ function JobPostForm({ jobPost, isEditing, setEditing, setIsFetching }) {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log("Why am I here????");
     const newJobBody = {
       title,
       description: { jobtype, heading, tasks, requirements, benefits },

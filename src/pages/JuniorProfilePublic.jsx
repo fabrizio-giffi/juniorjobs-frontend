@@ -34,8 +34,6 @@ function JuniorProfilePublic() {
     return <div>Loading...</div>;
   }
 
-  console.log(userData)
-
   return (
     userData && (
       <div>
