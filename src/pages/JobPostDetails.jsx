@@ -1,13 +1,4 @@
-import {
-  Button,
-  Container,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
-  Typography,
-} from "@mui/material";
+import { Button, Container, IconButton, List, ListItem, ListItemIcon, ListItemText, Typography } from "@mui/material";
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
@@ -16,6 +7,9 @@ import { AuthContext } from "../context/auth.context";
 import LabelRoundedIcon from "@mui/icons-material/LabelRounded";
 import HomeRepairServiceIcon from "@mui/icons-material/HomeRepairService";
 import { Box } from "@mui/system";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import ShareIcon from "@mui/icons-material/Share";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 
 const api_URL = import.meta.env.VITE_API_URL;
 
@@ -25,6 +19,8 @@ function JobPostDetails() {
   const [jobPost, setJobPost] = useState({});
   const [dateCreated, setDateCreated] = useState();
   const [editing, setEditing] = useState(false);
+  const [userDB, setUserDB] = useState({});
+  const [updated, setUpdated] = useState(false);
   const { id } = useParams();
   const { user, isLoggedIn } = useContext(AuthContext);
   const [isFetching, setIsFetching] = useState(true);
@@ -32,9 +28,24 @@ function JobPostDetails() {
   const fetchPost = async () => {
     const response = await axios.get(`${api_URL}/posts/${id}`);
     setJobPost(response.data);
+    if (user) {
+      const fetchedUser = await axios.get(`${api_URL}/user/${user.id}`);
+      setUserDB(fetchedUser.data);
+    }
     setIsFetching(false);
     const dateObj = new Date(response.data.createdAt);
     setDateCreated(dateObj);
+  };
+
+  const addJobPost = async (postId) => {
+    const requestBody = { id: user.id, postId };
+    try {
+      await axios.put(`${api_URL}/user/addJobPost`, requestBody);
+      setUpdated(true);
+    } catch (error) {
+      console.log(error);
+    }
+    return;
   };
 
   useEffect(() => {
@@ -44,6 +55,10 @@ function JobPostDetails() {
   useEffect(() => {
     fetchPost();
   }, [isFetching]);
+
+  useEffect(() => {
+    fetchPost();
+  }, [updated]);
 
   if (isFetching) {
     return <p>Loading...</p>;
@@ -88,11 +103,10 @@ function JobPostDetails() {
           </List>
           {isLoggedIn ? (
             <>
-              {" "}
               <Typography variant="h6">HR Contact: {jobPost.email}</Typography>
               <Link to={`/company/${jobPost.company._id}`}>
-                <Typography sx={{fontSize: "30px", fontWeight:"600", color:"var(--mint-green)", padding:"10px 0"}}>
-                    {jobPost.company.name}
+                <Typography sx={{ fontSize: "30px", fontWeight: "600", color: "var(--mint-green)", padding: "10px 0" }}>
+                  {jobPost.company.name}
                 </Typography>
               </Link>
               <Typography>
@@ -118,7 +132,19 @@ function JobPostDetails() {
               <Typography variant="body1" gutterBottom>
                 €<span>{jobPost.salaryRange.minimum}</span> - €<span>{jobPost.salaryRange.maximum}</span>
               </Typography>
-              <p style={{ marginBottom: "40px" }}>Created: {dateCreated.toLocaleDateString("en-US", options)}</p>{" "}
+              <p style={{ marginBottom: "40px" }}>Created: {dateCreated.toLocaleDateString("en-US", options)}</p>
+              {!isLoggedIn || !userDB || userDB.favoriteJobPosts?.some((job) => job._id === jobPost._id) ? (
+                <IconButton aria-label="add to favorites">
+                  <FavoriteIcon />
+                </IconButton>
+              ) : (
+                <IconButton onClick={() => addJobPost(jobPost._id)} aria-label="add to favorites">
+                  <FavoriteBorderIcon />
+                </IconButton>
+              )}
+              <IconButton aria-label="share">
+                <ShareIcon />
+              </IconButton>
             </>
           ) : (
             <p>Log in or sign up to see more informations</p>
