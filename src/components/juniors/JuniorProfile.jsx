@@ -220,20 +220,6 @@ function JuniorProfile() {
                   )}
                 </div>
                 <div className="input-label">
-                  <label>profile picture:</label>
-                  {isEditing ? (
-                    <input
-                      style={{ border: "none", outline: "none" }}
-                      type="text"
-                      placeholder={profilePic}
-                      onChange={(event) => setProfilePic(event.target.value)}
-                      value={profilePic}
-                    />
-                  ) : (
-                    <p>{profilePic}</p>
-                  )}
-                </div>
-                <div className="input-label">
                   <label>Calendly Link:</label>
                   {isEditing ? (
                     <input
