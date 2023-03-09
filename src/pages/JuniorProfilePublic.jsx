@@ -14,9 +14,7 @@ function JuniorProfilePublic() {
 
   const getUserData = async () => {
     try {
-      console.log("PARAMS", id);
       const response = await axios.get(`${api_URL}/user/publicprofile/${id}`);
-      console.log(response);
       setUserData(response.data);
     } catch (error) {
       console.log("There was an error getting profileData.", error);
@@ -31,6 +29,7 @@ function JuniorProfilePublic() {
   if (catchingUserData) {
     return <div>Loading...</div>;
   }
+
 
   return (
     userData && (
@@ -54,13 +53,11 @@ function JuniorProfilePublic() {
               <li>{skill}</li>;
             })}
         </div>
-        <Link to="/">
-          <button type="button">Add to Company favorites</button>
-        </Link>
+
 
         <div>
           {/* <Link to={'https://calendly.com/beiteldennis/job-interview'}>Calendly</Link> */}
-          <InlineWidget url="https://calendly.com/beiteldennis/job-interview" />
+          {userData.calendly !== "" ? <InlineWidget url={typeof userData.calendly !== "undefined" && userData.calendly} /> : ""}
         </div>
       </div>
     )
