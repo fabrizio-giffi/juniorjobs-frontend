@@ -81,7 +81,7 @@ function CompanyProfile() {
         <div className="page-name"> This is the company profile</div>
         <div className="form-picture">
           <div className="form-outer">
-            <form onSubmit={handleEdit} className="edit-form">
+            <form onSubmit={handleEdit} className="edit-junior-form">
               <div className="title">
                 <img
                   src={
@@ -173,8 +173,8 @@ function CompanyProfile() {
               </div>
             </form>
           </div>
-          <div className="profile-pic-outer">
-            <div className="profile-pic">
+          <div className="form-outer">
+            <div className="form-inner">
               <h2>change your profile picture</h2>
               <CloudinaryUploadWidget
                 profilePicture={profilePicture}
@@ -185,66 +185,72 @@ function CompanyProfile() {
         </div>
 
         <div className="lists">
-          <div className="favorites">
-            <h4>All your favorite juniors</h4>
-            <ul>
-              {profile.favorites.map((favorite) => {
-                return (
-                  <li key={favorite._id}>
-                    <div className="card">
-                      <div className="image-outer">
-                        <img
-                          src={favorite.profilePic}
-                          alt={`${favorite.firstName} ${favorite.lastName}`}
-                        />
-                      </div>
-                      <div className="junior-name">
-                        <h5>{favorite.firstName}</h5>
-                        <h5>{favorite.lastName}</h5>
-                      </div>
-                      <div className="skills">
-                        <h5>
-                          <ul>
-                            {favorite.skills.map((skill) => {
-                              return <li key={skill}>{skill}</li>;
-                            })}
-                          </ul>
-                        </h5>
-                      </div>
-                      <div className="country">
-                        <h5>{favorite.location.country}</h5>
-                        <div className="details-heart">
+          <div className="outer">
+            <div className="favorites">
+              <h4>All your favorite juniors</h4>
+              <ul class="ul-jobposts">
+                {profile.favorites.map((favorite) => {
+                  return (
+                    <li key={favorite._id}>
+                      <div className="card">
+                        <div className="image-outer">
+                          <img
+                            src={favorite.profilePic}
+                            alt={`${favorite.firstName} ${favorite.lastName}`}
+                          />
+                        </div>
+                        <div className="junior-name">
+                          <h5>{favorite.firstName}</h5>
+                          <h5>{favorite.lastName}</h5>
+                        </div>
+                        <div className="skills">
                           <h5>
-                            <Link to={`/junior/${favorite._id}`}>details</Link>
+                            <ul>
+                              {favorite.skills.map((skill) => {
+                                return <li key={skill}>{skill}</li>;
+                              })}
+                            </ul>
                           </h5>
-                          <IconButton
-                            onClick={() => deleteFavorite(favorite._id)}
-                          >
-                            <ClearIcon />
-                          </IconButton>
+                        </div>
+                        <div className="country">
+                          <h5>{favorite.location.country}</h5>
+                          <div className="details-heart">
+                            <h5>
+                              <Link to={`/junior/${favorite._id}`}>
+                                details
+                              </Link>
+                            </h5>
+                            <IconButton
+                              onClick={() => deleteFavorite(favorite._id)}
+                            >
+                              <ClearIcon />
+                            </IconButton>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </li>
-                );
-              })}
-            </ul>
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
           </div>
-          <div className="jobPosts">
-            <h4>All your job posts</h4>
-            <ul className="ul-jobposts">
-              {profile.jobPosts.map((post) => {
-                return (
-                  <li className="jobpost-li" key={post._id}>
-                    <JobPostCard
-                      post={post}
-                      profile={profile}
-                      getProfile={getProfile}
-                    />
-                  </li>
-                );
-              })}
-            </ul>
+          <div className="outer">
+            <div className="jobPosts">
+              <h4>All your job posts</h4>
+              <ul className="ul-jobposts">
+                {profile.jobPosts.map((post) => {
+                  return (
+                    <li className="jobpost-li" key={post._id}>
+                      <JobPostCard
+                        post={post}
+                        profile={profile}
+                        getProfile={getProfile}
+                      />
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
           </div>
         </div>
       </>

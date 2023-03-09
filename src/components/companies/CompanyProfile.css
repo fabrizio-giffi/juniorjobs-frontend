@@ -11,7 +11,7 @@
   display: flex;
   flex-wrap: wrap;
   margin: 15px;
-  justify-content: space-evenly;
+  justify-content: center;
 }
 
 .form-outer {
@@ -19,17 +19,10 @@
   justify-content: center;
   width: 50%;
   min-width: 350px;
-  
 }
 
 .edit-form {
-  background-color: var(--azure);
   padding: 15px;
-  border: 1px solid var(--azure);
-  border-radius: 5px;
-  -webkit-box-shadow: 0px 2px 2px 1px var(--cambridge);
-  -moz-box-shadow: 0px 2px 2px 1px var(--cambridge);
-  box-shadow: 0px 2px 2px 1px var(--cambridge);
   max-width: 350px;
   margin: 15px;
 }
@@ -136,12 +129,18 @@ input {
 }
 .lists {
   display: flex;
-  justify-content: space-evenly;
+  justify-content: center;
   flex-wrap: wrap;
+  gap: 35px;
+  margin: 15px;
 }
 
 .favorites {
-  min-width: 50%;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  width: 50%;
+  min-width: 350px;
 }
 
 .favorites h4 {
@@ -160,7 +159,11 @@ input {
 }
 
 .jobPosts {
-  min-width: 50%;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  width: 50%;
+  min-width: 350px;
 }
 
 .jobPosts h4 {
@@ -169,7 +172,7 @@ input {
 
 .ul-jobposts {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: center;
   flex-wrap: wrap;
   padding: 0;
@@ -198,7 +201,7 @@ input {
     justify-content: center;
     padding: 0;
     margin: 0;
-   max-width: 350px;
+   /* max-width: 350px; */
 }
 
 .MuiPaper-root {
@@ -207,12 +210,16 @@ input {
   background-color: var(--azure) !important;
   display: flex;
   border: 1px solid var(--azure) !important;
-  width: 450px;
+  width: 450px !important;
   -webkit-box-shadow: 0px 2px 2px 1px var(--cambridge) !important;
   -moz-box-shadow: 0px 2px 2px 1px var(--cambridge) !important;
   box-shadow: 0px 2px 2px 1px var(--cambridge) !important;
-  color: #35433d !;
-  min-width: 350px;  
+  color: #35433d !important;
   max-width: 450px !important;
-  min-width: 400px;
+  min-width: 400px !important;
+}
+
+.outer{
+  display: flex;
+  flex-direction: column;
 }

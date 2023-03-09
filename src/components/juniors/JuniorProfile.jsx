@@ -263,7 +263,6 @@ function JuniorProfile() {
                 ) : (
                   <Button
                     type="submit"
-                    // fullWidth
                     variant="contained"
                     sx={{ bgcolor: "#6b9080", mt: 3, mb: 2 }}
                     onClick={changeEdit}
