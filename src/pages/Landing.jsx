@@ -36,7 +36,7 @@ export default function Landing() {
               Junior Jobs
             </Typography>
             <Typography variant="h5" alignContent={{ md: "start", xs: 'center'}} color="text.secondary" paragraph>
-              The Plattform that connects employees and employers for Junior Level positions.
+              The platform that connects employees and employers for junior level positions.
             </Typography>
             <Stack
               sx={{ pt: 4 }}
@@ -54,7 +54,7 @@ export default function Landing() {
         <div className='collumn'>
             <div className='triangle'></div>
             <div className='background-image displaynone'>
-              <img src='../../src/assets/markus-winkler-7iSEHWsxPLw-unsplash.jpg' alt="" />
+              <img src='markus-winkler-7iSEHWsxPLw-unsplash.jpg' alt="Resume" />
             </div>
         </div>
 

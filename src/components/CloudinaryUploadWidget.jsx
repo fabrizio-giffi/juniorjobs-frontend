@@ -7,7 +7,7 @@ import UploadFileBtn from "./UploadFileBtn";
 
 const api_URL = import.meta.env.VITE_API_URL;
 
-const CloudinaryUploadWidget = ({ profilePicture, setProfilePicture }) => {
+const CloudinaryUploadWidget = ({ setProfilePicture }) => {
   const [imageSelected, setImageSelected] = useState("");
   const { user } = useContext(AuthContext);
 
@@ -48,16 +48,3 @@ const CloudinaryUploadWidget = ({ profilePicture, setProfilePicture }) => {
 };
 
 export default CloudinaryUploadWidget;
-{
-  /* <div className="input">
-        <label className="label-input-pic" htmlFor="inputTag">
-          <input
-            id="inputTag"
-            type="file"
-            onChange={(e) => {
-              setImageSelected(e.target.files[0]);
-            }}
-          />
-        </label>
-      </div> */
-}
