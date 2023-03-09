@@ -16,22 +16,22 @@ export default function Footer() {
               <span> Made With </span>
               <FavoriteIcon fontSize="small" sx={{ color: "red" }} />
               <span> by </span>
-              <Link to={"https://www.linkedin.com/in/fabriziogiffi/"}>
+              <Link target={"_blank"} to={"https://www.linkedin.com/in/fabriziogiffi/"}>
                 <span>Fabrizio, </span>
               </Link>
-              <Link
+              <Link target={"_blank"}
                 to={"https://www.linkedin.com/in/dean-stavenuiter-38a216248/"}
               >
                 <span>Dean </span>
               </Link>
               <span>and </span>
-              <Link to={"https://www.linkedin.com/in/dennis-beitel-75b207176/"}>
+              <Link target={"_blank"} to={"https://www.linkedin.com/in/dennis-beitel-75b207176/"}>
                 <span>Dennis </span>
               </Link>
             </div>
             <div className="github-repos">
               <span>GitHub Repos: </span>
-              <Link
+              <Link target={"_blank"}
                 to={"https://github.com/fabrizio-giffi/juniorjobs-frontend"}
               >
                 <span>
@@ -39,7 +39,7 @@ export default function Footer() {
                 </span>
               </Link>
               <span>
-                <Link
+                <Link target={"_blank"}
                   to={"https://github.com/fabrizio-giffi/juniorjobs-backend"}
                 >
                   Backend: <GitHubIcon fontSize="small" />
