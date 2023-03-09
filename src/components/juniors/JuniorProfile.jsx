@@ -3,7 +3,7 @@ import { AuthContext } from "../../context/auth.context";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import "./JuniorProfile.css";
-import { Button } from "@mui/material";
+import { Button, Typography } from "@mui/material";
 
 function JuniorProfile() {
   const { user } = useContext(AuthContext);
@@ -278,13 +278,14 @@ function JuniorProfile() {
         <div className="form-outer">
           <div className="form-inner">
             <form onSubmit={addSkill} className="add-skill-form">
-              <label>Add a new skill:</label>
+              <Typography variant="overline">Add a new skill:</Typography>
               <input
                 type="text"
                 placeholder={newSkill}
                 onChange={(event) => setNewSkill(event.target.value)}
                 value={newSkill}
                 autoFocus
+                style={{height: "25px"}}
               />
               <Button
                 variant="contained"
