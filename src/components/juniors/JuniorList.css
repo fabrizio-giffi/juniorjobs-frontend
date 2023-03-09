@@ -132,10 +132,10 @@ a:hover {
   }
 }
 
-/* @media (max-width: 1250px) {
+@media (max-width: 1250px) {
   .filterCtn {
     flex-direction: column;
     gap: 10px;
     margin: 10px 0;
   }
-} */
+}
