@@ -67,7 +67,7 @@ const JuniorCard = ({ junior, userDB, setUpdated, setGeoQuery, setStackQuery, st
           onClick={() => setGeoQuery(junior.location.country)}
         >
           <PublicIcon sx={{ position: "absolute", right: "-8px", bottom: "20px" }} />
-          {junior.location?.country !== "" ? junior.location.country : "N/A"}
+          {junior.location?.country !== "" ? junior.location?.country : "N/A"}
         </Button>
         <div className="details-heart">
           <h5>
