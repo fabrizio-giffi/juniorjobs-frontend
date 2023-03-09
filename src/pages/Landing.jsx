@@ -54,7 +54,7 @@ export default function Landing() {
         <div className='collumn'>
             <div className='triangle'></div>
             <div className='background-image displaynone'>
-              <img src='./src/assets/markus-winkler-7iSEHWsxPLw-unsplash.jpg' alt="Resume" />
+              <img src='landing.jpg' alt="Resume" />
             </div>
         </div>
 
