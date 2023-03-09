@@ -2,6 +2,8 @@ import { useContext, useState, useEffect } from "react";
 import { AuthContext } from "../../context/auth.context";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import "./JuniorProfile.css";
+import { Button } from "@mui/material";
 
 function JuniorProfile() {
   const { user } = useContext(AuthContext);
@@ -27,7 +29,6 @@ function JuniorProfile() {
   const getProfile = async () => {
     try {
       const response = await axios.get(`${api_URL}/user/${user.id}`);
-      console.log(response.data);
       setUserData(response.data);
       setId(response.data._id);
       setFirstName(response.data.firstName);
@@ -48,7 +49,10 @@ function JuniorProfile() {
     const requestBody = { id, postId };
     try {
       setCatchinUserData(true);
-      const response = await axios.put(`${api_URL}/user/privateprofile/deleteFavJobPost`, requestBody);
+      const response = await axios.put(
+        `${api_URL}/user/privateprofile/deleteFavJobPost`,
+        requestBody
+      );
       getProfile();
       setCatchinUserData(false);
     } catch (error) {
@@ -60,7 +64,10 @@ function JuniorProfile() {
     const requestBody = { id, skill };
     try {
       setCatchinUserData(true);
-      const response = await axios.put(`${api_URL}/user/privateprofile/deleteSkill`, requestBody);
+      const response = await axios.put(
+        `${api_URL}/user/privateprofile/deleteSkill`,
+        requestBody
+      );
       getProfile();
       setCatchinUserData(false);
     } catch (error) {
@@ -72,7 +79,10 @@ function JuniorProfile() {
     const requestBody = { id, companyId };
     try {
       setCatchinUserData(true);
-      const response = await axios.put(`${api_URL}/user/privateprofile/deleteFavCompany`, requestBody);
+      const response = await axios.put(
+        `${api_URL}/user/privateprofile/deleteFavCompany`,
+        requestBody
+      );
       getProfile();
       setCatchinUserData(false);
     } catch (error) {
@@ -89,7 +99,10 @@ function JuniorProfile() {
     };
 
     try {
-      const response = await axios.put(`${api_URL}/user/edit/${user.id}`, requestBody);
+      const response = await axios.put(
+        `${api_URL}/user/edit/${user.id}`,
+        requestBody
+      );
       setMessage(response.data.message);
     } catch (error) {
       console.log(error);
@@ -113,7 +126,10 @@ function JuniorProfile() {
 
     try {
       setCatchinUserData(true);
-      const response = await axios.put(`${api_URL}/user/addNewSkill`, requestBody);
+      const response = await axios.put(
+        `${api_URL}/user/addNewSkill`,
+        requestBody
+      );
       getProfile();
       setCatchinUserData(false);
       setNewSkill("");
@@ -130,176 +146,273 @@ function JuniorProfile() {
     return <div>Loading...</div>;
   }
   return (
-    <div>
-      {user.role == "junior" && (
-        <form onSubmit={editFields} className="edit-form">
-          <div className="title">
-            <img src={`https://api.dicebear.com/5.x/initials/svg?seed=${firstName}`} alt={firstName} />
-            <h2>User information</h2>
-          </div>
-          {/* <h6>Click on the information to edit</h6> */}
-          <div className="information">
-            <div className="input-label">
-              <label>First Name:</label>
-              {isEditing ? (
-                <input
-                  style={{ border: "none", outline: "none" }}
-                  type="text"
-                  placeholder={firstName}
-                  onChange={(event) => setFirstName(event.target.value)}
-                  value={firstName}
+    <>
+      <div className="forms">
+        {user.role == "junior" && (
+          <div className="form-outer">
+            <form onSubmit={editFields} className="edit-junior-form">
+              <div className="title">
+                <img
+                  src={`https://api.dicebear.com/5.x/initials/svg?seed=${firstName}`}
+                  alt={firstName}
                 />
-              ) : (
-                <p>{firstName}</p>
-              )}
-            </div>
-            <div className="input-label">
-              <label>Last Name:</label>
-              {isEditing ? (
-                <input
-                  style={{ border: "none", outline: "none" }}
-                  type="text"
-                  placeholder={lastName}
-                  onChange={(event) => setLastName(event.target.value)}
-                  value={lastName}
-                />
-              ) : (
-                <p>{lastName}</p>
-              )}
-            </div>
-
-            <div className="input-label">
-              <label>City:</label>
-              {isEditing ? (
-                <input
-                  style={{ border: "none", outline: "none" }}
-                  type="text"
-                  placeholder={city}
-                  onChange={(event) => setCity(event.target.value)}
-                  value={city}
-                />
-              ) : (
-                <p>{city}</p>
-              )}
-            </div>
-            <div className="input-label">
-              <label>Country:</label>
-              {isEditing ? (
-                <input
-                  style={{ border: "none", outline: "none" }}
-                  type="text"
-                  placeholder={country}
-                  onChange={(event) => setCountry(event.target.value)}
-                  value={country}
-                />
-              ) : (
-                <p>{country}</p>
-              )}
-            </div>
-            <div className="input-label">
-              <label>profile picture:</label>
-              {isEditing ? (
-                <input
-                  style={{ border: "none", outline: "none" }}
-                  type="text"
-                  placeholder={profilePic}
-                  onChange={(event) => setProfilePic(event.target.value)}
-                  value={profilePic}
-                />
-              ) : (
-                <p>{profilePic}</p>
-              )}
-            </div>
-            <div className="input-label">
-              <label>Calendly Link:</label>
-              {isEditing ? (
-                <input
-                  style={{ border: "none", outline: "none" }}
-                  type="text"
-                  placeholder={calendly}
-                  onChange={(event) => setCalendly(event.target.value)}
-                  value={calendly}
-                />
-              ) : (
-                <p>{calendly}</p>
-              )}
-            </div>
-          </div>
-
-          {message && <span>{message}</span>}
-          {isEditing ? (
-            <button type="submit" onClick={changeEdit}>
-              Commit Changes
-            </button>
-          ) : (
-            <button onClick={changeEdit}>Edit information</button>
-          )}
-        </form>
-      )}
-      <form onSubmit={addSkill}>
-        <label>NewSkill:</label>
-        <input
-          type="text"
-          placeholder={newSkill}
-          onChange={(event) => setNewSkill(event.target.value)}
-          value={newSkill}
-          autoFocus
-        />
-        <button type="submit">Add Skill</button>
-      </form>
-      <div>
-        Skills
-        {skills.length > 0 &&
-          skills.map((skill) => {
-            return (
-              <div key={skill}>
-                {skill}
-                <button type="button" onClick={() => handleSkilldelete(skill)}>
-                  X
-                </button>
+                <h2>User information</h2>
               </div>
-            );
-          })}
-      </div>
-      <div>
-        JobPosts
-        {favoriteJobPosts.length > 0 &&
-          favoriteJobPosts.map((jobPost) => {
-            return (
-              <div key={jobPost._id}>
-                {jobPost.title}
-                <div>
-                  {jobPost.salaryRange.minimum}-{jobPost.salaryRange.maximum}
+              {isEditing ? <h6>Click on the information to edit</h6> : ""}
+              
+              <div className="information">
+                <div className="input-label">
+                  <label>First Name:</label>
+                  {isEditing ? (
+                    <input
+                      style={{ border: "none", outline: "none" }}
+                      type="text"
+                      placeholder={firstName}
+                      onChange={(event) => setFirstName(event.target.value)}
+                      value={firstName}
+                    />
+                  ) : (
+                    <p>{firstName}</p>
+                  )}
                 </div>
-                <div>{jobPost.company.name}</div>
-                <Link to={`/jobs/${jobPost._id}`}>
-                  <button type="button">Show Post</button>
-                </Link>
-                <button type="button" onClick={() => handlefavoriteJobPostsdelete(jobPost._id)}>
-                  X
-                </button>
+                <div className="input-label">
+                  <label>Last Name:</label>
+                  {isEditing ? (
+                    <input
+                      style={{ border: "none", outline: "none" }}
+                      type="text"
+                      placeholder={lastName}
+                      onChange={(event) => setLastName(event.target.value)}
+                      value={lastName}
+                    />
+                  ) : (
+                    <p>{lastName}</p>
+                  )}
+                </div>
+
+                <div className="input-label">
+                  <label>City:</label>
+                  {isEditing ? (
+                    <input
+                      style={{ border: "none", outline: "none" }}
+                      type="text"
+                      placeholder={city}
+                      onChange={(event) => setCity(event.target.value)}
+                      value={city}
+                    />
+                  ) : (
+                    <p>{city}</p>
+                  )}
+                </div>
+                <div className="input-label">
+                  <label>Country:</label>
+                  {isEditing ? (
+                    <input
+                      style={{ border: "none", outline: "none" }}
+                      type="text"
+                      placeholder={country}
+                      onChange={(event) => setCountry(event.target.value)}
+                      value={country}
+                    />
+                  ) : (
+                    <p>{country}</p>
+                  )}
+                </div>
+                <div className="input-label">
+                  <label>profile picture:</label>
+                  {isEditing ? (
+                    <input
+                      style={{ border: "none", outline: "none" }}
+                      type="text"
+                      placeholder={profilePic}
+                      onChange={(event) => setProfilePic(event.target.value)}
+                      value={profilePic}
+                    />
+                  ) : (
+                    <p>{profilePic}</p>
+                  )}
+                </div>
+                <div className="input-label">
+                  <label>Calendly Link:</label>
+                  {isEditing ? (
+                    <input
+                      style={{ border: "none", outline: "none" }}
+                      type="text"
+                      placeholder={calendly}
+                      onChange={(event) => setCalendly(event.target.value)}
+                      value={calendly}
+                    />
+                  ) : (
+                    <p>{calendly}</p>
+                  )}
+                </div>
               </div>
-            );
-          })}
-      </div>
-      <div>
-        Favorite Companies
-        {favoriteCompanies.length > 0 &&
-          favoriteCompanies.map((company) => {
-            return (
-              <div key={company._id}>
-                <div>{company.name}</div>
-                <Link to={`/company/${company._id}`}>
-                  <button type="button">Show Company</button>
-                </Link>
-                <button type="button" onClick={() => handlefavoriteCompanyDelete(company._id)}>
-                  X
-                </button>
+
+              {message && <span>{message}</span>}
+
+              <div className="button">
+                {isEditing ? (
+                  <Button
+                    variant="contained"
+                    sx={{ bgcolor: "#6b9080", mt: 3, mb: 2 }}
+                    type="submit"
+                    onClick={changeEdit}
+                  >
+                    Commit Changes
+                  </Button>
+                ) : (
+                  <Button
+                    type="submit"
+                    // fullWidth
+                    variant="contained"
+                    sx={{ bgcolor: "#6b9080", mt: 3, mb: 2 }}
+                    onClick={changeEdit}
+                  >
+                    Edit information
+                  </Button>
+                )}
               </div>
-            );
-          })}
+            </form>
+          </div>
+        )}
+        <div className="form-outer">
+          <div className="form-inner">
+            <form onSubmit={addSkill} className="add-skill-form">
+              <label>Add a new skill:</label>
+              <input
+                type="text"
+                placeholder={newSkill}
+                onChange={(event) => setNewSkill(event.target.value)}
+                value={newSkill}
+                autoFocus
+              />
+              <Button
+                variant="contained"
+                sx={{ bgcolor: "#6b9080", mt: 3, mb: 2 }}
+                type="submit"
+              >
+                Add Skill
+              </Button>
+            </form>
+            <div className="skills skills-junior-profile">
+              <div className="skills-word">
+                <span>skills:</span>
+              </div>
+              <ul>
+                {skills.length > 0 &&
+                  skills.map((skill) => {
+                    return (
+                      <div key={skill}>
+                        <li>
+                          {skill}
+                          <Button
+                            id="Button-x"
+                            variant="contained"
+                            sx={{ bgcolor: "#6b9080", mt: 3, mb: 2 }}
+                            type="button"
+                            className="button-x"
+                            onClick={() => handleSkilldelete(skill)}
+                          >
+                            X
+                          </Button>
+                        </li>
+                      </div>
+                    );
+                  })}
+              </ul>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
+      <div className="favorites-juniors">
+        <div className="form-outer">
+          <div className="job-posts-juniors-profile-inner">
+            <div className="jobposts-title">Job posts:</div>
+            <ul>
+              {favoriteJobPosts.length > 0 &&
+                favoriteJobPosts.map((jobPost) => {
+                  return (
+                    <>
+                      <li key={jobPost._id}>
+                        <div className="information-jobpost">
+                          <div className="title-job">{jobPost.title}</div>
+                          <div>
+                            {jobPost.salaryRange.minimum}-
+                            {jobPost.salaryRange.maximum}
+                          </div>
+                          <div>{jobPost.company.name}</div>
+                        </div>
+
+                        <div className="buttons-favorites">
+                          <Link to={`/jobs/${jobPost._id}`}>
+                            <Button
+                              variant="contained"
+                              sx={{ bgcolor: "#6b9080", mt: 3, mb: 2 }}
+                              type="button"
+                            >
+                              Show Post
+                            </Button>
+                          </Link>
+                          <Button
+                            variant="contained"
+                            sx={{ bgcolor: "#6b9080", mt: 3, mb: 2 }}
+                            type="button"
+                            onClick={() =>
+                              handlefavoriteJobPostsdelete(jobPost._id)
+                            }
+                          >
+                            X
+                          </Button>
+                        </div>
+                      </li>
+                      <hr className="line" />
+                    </>
+                  );
+                })}
+            </ul>
+          </div>
+        </div>
+        <div className="form-outer">
+          <div className="favorite-companies-junior-inner">
+            <div className="jobposts-title">Favorite Companies</div>
+            <ul>
+              {favoriteCompanies.length > 0 &&
+                favoriteCompanies.map((company) => {
+                  return (
+                    <>
+                    <li key={company._id}>
+                      <div className="company-name">{company.name}</div>
+                      <div className="buttons-favorites">
+                        <Link to={`/company/${company._id}`}>
+                          <Button
+                            variant="contained"
+                            sx={{ bgcolor: "#6b9080", mt: 3, mb: 2 }}
+                            type="button"
+                          >
+                            Show Company
+                          </Button>
+                        </Link>
+                        <Button
+                          variant="contained"
+                          sx={{ bgcolor: "#6b9080", mt: 3, mb: 2 }}
+                          type="button"
+                          onClick={() =>
+                            handlefavoriteCompanyDelete(company._id)
+                          }
+                        >
+                          X
+                        </Button>
+                      </div>
+                    </li>
+                    <hr className="line"/>
+                    </>
+                  );
+                })}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </>
   );
 }
 

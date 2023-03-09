@@ -19,6 +19,7 @@
   justify-content: center;
   width: 50%;
   min-width: 350px;
+  
 }
 
 .edit-form {
@@ -81,6 +82,7 @@ h6 {
   font-size: 0.75rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
+  align-items: center;
 }
 
 .input-label label {
@@ -191,11 +193,6 @@ input {
   justify-content: center;
 }
 
-.MuiPaper-root {
-  max-width: 450px !important;
-  min-width: 400px;
-}
-
 .jobpost-li{
   display: flex;
     justify-content: center;
@@ -215,5 +212,7 @@ input {
   -moz-box-shadow: 0px 2px 2px 1px var(--cambridge) !important;
   box-shadow: 0px 2px 2px 1px var(--cambridge) !important;
   color: #35433d !;
-  min-width: 350px;
+  min-width: 350px;  
+  max-width: 450px !important;
+  min-width: 400px;
 }

@@ -1,0 +1,104 @@
+.forms {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin: 0 5px;
+}
+
+.form-outer {
+  display: flex;
+  justify-content: center;
+  width: 50%;
+  min-width: 350px;
+  background-color: var(--azure);
+  padding: 15px 30px;
+  border: 1px solid var(--azure);
+  border-radius: 5px;
+  -webkit-box-shadow: 0px 2px 2px 1px var(--cambridge);
+  -moz-box-shadow: 0px 2px 2px 1px var(--cambridge);
+  box-shadow: 0px 2px 2px 1px var(--cambridge);
+  max-width: 350px;
+  margin: 15px;
+}
+
+.button-x {
+  padding: 0 !important;
+  margin: 0 4px !important;
+  min-width: 35px !important;
+}
+
+.skills-junior-profile ul {
+  width: 100%;
+}
+
+.skills-junior-profile {
+  width: unset;
+}
+
+.form-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.add-skill-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.skills-word {
+  display: flex;
+  justify-content: center;
+}
+
+.favorites-juniors {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.favorites-juniors ul {
+    padding: 0;
+}
+
+.favorites-juniors ul li{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 5px;
+}
+.buttons-favorites{
+    display: flex;
+    flex-direction: column;
+    /* gap: 5px; */
+}
+
+.buttons-favorites button {
+    margin: 5px 0;
+}
+
+.information-jobpost{
+    width: 50%;
+}
+
+.jobposts-title{
+    text-align: center;
+}
+
+.line{
+    border: 0.5px solid var(--viridian) !important;
+}
+
+.company-name{
+    width: 50%;
+}
+
+.favorite-companies-junior-inner ul li {
+    flex-direction: column !important;
+}
+
+.input-label p {
+    margin: 0;
+}
