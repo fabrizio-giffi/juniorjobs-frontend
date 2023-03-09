@@ -44,8 +44,6 @@
 
 .skills {
   width: 50%;
-.skills {
-  width: 50%;
 }
 
 .skills ul {
@@ -85,23 +83,17 @@
 
 a {
   color: #5e746a;
-a {
-  color: #5e746a;
 }
 
 a:hover {
   color: #35433d;
-a:hover {
-  color: #35433d;
 }
 
-.details-heart {
 .details-heart {
   display: flex;
   flex-direction: row;
   align-items: center;
 }
-
 
 @media screen and (max-width: 900px) {
   .skills ul {
@@ -114,27 +106,27 @@ a:hover {
 }
 
 @media screen and (max-width: 500px) {
- .card{
-  flex-direction: column;
-  align-items: center;
-  width: unset;
- }
+  .card {
+    flex-direction: column;
+    align-items: center;
+    width: unset;
+  }
 
- .junior-name{
-  align-items: center;
- }
- .country{
-  flex-direction: row;
-  gap: 15px;
- }
- .details-heart{
-  gap: 15px;
- }
+  .junior-name {
+    align-items: center;
+  }
+  .country {
+    flex-direction: row;
+    gap: 15px;
+  }
+  .details-heart {
+    gap: 15px;
+  }
 
- .skills{
-  display: flex;
-  flex-wrap: wrap;
-  flex-direction: column;
-  justify-content: flex-start;
- }
+  .skills {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: flex-start;
+  }
 }
