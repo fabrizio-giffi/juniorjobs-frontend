@@ -87,7 +87,6 @@ h6 {
   font-weight: 400;
   font-size: 0.75rem;
   letter-spacing: 0.08em;
-  text-transform: uppercase;
   background-color: var(--azure);
 }
 .profile-pic-outer {
