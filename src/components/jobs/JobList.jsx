@@ -14,7 +14,7 @@ function JobList() {
   const [jobList, setJobList] = useState([]);
   const [userDB, setUserDB] = useState({});
   const [updated, setUpdated] = useState(false);
-  const [isFetching, setIsFetching] = useState(false);
+  const [isFetching, setIsFetching] = useState(true);
   const [geoQuery, setGeoQuery] = useState("");
   const [companyQuery, setCompanyQuery] = useState("");
   const [stackQuery, setStackQuery] = useState([]);
@@ -26,7 +26,7 @@ function JobList() {
       const fetchedUser = await axios.get(`${api_URL}/user/${user.id}`);
       setUserDB(fetchedUser.data);
     }
-    setIsFetching(false);
+    setIsFetching(true);
     setUpdated(false);
   };
 
