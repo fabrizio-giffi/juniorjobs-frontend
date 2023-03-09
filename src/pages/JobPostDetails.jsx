@@ -133,7 +133,7 @@ function JobPostDetails() {
                 €<span>{jobPost.salaryRange.minimum}</span> - €<span>{jobPost.salaryRange.maximum}</span>
               </Typography>
               <p style={{ marginBottom: "40px" }}>Created: {dateCreated.toLocaleDateString("en-US", options)}</p>
-              {!isLoggedIn || !userDB || userDB.favoriteJobPosts.some((job) => job._id === jobPost._id) ? (
+              {!isLoggedIn || !userDB || userDB.favoriteJobPosts?.some((job) => job._id === jobPost._id) ? (
                 <IconButton aria-label="add to favorites">
                   <FavoriteIcon />
                 </IconButton>
