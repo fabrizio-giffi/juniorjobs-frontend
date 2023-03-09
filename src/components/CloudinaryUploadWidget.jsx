@@ -15,6 +15,7 @@ const CloudinaryUploadWidget = ({ setProfilePicture }) => {
     const formData = new FormData();
     formData.append("file", imageSelected);
     formData.append("upload_preset", "qt1a58q1");
+    console.log("imageSelected", imageSelected);
     try {
       const response = await axios.post(
         "https://api.cloudinary.com/v1_1/dbxtlw5rz/image/upload",
@@ -29,16 +30,17 @@ const CloudinaryUploadWidget = ({ setProfilePicture }) => {
       console.log(error);
     }
   };
-
+  console.log("imageSelected: ", imageSelected);
   return (
     <>
-      <UploadFileBtn />
+      <UploadFileBtn imageSelected={imageSelected} setImageSelected={setImageSelected} />
       <div className="button-picture">
         <Button
           type="submit"
           variant="contained"
           sx={{ bgcolor: "#6b9080", mt: 3, mb: 2 }}
           onClick={uploadImage}
+          
         >
           Upload image
         </Button>

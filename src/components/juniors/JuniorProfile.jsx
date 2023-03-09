@@ -374,7 +374,7 @@ function JuniorProfile() {
         </div>
         <div className="form-outer">
           <div className="favorite-companies-junior-inner">
-            <div className="jobposts-title">Favorite Companies</div>
+            <div className="jobposts-title">Favorite companies:</div>
             <ul>
               {favoriteCompanies.length > 0 &&
                 favoriteCompanies.map((company) => {

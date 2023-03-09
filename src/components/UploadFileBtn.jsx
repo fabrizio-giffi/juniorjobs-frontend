@@ -2,7 +2,7 @@ import { Button } from "@mui/material";
 import React, { useRef, useState } from "react";
 import "./CloudinaryUploadWidget";
 
-const UploadFileBtn = () => {
+const UploadFileBtn = ({ imageSelected, setImageSelected}) => {
   const [fileName, setFileName] = useState("");
   const hiddenFileInput = useRef(null);
 
@@ -11,8 +11,10 @@ const UploadFileBtn = () => {
   };
 
   const handleChange = (event) => {
-    const fileUploaded = event.target.files[0].name;
-    setFileName(fileUploaded);
+    const fileUploadedName = event.target.files[0].name;
+    const fileUploaded = event.target.files[0]
+    setFileName(fileUploadedName);
+    setImageSelected(fileUploaded)
   };
 
   return (
