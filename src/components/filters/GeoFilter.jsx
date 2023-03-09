@@ -5,7 +5,7 @@ function GeoFilter({ setGeoQuery, geoQuery, countryFilter }) {
   return (
     <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", gap: 1 }}>
       <TextField
-        sx={{ minWidth: "200px", maxWidth: "md" }}
+        sx={{ minWidth: "370px", maxWidth: "md" }}
         type="text"
         onChange={(event) => setGeoQuery(event.target.value)}
         id="outlined-basic"

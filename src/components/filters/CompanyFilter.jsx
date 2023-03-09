@@ -5,7 +5,7 @@ function CompanyFilter({ setCompanyQuery, companyQuery, companyFilter }) {
   return (
     <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", gap: 1 }}>
       <TextField
-        sx={{ width: "200px" }}
+        sx={{ width: "370px" }}
         type="text"
         onChange={(event) => setCompanyQuery(event.target.value)}
         id="outlined-basic"
