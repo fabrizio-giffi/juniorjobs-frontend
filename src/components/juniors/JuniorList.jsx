@@ -86,7 +86,7 @@ const JuniorList = () => {
 
   return (
     juniors.length > 0 && (
-      <>
+      <Box sx={{ mb: 10 }}>
         <Container
           className="filterCtn"
           sx={{
@@ -127,7 +127,7 @@ const JuniorList = () => {
               );
             })}
         </div>
-      </>
+      </Box>
     )
   );
 };

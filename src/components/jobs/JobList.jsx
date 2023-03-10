@@ -76,7 +76,7 @@ function JobList() {
           }}
         >
           <Skeleton sx={{ mb: 8 }} variant="rounded" width="500px" height="40px" />
-          <Box width="lg" sx={{ display: "flex", flexWrap: "nowrap", gap: 3, mb:3 }}>
+          <Box width="lg" sx={{ display: "flex", flexWrap: "nowrap", gap: 3, mb: 3 }}>
             <Skeleton variant="rounded" width="370px" height="300px" />
             <Skeleton variant="rounded" width="370px" height="300px" />
           </Box>
@@ -90,7 +90,7 @@ function JobList() {
   }
 
   return (
-    <>
+    <Box sx={{ mb: 10 }}>
       <Container
         className="filterCtn"
         sx={{
@@ -126,7 +126,7 @@ function JobList() {
             })}
         </Box>
       </Container>
-    </>
+    </Box>
   );
 }
 

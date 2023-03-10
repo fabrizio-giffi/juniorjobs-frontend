@@ -39,7 +39,7 @@ function JuniorProfilePublic() {
       <div>
       <div className="flexyContainer shadowBox">
         <div>
-          <imag src={userData.profilPic} />
+          <img src={userData.profilPic} />
         </div>
         <Typography variant="h2">
           {userData.firstName} {userData.lastName}
