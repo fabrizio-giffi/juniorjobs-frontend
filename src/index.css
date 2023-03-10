@@ -40,3 +40,7 @@ button:hover {
 .calendly-inline-widget {
   height: 700px !important;
 }
+
+.prompt a {
+  color: #6b9080 !important;
+}

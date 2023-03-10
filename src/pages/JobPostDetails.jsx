@@ -147,7 +147,7 @@ function JobPostDetails() {
               </IconButton>
             </>
           ) : (
-            <p>Log in or sign up to see more informations</p>
+            <p className="prompt"><Link to="/login">Log in</Link> or <Link to="/signup">sign up</Link> to see more informations</p>
           )}
         </>
       )}
