@@ -6,6 +6,7 @@ import GeoFilter from "../filters/GeoFilter";
 import StackFilter from "../filters/StackFilter";
 import JobPostCard from "./JobPostCard";
 import { AuthContext } from "../../context/auth.context";
+import countries from "../../data/countries.json"
 
 const api_URL = import.meta.env.VITE_API_URL;
 
@@ -18,6 +19,8 @@ function JobList() {
   const [geoQuery, setGeoQuery] = useState("");
   const [companyQuery, setCompanyQuery] = useState("");
   const [stackQuery, setStackQuery] = useState([]);
+
+  console.log(countries)
 
   const fetchData = async () => {
     const jobList = await axios.get(`${api_URL}/posts`);
