@@ -12,6 +12,7 @@ import ShareIcon from "@mui/icons-material/Share";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 
 const api_URL = import.meta.env.VITE_API_URL;
+const gmaps = import.meta.env.VITE_GMAPS;
 
 const options = { weekday: "long", year: "numeric", month: "long", day: "numeric" };
 
@@ -73,8 +74,8 @@ function JobPostDetails() {
         borderRadius: "30px",
         marginTop: "30px",
         marginBottom: "30px !important",
-        "-webkit-box-shadow": "2px 2px 15px -3px rgba(0,0,0,0.51)",
-        "box-shadow": "2px 2px 15px -3px rgba(0,0,0,0.51)",
+        webkitBoxShadow: "2px 2px 15px -3px rgba(0,0,0,0.51)",
+        boxShadow: "2px 2px 15px -3px rgba(0,0,0,0.51)",
         padding: "20px 50px !important",
       }}
     >
@@ -84,7 +85,7 @@ function JobPostDetails() {
           <Typography variant="h3" paddingTop={"30px"} gutterBottom>
             {jobPost.title}
           </Typography>
-          <Box sx={{ display: "flex" }} disablePadding>
+          <Box sx={{ display: "flex" }}>
             <ListItemIcon variant="overline">
               <HomeRepairServiceIcon sx={{ mr: 1 }} />
               <Typography variant="overline">{jobPost.description.jobtype}</Typography>
@@ -132,7 +133,16 @@ function JobPostDetails() {
               <Typography variant="body1" gutterBottom>
                 €<span>{jobPost.salaryRange.minimum}</span> - €<span>{jobPost.salaryRange.maximum}</span>
               </Typography>
-              <p style={{ marginBottom: "40px" }}>Created: {dateCreated.toLocaleDateString("en-US", options)}</p>
+              <Typography style={{ marginBottom: "40px" }}>Created: {dateCreated.toLocaleDateString("en-US", options)}</Typography>
+              <iframe
+                width="300"
+                height="300"
+                style={{ border: "none" }}
+                loading="lazy"
+                allowFullScreen
+                referrerPolicy="no-referrer-when-downgrade"
+                src={`https://www.google.com/maps/embed/v1/place?key=${gmaps}&q=${jobPost.address.city}+${jobPost.address.country}`}
+              ></iframe>
               {!isLoggedIn || !userDB || userDB.favoriteJobPosts?.some((job) => job._id === jobPost._id) ? (
                 <IconButton aria-label="add to favorites">
                   <FavoriteIcon />
@@ -147,7 +157,9 @@ function JobPostDetails() {
               </IconButton>
             </>
           ) : (
-            <p className="prompt"><Link to="/login">Log in</Link> or <Link to="/signup">sign up</Link> to see more informations</p>
+            <p className="prompt">
+              <Link to="/login">Log in</Link> or <Link to="/signup">sign up</Link> to see more informations
+            </p>
           )}
         </>
       )}
