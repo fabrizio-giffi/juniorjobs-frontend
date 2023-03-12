@@ -86,7 +86,7 @@ console.log(profile)
                   src={
                     profilePicture
                       ? profilePicture
-                      : `https://api.dicebear.com/5.x/initials/svg?seed=${name}`
+                      : `https://api.dicebear.com/5.x/initials/svg?seed=${name.toUpperCase()}`
                   }
                   alt={name}
                 />

@@ -3,9 +3,26 @@ import { AuthContext } from "../../context/auth.context";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import "./JuniorProfile.css";
-import { Button, Typography, TextField, Autocomplete, Box } from "@mui/material";
+import {
+  Button,
+  Typography,
+  TextField,
+  Autocomplete,
+  Box,
+  createFilterOptions,
+  Container,
+  IconButton,
+  ListItem,
+} from "@mui/material";
+import ClearIcon from "@mui/icons-material/Clear";
 
 import countries from "../../data/countries.json";
+
+// Filter for the cities select
+const filterOptions = createFilterOptions({
+  matchFrom: "start",
+  stringify: (option) => option,
+});
 
 function JuniorProfile() {
   const { user } = useContext(AuthContext);
@@ -23,9 +40,16 @@ function JuniorProfile() {
   const [favoriteCompanies, setFavoriteCompanies] = useState([]);
   const [catchingUserData, setCatchinUserData] = useState(true);
   const [message, setMessage] = useState();
-  const [isEditing, setIsEditing] = useState(false);
   const [newSkill, setNewSkill] = useState();
   const [calendly, setCalendly] = useState("");
+  //States for the edit inputs
+  const [isEditing, setIsEditing] = useState(false);
+  const [firstNameInput, setFirstNameInput] = useState(firstName);
+  const [lastNameInput, setLastNameInput] = useState(lastName);
+  const [countryInput, setCountryInput] = useState(country);
+  const [cityInput, setCityInput] = useState(city);
+  const [calendlyInput, setCalendlyInput] = useState(calendly);
+  const [isEdited, setIsEdited] = useState(false);
 
   const api_URL = import.meta.env.VITE_API_URL;
 
@@ -44,6 +68,12 @@ function JuniorProfile() {
       setProfilePic(response.data.profilePic);
       setFavoriteCompanies(response.data.favoriteCompanies);
       setFavoriteJobPosts(response.data.favoriteJobPosts);
+      // Pre-populate edit inputs
+      setFirstNameInput(response.data.firstName);
+      setLastNameInput(response.data.lastName);
+      setCountryInput(response.data.location.country);
+      setCityInput(response.data.location.city);
+      setCalendlyInput(response.data.calendly);
     } catch (error) {
       console.log(error);
     }
@@ -84,6 +114,7 @@ function JuniorProfile() {
       console.log(error);
     }
   }
+
   async function editFields(event) {
     event.preventDefault();
     const requestBody = {
@@ -97,6 +128,7 @@ function JuniorProfile() {
     try {
       const response = await axios.put(`${api_URL}/user/edit/${user.id}`, requestBody);
       setMessage(response.data.message);
+      setIsEdited(true);
     } catch (error) {
       console.log(error);
     }
@@ -130,8 +162,17 @@ function JuniorProfile() {
 
   const getCities = async () => {
     if (!catchingUserData) {
-      const response = await axios.post("https://countriesnow.space/api/v0.1/countries/cities", { country });
-      setCitiesList(response.data.data);
+      try {
+        if (typeof countryInput === "undefined") {
+          return;
+        }
+        const response = await axios.post("https://countriesnow.space/api/v0.1/countries/cities", {
+          country: countryInput,
+        });
+        setCitiesList(response.data.data);
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
 
@@ -141,65 +182,77 @@ function JuniorProfile() {
   }, []);
 
   useEffect(() => {
-    setCity();
+    setCityInput("");
     getCities();
-  }, [country]);
+  }, [countryInput]);
 
   if (catchingUserData) {
     return <div>Loading...</div>;
   }
   return (
     <>
-      <div className="forms">
+      <Container sx={{ display: "flex", justifyContent: "center " }}>
         {user.role == "junior" && (
-          <div className="form-outer">
+          <Box maxWidth="sm" className="form-outer">
             <form onSubmit={editFields} className="edit-junior-form">
-              <div className="title">
-                <img src={`https://api.dicebear.com/5.x/initials/svg?seed=${firstName}`} alt={firstName} />
-                <h2>User information</h2>
-              </div>
-              {isEditing ? <h6>Click on the information to edit</h6> : ""}
+              <Box sx={{ mb: 2 }} className="title">
+                <img
+                  src={`https://api.dicebear.com/5.x/initials/svg?seed=${firstName[0]}${lastName[0]}}`}
+                  alt={firstName}
+                />
+                <Typography variant="h6">User information</Typography>
+              </Box>
 
               <div className="information">
                 <div className="input-label">
-                  <label>First Name:</label>
                   {isEditing ? (
-                    <input
-                      style={{ border: "none", outline: "none" }}
+                    <TextField
+                      sx={{ mb: 1 }}
+                      fullWidth
+                      id="first-name"
+                      label="First Name"
+                      variant="outlined"
                       type="text"
-                      placeholder={firstName}
-                      onChange={(event) => setFirstName(event.target.value)}
-                      value={firstName}
+                      value={firstNameInput}
+                      onChange={(event) => setFirstNameInput(event.target.value)}
                     />
                   ) : (
-                    <p>{firstName}</p>
+                    <>
+                      <Typography variant="body1">Last Name:</Typography>
+                      <Typography variant="body1">{firstName}</Typography>
+                    </>
                   )}
                 </div>
                 <div className="input-label">
-                  <label>Last Name:</label>
                   {isEditing ? (
-                    <input
-                      style={{ border: "none", outline: "none" }}
+                    <TextField
+                      sx={{ mb: 1 }}
+                      fullWidth
+                      id="last-name"
+                      label="Last Name"
+                      variant="outlined"
                       type="text"
-                      placeholder={lastName}
-                      onChange={(event) => setLastName(event.target.value)}
-                      value={lastName}
+                      value={lastNameInput}
+                      onChange={(event) => setLastNameInput(event.target.value)}
                     />
                   ) : (
-                    <p>{lastName}</p>
+                    <>
+                      <Typography variant="body1">Last Name:</Typography>
+                      <Typography variant="body1">{lastName}</Typography>
+                    </>
                   )}
                 </div>
 
                 <div className="input-label">
-                  <Typography variant="body1">Country:</Typography>
                   {isEditing ? (
                     <Autocomplete
+                      sx={{ mb: 1 }}
+                      fullWidth
                       id="country-select"
-                      sx={{ width: 200 }}
                       options={countries}
                       autoHighlight
                       getOptionLabel={(option) => option.name}
-                      onChange={(event) => setCountry(event.target.innerText)}
+                      onChange={(event) => setCountryInput(event.target.innerText)}
                       renderOption={(props, option) => (
                         <Box component="li" key={option.iso3} sx={{ "& > img": { mr: 2, flexShrink: 0 } }} {...props}>
                           <img loading="lazy" width="20" src={option.flag} alt={option.name} />
@@ -212,45 +265,55 @@ function JuniorProfile() {
                           label="Country"
                           inputProps={{
                             ...params.inputProps,
-                            autoComplete: country,
+                            autoComplete: "new-password",
                           }}
                         />
                       )}
                     />
                   ) : (
-                    <Typography variant="body1">{country}</Typography>
-                  )}
-                </div>
-                <div className="input-label">
-                  <Typography variant="body1">City:</Typography>
-                  {isEditing ? (
                     <>
-                      <Autocomplete
-                        sx={{ width: 200 }}
-                        id="city-select"
-                        freeSolo
-                        value={city}
-                        options={citiesList}
-                        onChange={(event) => setCity(event.target.innerText)}
-                        renderInput={(params) => <TextField {...params} label="City" />}
-                      />
+                      <Typography variant="body1">Country:</Typography>
+                      <Typography variant="body1">{country}</Typography>
                     </>
-                  ) : (
-                    <Typography variant="body1">{city}</Typography>
                   )}
                 </div>
                 <div className="input-label">
-                  <label>Calendly Link:</label>
                   {isEditing ? (
-                    <input
-                      style={{ border: "none", outline: "none" }}
-                      type="text"
-                      placeholder={calendly}
-                      onChange={(event) => setCalendly(event.target.value)}
-                      value={calendly}
+                    <Autocomplete
+                      sx={{ mb: 1 }}
+                      fullWidth
+                      id="city-select"
+                      freeSolo
+                      value={cityInput}
+                      options={citiesList}
+                      filterOptions={filterOptions}
+                      onChange={(event) => setCityInput(event.target.innerText)}
+                      renderInput={(params) => <TextField {...params} label="City" />}
                     />
                   ) : (
-                    <p>{calendly}</p>
+                    <>
+                      <Typography variant="body1">City:</Typography>
+                      <Typography variant="body1">{city}</Typography>
+                    </>
+                  )}
+                </div>
+                <div className="input-label">
+                  {isEditing ? (
+                    <TextField
+                      fullWidth
+                      id="calendly"
+                      label="Calendly link"
+                      variant="outlined"
+                      style={{ border: "none", outline: "none" }}
+                      type="text"
+                      value={calendlyInput}
+                      onChange={(event) => setCalendlyInput(event.target.value)}
+                    />
+                  ) : (
+                    <>
+                      <Typography variant="body1">Calendly Link:</Typography>
+                      <Typography variant="body1">{calendly}</Typography>
+                    </>
                   )}
                 </div>
               </div>
@@ -259,12 +322,19 @@ function JuniorProfile() {
 
               <div className="button">
                 {isEditing ? (
-                  <>
+                  <Box sx={{ display: "flex", gap: 1 }}>
                     <Button
                       variant="contained"
                       sx={{ bgcolor: "#6b9080", mt: 3, mb: 2 }}
                       type="submit"
-                      onClick={changeEdit}
+                      onClick={() => {
+                        setFirstName(firstNameInput);
+                        setLastName(lastNameInput);
+                        setCity(cityInput);
+                        setCountry(countryInput);
+                        setCalendly(calendlyInput);
+                        changeEdit();
+                      }}
                     >
                       Commit Changes
                     </Button>
@@ -272,75 +342,77 @@ function JuniorProfile() {
                       variant="contained"
                       sx={{ bgcolor: "#6b9080", mt: 3, mb: 2 }}
                       type="button"
-                      onClick={changeEdit}
+                      onClick={() => {
+                        setFirstNameInput(firstName);
+                        setLastNameInput(lastName);
+                        setCityInput(city);
+                        setCountryInput(country);
+                        setCalendlyInput(calendly);
+                        setIsEdited(false);
+                        changeEdit();
+                      }}
                     >
                       Cancel
                     </Button>
-                  </>
+                  </Box>
                 ) : (
-                  <Button
-                    type="submit"
-                    variant="contained"
-                    sx={{ bgcolor: "#6b9080", mt: 3, mb: 2 }}
-                    onClick={changeEdit}
-                  >
-                    Edit information
-                  </Button>
+                  <Box sx={{ display: "flex", flexDirection: "column" }}>
+                    <Button
+                      type="submit"
+                      fullWidth
+                      variant="contained"
+                      sx={{ bgcolor: "#6b9080", mt: 3, mb: 2 }}
+                      onClick={changeEdit}
+                    >
+                      Edit information
+                    </Button>
+                    {isEdited && <Typography>Your personal profile has been updated!</Typography>}
+                  </Box>
                 )}
               </div>
             </form>
-          </div>
+          </Box>
         )}
-        <div className="form-outer">
+        <Box maxWidth="sm" className="form-outer">
           <div className="form-inner">
-            <form onSubmit={addSkill} className="add-skill-form">
-              <Typography variant="overline">Add a new skill:</Typography>
-              <input
-                type="text"
-                placeholder={newSkill}
-                onChange={(event) => setNewSkill(event.target.value)}
-                value={newSkill}
-                autoFocus
-                style={{ height: "25px" }}
-              />
-              <Button variant="contained" sx={{ bgcolor: "#6b9080", mt: 3, mb: 2 }} type="submit">
-                Add Skill
-              </Button>
-            </form>
+            <Typography variant="h6">Add a new skill:</Typography>
+            <TextField
+              type="text"
+              placeholder="e.g. Machine learning"
+              value={newSkill}
+              onChange={(event) => setNewSkill(event.target.value)}
+              autoFocus
+            />
+            <Button onClick={addSkill} variant="contained" sx={{ bgcolor: "#6b9080", mt: 3, mb: 2 }} type="submit">
+              Add Skill
+            </Button>
             <div className="skills skills-junior-profile">
               <div className="skills-word">
-                <span>skills:</span>
+                <Typography variant="h6">Skills:</Typography>
               </div>
               <ul>
                 {skills.length > 0 &&
                   skills.map((skill) => {
                     return (
                       <div key={skill}>
-                        <li>
+                        <ListItem>
                           {skill}
-                          <Button
-                            id="Button-x"
-                            variant="contained"
-                            sx={{ bgcolor: "#6b9080", mt: 3, mb: 2 }}
-                            type="button"
-                            className="button-x"
-                            onClick={() => handleSkilldelete(skill)}
-                          >
-                            X
-                          </Button>
-                        </li>
+                          <IconButton sx={{ ml: 1, p: 0 }} type="button" onClick={() => handleSkilldelete(skill)}>
+                            <ClearIcon sx={{ width: 20 }} />
+                          </IconButton>
+                        </ListItem>
                       </div>
                     );
                   })}
               </ul>
             </div>
           </div>
-        </div>
-      </div>
-      <div className="favorites-juniors">
-        <div className="form-outer">
+        </Box>
+      </Container>
+      <Container sx={{ display: "flex", justifyContent: "center " }}>
+        <Box maxWidth="sm" className="form-outer">
           <div className="job-posts-juniors-profile-inner">
-            <div className="jobposts-title">Job posts:</div>
+            <Typography variant="h6">Favorite job posts:</Typography>
             <ul>
               {favoriteJobPosts.length > 0 &&
                 favoriteJobPosts.map((jobPost) => {
@@ -377,10 +449,10 @@ function JuniorProfile() {
                 })}
             </ul>
           </div>
-        </div>
-        <div className="form-outer">
+        </Box>
+        <Box maxWidth="sm" className="form-outer">
           <div className="favorite-companies-junior-inner">
-            <div className="jobposts-title">Favorite companies:</div>
+            <Typography variant="h6">Favorite companies:</Typography>
             <ul>
               {favoriteCompanies.length > 0 &&
                 favoriteCompanies.map((company) => {
@@ -410,8 +482,8 @@ function JuniorProfile() {
                 })}
             </ul>
           </div>
-        </div>
-      </div>
+        </Box>
+      </Container>
     </>
   );
 }
