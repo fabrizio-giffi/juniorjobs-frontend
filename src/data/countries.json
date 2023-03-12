@@ -1,7 +1,7 @@
 [
   {
     "name": "Afghanistan",
-    "flag": "https://upload.wikimedia.org/wikipedia/commons/9/9a/Flag_of_Afghanistan.svg",
+    "flag": "https://upload.wikimedia.org/wikipedia/commons/c/cd/Flag_of_Afghanistan_%282013%E2%80%932021%29.svg",
     "iso2": "AF",
     "iso3": "AFG"
   },
@@ -1033,7 +1033,7 @@
   },
   {
     "name": "Sao Tome and Principe",
-    "flag": "https://upload.wikimedia.org/wikipedia/commons/4/4f/Flag_of_Sao_Tome_and_Principe.svg",
+    "flag": "https://upload.wikimedia.org/wikipedia/commons/0/0a/Flag_of_S%C3%A3o_Tom%C3%A9_and_Pr%C3%ADncipe.svg",
     "iso2": "ST",
     "iso3": "STP"
   },
@@ -1264,12 +1264,6 @@
     "flag": "https://upload.wikimedia.org/wikipedia/en/a/a4/Flag_of_the_United_States.svg",
     "iso2": "US",
     "iso3": "USA"
-  },
-  {
-    "name": "United States Minor Outlying Islands",
-    "flag": "https://upload.wikimedia.org/wikipedia/en/a/a4/Flag_of_the_United_States.svg",
-    "iso2": "UM",
-    "iso3": "UMI"
   },
   {
     "name": "Uruguay",

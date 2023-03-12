@@ -3,7 +3,9 @@ import { AuthContext } from "../../context/auth.context";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import "./JuniorProfile.css";
-import { Button, Typography } from "@mui/material";
+import { Button, Typography, TextField, Autocomplete, Box } from "@mui/material";
+
+import countries from "../../data/countries.json";
 
 function JuniorProfile() {
   const { user } = useContext(AuthContext);
@@ -14,6 +16,7 @@ function JuniorProfile() {
   const [lastName, setLastName] = useState("");
   const [country, setCountry] = useState("");
   const [city, setCity] = useState("");
+  const [citiesList, setCitiesList] = useState([]);
   const [skills, setSkills] = useState([]);
   const [profilePic, setProfilePic] = useState("");
   const [favoriteJobPosts, setFavoriteJobPosts] = useState([]);
@@ -36,7 +39,7 @@ function JuniorProfile() {
       setLastName(response.data.lastName);
       setCountry(response.data.location.country);
       setCity(response.data.location.city);
-      setCalendly(response.data.calendly)
+      setCalendly(response.data.calendly);
       setSkills(response.data.skills);
       setProfilePic(response.data.profilePic);
       setFavoriteCompanies(response.data.favoriteCompanies);
@@ -50,10 +53,7 @@ function JuniorProfile() {
     const requestBody = { id, postId };
     try {
       setCatchinUserData(true);
-      const response = await axios.put(
-        `${api_URL}/user/privateprofile/deleteFavJobPost`,
-        requestBody
-      );
+      const response = await axios.put(`${api_URL}/user/privateprofile/deleteFavJobPost`, requestBody);
       getProfile();
       setCatchinUserData(false);
     } catch (error) {
@@ -65,10 +65,7 @@ function JuniorProfile() {
     const requestBody = { id, skill };
     try {
       setCatchinUserData(true);
-      const response = await axios.put(
-        `${api_URL}/user/privateprofile/deleteSkill`,
-        requestBody
-      );
+      const response = await axios.put(`${api_URL}/user/privateprofile/deleteSkill`, requestBody);
       getProfile();
       setCatchinUserData(false);
     } catch (error) {
@@ -80,10 +77,7 @@ function JuniorProfile() {
     const requestBody = { id, companyId };
     try {
       setCatchinUserData(true);
-      const response = await axios.put(
-        `${api_URL}/user/privateprofile/deleteFavCompany`,
-        requestBody
-      );
+      const response = await axios.put(`${api_URL}/user/privateprofile/deleteFavCompany`, requestBody);
       getProfile();
       setCatchinUserData(false);
     } catch (error) {
@@ -97,14 +91,11 @@ function JuniorProfile() {
       lastName,
       country,
       city,
-      calendly
+      calendly,
     };
 
     try {
-      const response = await axios.put(
-        `${api_URL}/user/edit/${user.id}`,
-        requestBody
-      );
+      const response = await axios.put(`${api_URL}/user/edit/${user.id}`, requestBody);
       setMessage(response.data.message);
     } catch (error) {
       console.log(error);
@@ -128,10 +119,7 @@ function JuniorProfile() {
 
     try {
       setCatchinUserData(true);
-      const response = await axios.put(
-        `${api_URL}/user/addNewSkill`,
-        requestBody
-      );
+      const response = await axios.put(`${api_URL}/user/addNewSkill`, requestBody);
       getProfile();
       setCatchinUserData(false);
       setNewSkill("");
@@ -139,10 +127,23 @@ function JuniorProfile() {
       console.log(error);
     }
   }
+
+  const getCities = async () => {
+    if (!catchingUserData) {
+      const response = await axios.post("https://countriesnow.space/api/v0.1/countries/cities", { country });
+      setCitiesList(response.data.data);
+    }
+  };
+
   useEffect(() => {
     getProfile();
     setCatchinUserData(false);
   }, []);
+
+  useEffect(() => {
+    setCity();
+    getCities();
+  }, [country]);
 
   if (catchingUserData) {
     return <div>Loading...</div>;
@@ -154,14 +155,11 @@ function JuniorProfile() {
           <div className="form-outer">
             <form onSubmit={editFields} className="edit-junior-form">
               <div className="title">
-                <img
-                  src={`https://api.dicebear.com/5.x/initials/svg?seed=${firstName}`}
-                  alt={firstName}
-                />
+                <img src={`https://api.dicebear.com/5.x/initials/svg?seed=${firstName}`} alt={firstName} />
                 <h2>User information</h2>
               </div>
               {isEditing ? <h6>Click on the information to edit</h6> : ""}
-              
+
               <div className="information">
                 <div className="input-label">
                   <label>First Name:</label>
@@ -193,31 +191,52 @@ function JuniorProfile() {
                 </div>
 
                 <div className="input-label">
-                  <label>City:</label>
+                  <Typography variant="body1">Country:</Typography>
                   {isEditing ? (
-                    <input
-                      style={{ border: "none", outline: "none" }}
-                      type="text"
-                      placeholder={city}
-                      onChange={(event) => setCity(event.target.value)}
-                      value={city}
+                    <Autocomplete
+                      id="country-select"
+                      sx={{ width: 200 }}
+                      options={countries}
+                      autoHighlight
+                      getOptionLabel={(option) => option.name}
+                      onChange={(event) => setCountry(event.target.innerText)}
+                      renderOption={(props, option) => (
+                        <Box component="li" key={option.iso3} sx={{ "& > img": { mr: 2, flexShrink: 0 } }} {...props}>
+                          <img loading="lazy" width="20" src={option.flag} alt={option.name} />
+                          {option.name}
+                        </Box>
+                      )}
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          label="Country"
+                          inputProps={{
+                            ...params.inputProps,
+                            autoComplete: country,
+                          }}
+                        />
+                      )}
                     />
                   ) : (
-                    <p>{city}</p>
+                    <Typography variant="body1">{country}</Typography>
                   )}
                 </div>
                 <div className="input-label">
-                  <label>Country:</label>
+                  <Typography variant="body1">City:</Typography>
                   {isEditing ? (
-                    <input
-                      style={{ border: "none", outline: "none" }}
-                      type="text"
-                      placeholder={country}
-                      onChange={(event) => setCountry(event.target.value)}
-                      value={country}
-                    />
+                    <>
+                      <Autocomplete
+                        sx={{ width: 200 }}
+                        id="city-select"
+                        freeSolo
+                        value={city}
+                        options={citiesList}
+                        onChange={(event) => setCity(event.target.innerText)}
+                        renderInput={(params) => <TextField {...params} label="City" />}
+                      />
+                    </>
                   ) : (
-                    <p>{country}</p>
+                    <Typography variant="body1">{city}</Typography>
                   )}
                 </div>
                 <div className="input-label">
@@ -240,14 +259,24 @@ function JuniorProfile() {
 
               <div className="button">
                 {isEditing ? (
-                  <Button
-                    variant="contained"
-                    sx={{ bgcolor: "#6b9080", mt: 3, mb: 2 }}
-                    type="submit"
-                    onClick={changeEdit}
-                  >
-                    Commit Changes
-                  </Button>
+                  <>
+                    <Button
+                      variant="contained"
+                      sx={{ bgcolor: "#6b9080", mt: 3, mb: 2 }}
+                      type="submit"
+                      onClick={changeEdit}
+                    >
+                      Commit Changes
+                    </Button>
+                    <Button
+                      variant="contained"
+                      sx={{ bgcolor: "#6b9080", mt: 3, mb: 2 }}
+                      type="button"
+                      onClick={changeEdit}
+                    >
+                      Cancel
+                    </Button>
+                  </>
                 ) : (
                   <Button
                     type="submit"
@@ -272,13 +301,9 @@ function JuniorProfile() {
                 onChange={(event) => setNewSkill(event.target.value)}
                 value={newSkill}
                 autoFocus
-                style={{height: "25px"}}
+                style={{ height: "25px" }}
               />
-              <Button
-                variant="contained"
-                sx={{ bgcolor: "#6b9080", mt: 3, mb: 2 }}
-                type="submit"
-              >
+              <Button variant="contained" sx={{ bgcolor: "#6b9080", mt: 3, mb: 2 }} type="submit">
                 Add Skill
               </Button>
             </form>
@@ -325,19 +350,14 @@ function JuniorProfile() {
                         <div className="information-jobpost">
                           <div className="title-job">{jobPost.title}</div>
                           <div>
-                            {jobPost.salaryRange.minimum}-
-                            {jobPost.salaryRange.maximum}
+                            {jobPost.salaryRange.minimum}-{jobPost.salaryRange.maximum}
                           </div>
                           <div>{jobPost.company.name}</div>
                         </div>
 
                         <div className="buttons-favorites">
                           <Link to={`/jobs/${jobPost._id}`}>
-                            <Button
-                              variant="contained"
-                              sx={{ bgcolor: "#6b9080", mt: 3, mb: 2 }}
-                              type="button"
-                            >
+                            <Button variant="contained" sx={{ bgcolor: "#6b9080", mt: 3, mb: 2 }} type="button">
                               Show Post
                             </Button>
                           </Link>
@@ -345,9 +365,7 @@ function JuniorProfile() {
                             variant="contained"
                             sx={{ bgcolor: "#6b9080", mt: 3, mb: 2 }}
                             type="button"
-                            onClick={() =>
-                              handlefavoriteJobPostsdelete(jobPost._id)
-                            }
+                            onClick={() => handlefavoriteJobPostsdelete(jobPost._id)}
                           >
                             X
                           </Button>
@@ -368,31 +386,25 @@ function JuniorProfile() {
                 favoriteCompanies.map((company) => {
                   return (
                     <>
-                    <li key={company._id}>
-                      <div className="company-name">{company.name}</div>
-                      <div className="buttons-favorites">
-                        <Link to={`/company/${company._id}`}>
+                      <li key={company._id}>
+                        <div className="company-name">{company.name}</div>
+                        <div className="buttons-favorites">
+                          <Link to={`/company/${company._id}`}>
+                            <Button variant="contained" sx={{ bgcolor: "#6b9080", mt: 3, mb: 2 }} type="button">
+                              Show Company
+                            </Button>
+                          </Link>
                           <Button
                             variant="contained"
                             sx={{ bgcolor: "#6b9080", mt: 3, mb: 2 }}
                             type="button"
+                            onClick={() => handlefavoriteCompanyDelete(company._id)}
                           >
-                            Show Company
+                            X
                           </Button>
-                        </Link>
-                        <Button
-                          variant="contained"
-                          sx={{ bgcolor: "#6b9080", mt: 3, mb: 2 }}
-                          type="button"
-                          onClick={() =>
-                            handlefavoriteCompanyDelete(company._id)
-                          }
-                        >
-                          X
-                        </Button>
-                      </div>
-                    </li>
-                    <hr className="line"/>
+                        </div>
+                      </li>
+                      <hr className="line" />
                     </>
                   );
                 })}
