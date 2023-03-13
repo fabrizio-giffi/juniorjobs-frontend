@@ -191,9 +191,9 @@ function JuniorProfile() {
   }
   return (
     <>
-      <Container sx={{ display: "flex", justifyContent: "center " }}>
+      <Container className="media-break" sx={{ display: "flex", justifyContent: "center " }}>
         {user.role == "junior" && (
-          <Box maxWidth="sm" className="form-outer">
+          <Box sx={{ bgcolor: "#eaf4f4" }} maxWidth="sm">
             <form onSubmit={editFields} className="edit-junior-form">
               <Box sx={{ mb: 2 }} className="title">
                 <img
@@ -373,7 +373,7 @@ function JuniorProfile() {
             </form>
           </Box>
         )}
-        <Box maxWidth="sm" className="form-outer">
+        <Box maxWidth="sm" sx={{ bgcolor: "#eaf4f4" }}>
           <div className="form-inner">
             <Typography variant="h6">Add a new skill:</Typography>
             <TextField
@@ -409,8 +409,8 @@ function JuniorProfile() {
           </div>
         </Box>
       </Container>
-      <Container sx={{ display: "flex", justifyContent: "center " }}>
-        <Box maxWidth="sm" className="form-outer">
+      <Container className="media-break" sx={{ display: "flex", flexDirection: "row", justifyContent: "center " }}>
+        <Box sx={{ bgcolor: "#eaf4f4" }} maxWidth="sm">
           <div className="job-posts-juniors-profile-inner">
             <Typography variant="h6">Favorite job posts:</Typography>
             <ul>
@@ -450,7 +450,7 @@ function JuniorProfile() {
             </ul>
           </div>
         </Box>
-        <Box maxWidth="sm" className="form-outer">
+        <Box sx={{ bgcolor: "#eaf4f4" }} maxWidth="sm">
           <div className="favorite-companies-junior-inner">
             <Typography variant="h6">Favorite companies:</Typography>
             <ul>

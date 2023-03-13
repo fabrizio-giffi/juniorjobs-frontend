@@ -106,7 +106,9 @@ function LoginPage() {
                 >
                   Log In
                 </Button>
-                {isSpinning && <CircularProgress size={20} sx={{ position: "absolute", mt: 11 }} />}
+                {isSpinning && (
+                  <CircularProgress size={20} sx={{ color: "white", position: "absolute", ml: 15, mt: 1 }} />
+                )}
               </Box>
             </Box>
           </Box>
