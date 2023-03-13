@@ -7,45 +7,9 @@
   box-shadow: 0px 2px 2px 1px var(--cambridge);
 }
 
-.skills-junior-profile ul {
-  width: 100%;
-}
-
-.skills-junior-profile {
-  width: unset;
-}
-
-.favorites-juniors {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  flex-wrap: wrap;
-}
-.favorites-juniors ul {
-  padding: 0;
-}
-
-.favorites-juniors ul li {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 5px;
-}
-
-.buttons-favorites button {
-  margin: 5px 0;
-}
-
-.information-jobpost {
-  width: 50%;
-}
-
-.line {
-  border: 0.5px solid var(--viridian) !important;
-}
-
 @media (max-width: 1250px) {
   .media-break {
     flex-direction: column;
+    gap: 2rem;
   }
 }

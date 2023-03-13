@@ -13,8 +13,20 @@ import {
   Container,
   IconButton,
   ListItem,
+  Avatar,
+  List,
+  Stack,
+  Divider,
+  Card,
+  Modal,
+  Chip,
+  CardHeader,
 } from "@mui/material";
 import ClearIcon from "@mui/icons-material/Clear";
+import ApartmentIcon from "@mui/icons-material/Apartment";
+import PaidIcon from "@mui/icons-material/Paid";
+import PlaceIcon from "@mui/icons-material/Place";
+import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 
 import countries from "../../data/countries.json";
 
@@ -26,22 +38,17 @@ const filterOptions = createFilterOptions({
 
 function JuniorProfile() {
   const { user } = useContext(AuthContext);
-  const [userData, setUserData] = useState();
   const [id, setId] = useState("");
   const [firstName, setFirstName] = useState("");
-  const [email, setEmail] = useState("");
   const [lastName, setLastName] = useState("");
   const [country, setCountry] = useState("");
   const [city, setCity] = useState("");
-  const [citiesList, setCitiesList] = useState([]);
+  const [calendly, setCalendly] = useState("");
+  const [catchingUserData, setCatchinUserData] = useState(true);
   const [skills, setSkills] = useState([]);
-  const [profilePic, setProfilePic] = useState("");
+  const [newSkill, setNewSkill] = useState();
   const [favoriteJobPosts, setFavoriteJobPosts] = useState([]);
   const [favoriteCompanies, setFavoriteCompanies] = useState([]);
-  const [catchingUserData, setCatchinUserData] = useState(true);
-  const [message, setMessage] = useState();
-  const [newSkill, setNewSkill] = useState();
-  const [calendly, setCalendly] = useState("");
   //States for the edit inputs
   const [isEditing, setIsEditing] = useState(false);
   const [firstNameInput, setFirstNameInput] = useState(firstName);
@@ -50,22 +57,22 @@ function JuniorProfile() {
   const [cityInput, setCityInput] = useState(city);
   const [calendlyInput, setCalendlyInput] = useState(calendly);
   const [isEdited, setIsEdited] = useState(false);
+  const [citiesList, setCitiesList] = useState([]);
+  const [showIndex, setShowIndex] = useState(2);
+  const [showMore, setShowMore] = useState(false);
 
   const api_URL = import.meta.env.VITE_API_URL;
 
   const getProfile = async () => {
     try {
       const response = await axios.get(`${api_URL}/user/${user.id}`);
-      setUserData(response.data);
       setId(response.data._id);
       setFirstName(response.data.firstName);
-      setEmail(response.data.email);
       setLastName(response.data.lastName);
       setCountry(response.data.location.country);
       setCity(response.data.location.city);
       setCalendly(response.data.calendly);
       setSkills(response.data.skills);
-      setProfilePic(response.data.profilePic);
       setFavoriteCompanies(response.data.favoriteCompanies);
       setFavoriteJobPosts(response.data.favoriteJobPosts);
       // Pre-populate edit inputs
@@ -118,27 +125,24 @@ function JuniorProfile() {
   async function editFields(event) {
     event.preventDefault();
     const requestBody = {
-      firstName,
-      lastName,
-      country,
-      city,
-      calendly,
+      firstName: firstNameInput,
+      lastName: lastNameInput,
+      country: countryInput,
+      city: cityInput,
+      calendly: calendlyInput,
     };
+    setFirstName(firstNameInput);
+    setLastName(lastNameInput);
+    setCountry(countryInput);
+    setCity(cityInput);
+    setCalendly(calendlyInput);
 
     try {
       const response = await axios.put(`${api_URL}/user/edit/${user.id}`, requestBody);
-      setMessage(response.data.message);
       setIsEdited(true);
+      setIsEditing(false);
     } catch (error) {
       console.log(error);
-    }
-  }
-
-  function changeEdit() {
-    if (isEditing == false) {
-      setIsEditing(true);
-    } else if (isEditing == true) {
-      setIsEditing(false);
     }
   }
 
@@ -191,299 +195,300 @@ function JuniorProfile() {
   }
   return (
     <>
-      <Container className="media-break" sx={{ display: "flex", justifyContent: "center " }}>
+      <Container
+        maxWidth="md"
+        sx={{ display: "flex", flexDirection: "column", gap: 3, justifyContent: "center", mb: 3 }}
+      >
         {user.role == "junior" && (
-          <Box sx={{ bgcolor: "#eaf4f4" }} maxWidth="sm">
-            <form onSubmit={editFields} className="edit-junior-form">
-              <Box sx={{ mb: 2 }} className="title">
-                <img
-                  src={`https://api.dicebear.com/5.x/initials/svg?seed=${firstName[0]}${lastName[0]}}`}
-                  alt={firstName}
-                />
-                <Typography variant="h6">User information</Typography>
+          <Card className="media-break" sx={{ bgcolor: "#eaf4f4", display: "flex", padding: "2rem 3rem" }}>
+            <Box sx={{ flexGrow: 1, minWidth: "50%" }}>
+              <Box sx={{ mb: 4, display: "flex", alignItems: "center" }}>
+                <Avatar alt="N/A" sx={{ width: 56, height: 56, mr: 2 }}>
+                  {firstName[0]}
+                  {lastName[0]}
+                </Avatar>
+                <Typography variant="h5">
+                  {firstName} {lastName}
+                </Typography>
               </Box>
+              <Stack direction="row" sx={{ display: "flex", alignItems: "center", mb: 1 }}>
+                <IconButton size="small">
+                  <PlaceIcon />
+                </IconButton>
+                <Typography variant="body1" sx={{ ml: 1 }}>
+                  {city}, {country}
+                </Typography>
+              </Stack>
+              <Stack direction="row" sx={{ display: "flex", alignItems: "center" }}>
+                <IconButton size="small">
+                  <CalendarMonthIcon />
+                </IconButton>
+                <Typography variant="body1" sx={{ ml: 1 }}>
+                  Calendly Link: {calendly}
+                </Typography>
+              </Stack>
 
-              <div className="information">
-                <div className="input-label">
-                  {isEditing ? (
-                    <TextField
-                      sx={{ mb: 1 }}
-                      fullWidth
-                      id="first-name"
-                      label="First Name"
-                      variant="outlined"
-                      type="text"
-                      value={firstNameInput}
-                      onChange={(event) => setFirstNameInput(event.target.value)}
-                    />
-                  ) : (
-                    <>
-                      <Typography variant="body1">Last Name:</Typography>
-                      <Typography variant="body1">{firstName}</Typography>
-                    </>
-                  )}
-                </div>
-                <div className="input-label">
-                  {isEditing ? (
-                    <TextField
-                      sx={{ mb: 1 }}
-                      fullWidth
-                      id="last-name"
-                      label="Last Name"
-                      variant="outlined"
-                      type="text"
-                      value={lastNameInput}
-                      onChange={(event) => setLastNameInput(event.target.value)}
-                    />
-                  ) : (
-                    <>
-                      <Typography variant="body1">Last Name:</Typography>
-                      <Typography variant="body1">{lastName}</Typography>
-                    </>
-                  )}
-                </div>
-
-                <div className="input-label">
-                  {isEditing ? (
-                    <Autocomplete
-                      sx={{ mb: 1 }}
-                      fullWidth
-                      id="country-select"
-                      options={countries}
-                      autoHighlight
-                      getOptionLabel={(option) => option.name}
-                      onChange={(event) => setCountryInput(event.target.innerText)}
-                      renderOption={(props, option) => (
-                        <Box component="li" key={option.iso3} sx={{ "& > img": { mr: 2, flexShrink: 0 } }} {...props}>
-                          <img loading="lazy" width="20" src={option.flag} alt={option.name} />
-                          {option.name}
-                        </Box>
-                      )}
-                      renderInput={(params) => (
-                        <TextField
-                          {...params}
-                          label="Country"
-                          inputProps={{
-                            ...params.inputProps,
-                            autoComplete: "new-password",
-                          }}
-                        />
-                      )}
-                    />
-                  ) : (
-                    <>
-                      <Typography variant="body1">Country:</Typography>
-                      <Typography variant="body1">{country}</Typography>
-                    </>
-                  )}
-                </div>
-                <div className="input-label">
-                  {isEditing ? (
-                    <Autocomplete
-                      sx={{ mb: 1 }}
-                      fullWidth
-                      id="city-select"
-                      freeSolo
-                      value={cityInput}
-                      options={citiesList}
-                      filterOptions={filterOptions}
-                      onChange={(event) => setCityInput(event.target.innerText)}
-                      renderInput={(params) => <TextField {...params} label="City" />}
-                    />
-                  ) : (
-                    <>
-                      <Typography variant="body1">City:</Typography>
-                      <Typography variant="body1">{city}</Typography>
-                    </>
-                  )}
-                </div>
-                <div className="input-label">
-                  {isEditing ? (
-                    <TextField
-                      fullWidth
-                      id="calendly"
-                      label="Calendly link"
-                      variant="outlined"
-                      style={{ border: "none", outline: "none" }}
-                      type="text"
-                      value={calendlyInput}
-                      onChange={(event) => setCalendlyInput(event.target.value)}
-                    />
-                  ) : (
-                    <>
-                      <Typography variant="body1">Calendly Link:</Typography>
-                      <Typography variant="body1">{calendly}</Typography>
-                    </>
-                  )}
-                </div>
-              </div>
-
-              {message && <span>{message}</span>}
-
-              <div className="button">
-                {isEditing ? (
-                  <Box sx={{ display: "flex", gap: 1 }}>
-                    <Button
-                      variant="contained"
-                      sx={{ bgcolor: "#6b9080", mt: 3, mb: 2 }}
-                      type="submit"
-                      onClick={() => {
-                        setFirstName(firstNameInput);
-                        setLastName(lastNameInput);
-                        setCity(cityInput);
-                        setCountry(countryInput);
-                        setCalendly(calendlyInput);
-                        changeEdit();
-                      }}
-                    >
-                      Commit Changes
-                    </Button>
-                    <Button
-                      variant="contained"
-                      sx={{ bgcolor: "#6b9080", mt: 3, mb: 2 }}
-                      type="button"
-                      onClick={() => {
-                        setFirstNameInput(firstName);
-                        setLastNameInput(lastName);
-                        setCityInput(city);
-                        setCountryInput(country);
-                        setCalendlyInput(calendly);
-                        setIsEdited(false);
-                        changeEdit();
-                      }}
-                    >
-                      Cancel
-                    </Button>
-                  </Box>
-                ) : (
-                  <Box sx={{ display: "flex", flexDirection: "column" }}>
-                    <Button
-                      type="submit"
-                      fullWidth
-                      variant="contained"
-                      sx={{ bgcolor: "#6b9080", mt: 3, mb: 2 }}
-                      onClick={changeEdit}
-                    >
-                      Edit information
-                    </Button>
-                    {isEdited && <Typography>Your personal profile has been updated!</Typography>}
-                  </Box>
-                )}
-              </div>
-            </form>
-          </Box>
-        )}
-        <Box maxWidth="sm" sx={{ bgcolor: "#eaf4f4" }}>
-          <div className="form-inner">
-            <Typography variant="h6">Add a new skill:</Typography>
-            <TextField
-              type="text"
-              placeholder="e.g. Machine learning"
-              value={newSkill}
-              onChange={(event) => setNewSkill(event.target.value)}
-              autoFocus
-            />
-            <Button onClick={addSkill} variant="contained" sx={{ bgcolor: "#6b9080", mt: 3, mb: 2 }} type="submit">
-              Add Skill
-            </Button>
-            <div className="skills skills-junior-profile">
-              <div className="skills-word">
-                <Typography variant="h6">Skills:</Typography>
-              </div>
-              <ul>
+              <Box sx={{ display: "flex", flexDirection: "column", alignItems: "start" }}>
+                <Button
+                  type="submit"
+                  variant="contained"
+                  sx={{ bgcolor: "#6b9080", mt: 3, mb: 2 }}
+                  onClick={() => setIsEditing(true)}
+                >
+                  Edit information
+                </Button>
+                {isEdited && <Typography>Your personal profile has been updated!</Typography>}
+              </Box>
+            </Box>
+            <Divider flexItem orientation="vertical" sx={{ ml: 2, mr: 2 }} />
+            <Box sx={{ bgcolor: "#eaf4f4", flexGrow: 1, minWidth: "50%" }}>
+              <Typography variant="h6">Your skills:</Typography>
+              <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1, mb: 2 }}>
                 {skills.length > 0 &&
                   skills.map((skill) => {
+                    return <Chip key={skill} label={skill} onDelete={() => handleSkilldelete(skill)} />;
+                  })}
+              </Box>
+              <Stack>
+                <Typography variant="h6">Add a new skill:</Typography>
+                <TextField
+                  sx={{ bgcolor: "white" }}
+                  type="text"
+                  placeholder="e.g. Machine learning"
+                  value={newSkill}
+                  onChange={(event) => setNewSkill(event.target.value)}
+                  autoFocus
+                />
+                <Button onClick={addSkill} variant="contained" sx={{ bgcolor: "#6b9080", mt: 2 }} type="submit">
+                  Add Skill
+                </Button>
+              </Stack>
+            </Box>
+          </Card>
+        )}
+        <Card className="media-break" sx={{ bgcolor: "#eaf4f4", display: "flex", padding: "2rem 3rem" }}>
+          <Box sx={{ flexGrow: 1, minWidth: "50%" }}>
+            <Typography variant="h6">Favorite job posts:</Typography>
+            <List sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
+              {favoriteJobPosts.length > 0 &&
+                favoriteJobPosts
+                  .filter((jobPost, index) => index < showIndex)
+                  .map((jobPost) => {
                     return (
-                      <div key={skill}>
-                        <ListItem>
-                          {skill}
-                          <IconButton sx={{ ml: 1, p: 0 }} type="button" onClick={() => handleSkilldelete(skill)}>
-                            <ClearIcon sx={{ width: 20 }} />
-                          </IconButton>
-                        </ListItem>
-                      </div>
+                      <>
+                        <Card
+                          sx={{
+                            display: "flex",
+                            bgcolor: "#eaf4f4",
+                            flexDirection: "column",
+                            alignItems: "start",
+                            p: 1,
+                          }}
+                          key={jobPost._id}
+                        >
+                          <Box
+                            sx={{
+                              display: "flex",
+                              justifyContent: "space-between",
+                              width: "100%",
+                              alignItems: "center",
+                            }}
+                          >
+                            <Link to={`/jobs/${jobPost._id}`}>
+                              <CardHeader title={jobPost.title}></CardHeader>
+                            </Link>
+                            <IconButton
+                              size="small"
+                              type="button"
+                              onClick={() => handlefavoriteJobPostsdelete(jobPost._id)}
+                            >
+                              <ClearIcon />
+                            </IconButton>
+                          </Box>
+
+                          <Stack direction="row" alignItems="center" gap={1}>
+                            <IconButton size="small">
+                              <PaidIcon />
+                            </IconButton>
+                            <Typography noWrap variant="body2" color="text.secondary">
+                              €{jobPost.salaryRange.minimum} - €{jobPost.salaryRange.maximum}
+                            </Typography>
+                          </Stack>
+                          <Link to={`/company/${jobPost.company._id}`}>
+                            <Stack direction="row" alignItems="center" gap={1}>
+                              <IconButton size="small">
+                                <ApartmentIcon />
+                              </IconButton>
+                              <Typography noWrap variant="body2" color="text.secondary">
+                                {jobPost.company.name}
+                              </Typography>
+                            </Stack>
+                          </Link>
+                        </Card>
+                      </>
                     );
                   })}
-              </ul>
-            </div>
-          </div>
-        </Box>
-      </Container>
-      <Container className="media-break" sx={{ display: "flex", flexDirection: "row", justifyContent: "center " }}>
-        <Box sx={{ bgcolor: "#eaf4f4" }} maxWidth="sm">
-          <div className="job-posts-juniors-profile-inner">
-            <Typography variant="h6">Favorite job posts:</Typography>
-            <ul>
-              {favoriteJobPosts.length > 0 &&
-                favoriteJobPosts.map((jobPost) => {
-                  return (
-                    <>
-                      <li key={jobPost._id}>
-                        <div className="information-jobpost">
-                          <div className="title-job">{jobPost.title}</div>
-                          <div>
-                            {jobPost.salaryRange.minimum}-{jobPost.salaryRange.maximum}
-                          </div>
-                          <div>{jobPost.company.name}</div>
-                        </div>
-
-                        <div className="buttons-favorites">
-                          <Link to={`/jobs/${jobPost._id}`}>
-                            <Button variant="contained" sx={{ bgcolor: "#6b9080", mt: 3, mb: 2 }} type="button">
-                              Show Post
-                            </Button>
-                          </Link>
-                          <Button
-                            variant="contained"
-                            sx={{ bgcolor: "#6b9080", mt: 3, mb: 2 }}
-                            type="button"
-                            onClick={() => handlefavoriteJobPostsdelete(jobPost._id)}
-                          >
-                            X
-                          </Button>
-                        </div>
-                      </li>
-                      <hr className="line" />
-                    </>
-                  );
-                })}
-            </ul>
-          </div>
-        </Box>
-        <Box sx={{ bgcolor: "#eaf4f4" }} maxWidth="sm">
-          <div className="favorite-companies-junior-inner">
+              {!showMore && (
+                <Button
+                  variant="contained"
+                  sx={{ bgcolor: "#6b9080", mt: 1 }}
+                  onClick={() => {
+                    setShowMore(true);
+                    setShowIndex(favoriteJobPosts.length);
+                  }}
+                >
+                  Show more
+                </Button>
+              )}
+              {showMore && (
+                <Button
+                  variant="contained"
+                  sx={{ bgcolor: "#6b9080", mt: 1 }}
+                  onClick={() => {
+                    setShowMore(false);
+                    setShowIndex(2);
+                  }}
+                >
+                  Show less
+                </Button>
+              )}
+            </List>
+          </Box>
+          <Divider flexItem orientation="vertical" sx={{ ml: 2, mr: 2 }} />
+          <Box sx={{ flexGrow: 1, minWidth: "50%" }}>
             <Typography variant="h6">Favorite companies:</Typography>
-            <ul>
+            <List>
               {favoriteCompanies.length > 0 &&
                 favoriteCompanies.map((company) => {
                   return (
                     <>
-                      <li key={company._id}>
-                        <div className="company-name">{company.name}</div>
-                        <div className="buttons-favorites">
-                          <Link to={`/company/${company._id}`}>
-                            <Button variant="contained" sx={{ bgcolor: "#6b9080", mt: 3, mb: 2 }} type="button">
-                              Show Company
-                            </Button>
-                          </Link>
-                          <Button
-                            variant="contained"
-                            sx={{ bgcolor: "#6b9080", mt: 3, mb: 2 }}
-                            type="button"
-                            onClick={() => handlefavoriteCompanyDelete(company._id)}
-                          >
-                            X
-                          </Button>
-                        </div>
-                      </li>
-                      <hr className="line" />
+                      <Box sx={{ display: "flex", p: 2, alignItems: "center", justifyContent: "space-between" }}>
+                        <Link to={`/company/${company._id}`} key={company._id}>
+                          <Stack direction="row" sx={{ display: "flex", alignItems: "center" }}>
+                            <Avatar sx={{ mr: 1 }} alt={company.name} src={company.profilePic} />
+                            <Typography>{company.name}</Typography>
+                          </Stack>
+                        </Link>
+                        <IconButton
+                          sx={{ ml: 1, p: 0 }}
+                          type="button"
+                          onClick={() => handlefavoriteCompanyDelete(company._id)}
+                        >
+                          <ClearIcon sx={{ width: 20 }} />
+                        </IconButton>
+                      </Box>
+                      <Divider component="li" flexItem orientation="horizontal" />
                     </>
                   );
                 })}
-            </ul>
-          </div>
-        </Box>
+            </List>
+          </Box>
+        </Card>
       </Container>
+
+      {/* Modal to update user's info */}
+      {isEditing && (
+        <Modal
+          sx={{ display: "flex", alignItems: "center" }}
+          aria-labelledby="edit-info-form"
+          aria-describedby="edit-info-form"
+          open={open}
+          onClose={() => setIsEditing(false)}
+        >
+          <Container sx={{ display: "flex", justifyContent: "center" }}>
+            <Card sx={{ bgcolor: "#eaf4f4", padding: 3 }}>
+              <Box component="form" onSubmit={editFields}>
+                <TextField
+                  sx={{ mb: 2, bgcolor: "white" }}
+                  fullWidth
+                  id="first-name"
+                  label="First Name"
+                  variant="outlined"
+                  type="text"
+                  value={firstNameInput}
+                  onChange={(event) => setFirstNameInput(event.target.value)}
+                />
+                <TextField
+                  sx={{ mb: 2, bgcolor: "white" }}
+                  fullWidth
+                  id="last-name"
+                  label="Last Name"
+                  variant="outlined"
+                  type="text"
+                  value={lastNameInput}
+                  onChange={(event) => setLastNameInput(event.target.value)}
+                />
+                <Autocomplete
+                  sx={{ mb: 2, bgcolor: "white" }}
+                  fullWidth
+                  id="country-select"
+                  options={countries}
+                  autoHighlight
+                  getOptionLabel={(option) => option.name}
+                  onChange={(event) => setCountryInput(event.target.innerText)}
+                  renderOption={(props, option) => (
+                    <Box component="li" key={option.iso3} sx={{ "& > img": { mr: 2, flexShrink: 0 } }} {...props}>
+                      <img loading="lazy" width="20" src={option.flag} alt={option.name} />
+                      {option.name}
+                    </Box>
+                  )}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label="Country"
+                      inputProps={{
+                        ...params.inputProps,
+                        autoComplete: "new-password",
+                      }}
+                    />
+                  )}
+                />
+                <Autocomplete
+                  sx={{ mb: 2, bgcolor: "white" }}
+                  fullWidth
+                  id="city-select"
+                  freeSolo
+                  value={cityInput}
+                  options={citiesList}
+                  filterOptions={filterOptions}
+                  onChange={(event) => setCityInput(event.target.innerText)}
+                  renderInput={(params) => <TextField {...params} label="City" />}
+                />
+                <TextField
+                  fullWidth
+                  id="calendly"
+                  label="Calendly link"
+                  variant="outlined"
+                  sx={{ bgcolor: "white" }}
+                  value={calendlyInput}
+                  onChange={(event) => setCalendlyInput(event.target.value)}
+                />
+                <Box sx={{ display: "flex", gap: 1 }}>
+                  <Button variant="contained" sx={{ bgcolor: "#6b9080", mt: 3, mb: 2 }} type="submit">
+                    Commit Changes
+                  </Button>
+                  <Button
+                    variant="contained"
+                    sx={{ bgcolor: "#6b9080", mt: 3, mb: 2 }}
+                    type="button"
+                    onClick={() => {
+                      setFirstNameInput(firstName);
+                      setLastNameInput(lastName);
+                      setCityInput(city);
+                      setCountryInput(country);
+                      setCalendlyInput(calendly);
+                      setIsEdited(false);
+                      setIsEditing(false);
+                    }}
+                  >
+                    Cancel
+                  </Button>
+                </Box>
+              </Box>
+            </Card>
+          </Container>
+        </Modal>
+      )}
     </>
   );
 }
