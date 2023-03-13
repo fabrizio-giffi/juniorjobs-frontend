@@ -16,10 +16,7 @@ const CloudinaryUploadWidget = ({ setProfilePicture }) => {
     formData.append("file", imageSelected);
     formData.append("upload_preset", "qt1a58q1");
     try {
-      const response = await axios.post(
-        "https://api.cloudinary.com/v1_1/dbxtlw5rz/image/upload",
-        formData
-      );
+      const response = await axios.post("https://api.cloudinary.com/v1_1/dbxtlw5rz/image/upload", formData);
       const url = response.data.url;
       await axios.put(`${api_URL}/company/edit/picture/${user.id}`, {
         profilePicture: url,
@@ -32,17 +29,10 @@ const CloudinaryUploadWidget = ({ setProfilePicture }) => {
   return (
     <>
       <UploadFileBtn imageSelected={imageSelected} setImageSelected={setImageSelected} />
-      <div className="button-picture">
-        <Button
-          type="submit"
-          variant="contained"
-          sx={{ bgcolor: "#6b9080", mt: 3, mb: 2 }}
-          onClick={uploadImage}
-          
-        >
-          Upload image
-        </Button>
-      </div>
+
+      <Button type="submit" variant="contained" sx={{ bgcolor: "#6b9080", mt: 3, mb: 2 }} onClick={uploadImage}>
+        Upload image
+      </Button>
     </>
   );
 };

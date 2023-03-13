@@ -4,24 +4,70 @@ import { AuthContext } from "../../context/auth.context";
 import { Link } from "react-router-dom";
 import JobPostCard from "../jobs/JobPostCard";
 import CloudinaryUploadWidget from "../CloudinaryUploadWidget";
+import {
+  IconButton,
+  Button,
+  Modal,
+  Container,
+  Card,
+  Typography,
+  TextField,
+  Box,
+  createFilterOptions,
+  Autocomplete,
+  Avatar,
+  Stack,
+  Divider,
+  List,
+  CardHeader,
+  Chip,
+} from "@mui/material";
 import ClearIcon from "@mui/icons-material/Clear";
-import { IconButton, Button } from "@mui/material";
+import PlaceIcon from "@mui/icons-material/Place";
+import ApartmentIcon from "@mui/icons-material/Apartment";
+import PaidIcon from "@mui/icons-material/Paid";
+import PublicIcon from "@mui/icons-material/Public";
+import EmailIcon from "@mui/icons-material/Email";
+
 import "./CompanyProfile.css";
 
+import countries from "../../data/countries.json";
+import JobPostProfile from "../JobPostProfile";
 const api_URL = import.meta.env.VITE_API_URL;
+const gmaps = import.meta.env.VITE_GMAPS;
+
+// Filter for the cities select
+const filterOptions = createFilterOptions({
+  matchFrom: "start",
+  stringify: (option) => option,
+});
 
 function CompanyProfile() {
   const { user } = useContext(AuthContext);
-  const [profile, setProfile] = useState();
+  const [profile, setProfile] = useState({});
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [message, setMessage] = useState(null);
   const [street, setStreet] = useState("");
   const [zipCode, setZipCode] = useState("");
   const [city, setCity] = useState("");
   const [country, setCountry] = useState("");
   const [profilePicture, setProfilePicture] = useState();
-console.log(profile)
+  //States for the edit inputs
+  const [nameInput, setNameInput] = useState(name);
+  const [emailInput, setEmailInput] = useState(email);
+  const [streetInput, setStreetInput] = useState(street);
+  const [zipCodeInput, setZipCodeInput] = useState(zipCode);
+  const [cityInput, setCityInput] = useState(city);
+  const [countryInput, setCountryInput] = useState(country);
+  const [isEditing, setIsEditing] = useState(false);
+  const [isEdited, setIsEdited] = useState(false);
+  const [citiesList, setCitiesList] = useState([]);
+  const [isFetching, setIsFetching] = useState(true);
+  const [indexJunior, setIndexJunior] = useState(2);
+  const [indexPost, setIndexPost] = useState(2);
+  const [showMoreJunior, setShowMoreJunior] = useState(false);
+  const [showMorePost, setShowMorePost] = useState(false);
+
   const getProfile = async () => {
     try {
       const response = await axios.get(`${api_URL}/company/${user.id}`);
@@ -33,6 +79,13 @@ console.log(profile)
       setCity(response.data.address.city);
       setCountry(response.data.address.country);
       setProfilePicture(response.data.profilePic);
+      // Pre-populate edit inputs
+      setNameInput(response.data.name);
+      setEmailInput(response.data.email);
+      setStreetInput(response.data.address.street);
+      setZipCodeInput(response.data.address.zipCode);
+      setCityInput(response.data.address.city);
+      setCountryInput(response.data.address.country);
     } catch (error) {
       console.log("There was an error getting the profile", error);
     }
@@ -42,10 +95,7 @@ console.log(profile)
     const id = profile._id;
     const requestBody = { id, favoriteId };
     try {
-      const response = await axios.put(
-        `${api_URL}/company/delete/favorite`,
-        requestBody
-      );
+      await axios.put(`${api_URL}/company/delete/favorite`, requestBody);
       getProfile();
     } catch (error) {}
   };
@@ -53,204 +103,368 @@ console.log(profile)
   const handleEdit = async (event) => {
     event.preventDefault();
     const requestBody = {
-      name,
-      email,
-      street,
-      zipCode,
-      city,
-      country,
+      name: nameInput,
+      email: emailInput,
+      street: streetInput,
+      zipCode: zipCodeInput,
+      city: cityInput,
+      country: countryInput,
     };
+    setName(nameInput);
+    setEmail(emailInput);
+    setStreet(streetInput);
+    setZipCode(zipCodeInput);
+    setCity(cityInput);
+    setCountry(countryInput);
+
     try {
-      const response = await axios.put(
-        `${api_URL}/company/edit/${user.id}`,
-        requestBody
-      );
-      setMessage(response.data.message);
+      await axios.put(`${api_URL}/company/edit/${user.id}`, requestBody);
+      setIsEdited(true);
+      setIsEditing(false);
     } catch (error) {
       console.log(error);
     }
   };
 
+  const getCities = async () => {
+    if (!isFetching) {
+      try {
+        if (typeof countryInput === "undefined") {
+          return;
+        }
+        const response = await axios.post("https://countriesnow.space/api/v0.1/countries/cities", {
+          country: countryInput,
+        });
+        setCitiesList(response.data.data);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
+
   useEffect(() => {
     getProfile();
+    setIsFetching(false);
   }, []);
 
-  return (
-    profile && (
-      <>
-        <div className="form-picture">
-          <div className="form-outer">
-            <form onSubmit={handleEdit} className="edit-junior-form">
-              <div className="title">
-                <img
-                  src={
-                    profilePicture
-                      ? profilePicture
-                      : `https://api.dicebear.com/5.x/initials/svg?seed=${name.toUpperCase()}`
-                  }
-                  alt={name}
-                />
-                <h2>Company information</h2>
-              </div>
-              <h6>Click on the information to edit</h6>
-              <div className="information">
-                <div className="input-label">
-                  <label>Company name:</label>
-                  <input
-                    style={{ border: "none", outline: "none" }}
-                    type="text"
-                    placeholder={name}
-                    onChange={(event) => setName(event.target.value)}
-                    value={name}
-                  />
-                </div>
-                <div className="input-label">
-                  <label>Company email:</label>
-                  <input
-                    style={{ border: "none", outline: "none" }}
-                    type="text"
-                    placeholder={email}
-                    onChange={(event) => setEmail(event.target.value)}
-                    value={email}
-                  />
-                </div>
-                <span className="address">Address: </span>
-                <div className="input-label">
-                  <label>Street:</label>
-                  <input
-                    style={{ border: "none", outline: "none" }}
-                    type="text"
-                    placeholder={street}
-                    onChange={(event) => setStreet(event.target.value)}
-                    value={street}
-                  />
-                </div>
-                <div className="input-label">
-                  <label>Zip Code:</label>
-                  <input
-                    style={{ border: "none", outline: "none" }}
-                    type="text"
-                    placeholder={zipCode}
-                    onChange={(event) => setZipCode(event.target.value)}
-                    value={zipCode}
-                  />
-                </div>
-                <div className="input-label">
-                  <label>City:</label>
-                  <input
-                    style={{ border: "none", outline: "none" }}
-                    type="text"
-                    placeholder={city}
-                    onChange={(event) => setCity(event.target.value)}
-                    value={city}
-                  />
-                </div>
-                <div className="input-label">
-                  <label>Country:</label>
-                  <input
-                    style={{ border: "none", outline: "none" }}
-                    type="text"
-                    placeholder={country}
-                    onChange={(event) => setCountry(event.target.value)}
-                    value={country}
-                  />
-                </div>
-              </div>
-              {message && <span>{message}</span>}
-              <div className="button">
-                <Button
-                  type="submit"
-                  fullWidth
-                  variant="contained"
-                  sx={{ bgcolor: "#6b9080", mt: 3, mb: 2 }}
-                >
-                  edit information
-                </Button>
-              </div>
-            </form>
-          </div>
-          <div className="form-outer">
-            <div className="form-inner">
-              <h2>change your profile picture</h2>
-              <CloudinaryUploadWidget
-                profilePicture={profilePicture}
-                setProfilePicture={setProfilePicture}
-              />
-            </div>
-          </div>
-        </div>
+  useEffect(() => {
+    setCityInput("");
+    getCities();
+  }, [countryInput]);
 
-        <div className="lists">
-          <div className="outer">
-            <div className="favorites">
-              <h4>All your favorite juniors</h4>
-              <ul class="ul-jobposts">
-                {profile.favorites.map((favorite) => {
-                  return (
-                    <li key={favorite._id}>
-                      <div className="card">
-                        <div className="image-outer">
-                          <img
-                            src={`https://api.dicebear.com/5.x/initials/svg?seed=${favorite.firstName[0]}${favorite.lastName[0]}`}
-                            alt={`${favorite.firstName} ${favorite.lastName}`}
-                          />
-                        </div>
-                        <div className="junior-name">
-                          <h5>{favorite.firstName}</h5>
-                          <h5>{favorite.lastName}</h5>
-                        </div>
-                        <div className="skills">
-                          <h5>
-                            <ul>
-                              {favorite.skills.map((skill) => {
-                                return <li key={skill}>{skill}</li>;
-                              })}
-                            </ul>
-                          </h5>
-                        </div>
-                        <div className="country">
-                          <h5>{favorite.location.country}</h5>
-                          <div className="details-heart">
-                            <h5>
-                              <Link to={`/junior/${favorite._id}`}>
-                                details
-                              </Link>
-                            </h5>
-                            <IconButton
-                              onClick={() => deleteFavorite(favorite._id)}
-                            >
-                              <ClearIcon />
-                            </IconButton>
-                          </div>
-                        </div>
-                      </div>
-                    </li>
-                  );
-                })}
-              </ul>
-            </div>
-          </div>
-          <div className="outer">
-            <div className="jobPosts">
-              <h4>All your job posts</h4>
-              <ul className="ul-jobposts">
-                {profile.jobPosts.map((post) => {
+  if (isFetching) {
+    return <div>Loading...</div>;
+  }
+
+  return (
+    <>
+      <Container
+        maxWidth="md"
+        sx={{ display: "flex", flexDirection: "column", gap: 3, justifyContent: "center", mb: 3 }}
+      >
+        <Card className="media-break" sx={{ bgcolor: "#eaf4f4", display: "flex", padding: "2rem 3rem" }}>
+          <Box sx={{ flexGrow: 1, minWidth: "50%" }}>
+            <Box sx={{ mb: 4, display: "flex", alignItems: "center" }}>
+              <Avatar src={profilePicture} alt="N/A" sx={{ width: 56, height: 56, mr: 2 }} />
+              <Typography variant="h5">{name}</Typography>
+            </Box>
+            <Stack direction="row" sx={{ display: "flex", alignItems: "center", mb: 1 }}>
+              <IconButton size="small">
+                <EmailIcon />
+              </IconButton>
+              <Typography variant="body1" sx={{ ml: 1 }}>
+                {email}
+              </Typography>
+            </Stack>
+            <Stack direction="row" sx={{ display: "flex", alignItems: "center", mb: 1 }}>
+              <IconButton size="small">
+                <PublicIcon />
+              </IconButton>
+              <Typography variant="body1" sx={{ ml: 1 }}>
+                {city}, {country}
+              </Typography>
+            </Stack>
+            <Stack direction="row" sx={{ display: "flex", alignItems: "center", mb: 1 }}>
+              <IconButton size="small">
+                <PlaceIcon />
+              </IconButton>
+              <Typography variant="body1" sx={{ ml: 1 }}>
+                {zipCode}, {street}
+              </Typography>
+            </Stack>
+
+            <Box sx={{ display: "flex", flexDirection: "column", alignItems: "start" }}>
+              <Button
+                type="submit"
+                variant="contained"
+                sx={{ bgcolor: "#6b9080", mt: 3, mb: 2 }}
+                onClick={() => setIsEditing(true)}
+              >
+                Edit information
+              </Button>
+              {isEdited && <Typography>Your personal profile has been updated!</Typography>}
+            </Box>
+          </Box>
+          <Divider flexItem orientation="vertical" sx={{ ml: 2, mr: 2 }} />
+          <Box sx={{ bgcolor: "#eaf4f4", flexGrow: 1, minWidth: "50%" }}>
+            <iframe
+              width="100%"
+              height="100%"
+              style={{ border: "none" }}
+              loading="lazy"
+              allowFullScreen
+              referrerPolicy="no-referrer-when-downgrade"
+              src={`https://www.google.com/maps/embed/v1/place?key=${gmaps}&q=${country}+${city}+${street}`}
+            ></iframe>
+          </Box>
+        </Card>
+
+        <Card className="media-break" sx={{ bgcolor: "#eaf4f4", display: "flex", padding: "2rem 3rem" }}>
+          <Box sx={{ flexGrow: 1, minWidth: "50%" }}>
+            <Typography variant="h6">Favorite juniors:</Typography>
+            <List sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
+              {profile.favorites?.length > 0 &&
+                profile.favorites
+                  .filter((favorite, index) => index < indexJunior)
+                  .map((favorite) => {
+                    return (
+                      <Card
+                        sx={{
+                          display: "flex",
+                          bgcolor: "#eaf4f4",
+                          flexDirection: "column",
+                          alignItems: "start",
+                          p: 1,
+                        }}
+                        key={favorite._id}
+                      >
+                        <Box
+                          sx={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                            width: "100%",
+                            alignItems: "start",
+                          }}
+                        >
+                          <Link to={`/junior/${favorite._id}`}>
+                            <CardHeader
+                              avatar={
+                                <Avatar alt="N/A" sx={{ width: 56, height: 56, mr: 2 }}>
+                                  {favorite.firstName[0]}
+                                  {favorite.lastName[0]}
+                                </Avatar>
+                              }
+                              title={`${favorite.firstName} ${favorite.lastName}`}
+                              subheader={
+                                <Stack sx={{ display: "flex", alignItems: "center" }} direction="row">
+                                  <PublicIcon sx={{ mr: 1 }} />
+                                  {favorite.location.country}
+                                </Stack>
+                              }
+                            />
+                          </Link>
+                          <IconButton onClick={() => deleteFavorite(favorite._id)}>
+                            <ClearIcon />
+                          </IconButton>
+                        </Box>
+                        <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1, mb: 2 }}>
+                          {favorite.skills.length > 0 &&
+                            favorite.skills.map((skill) => {
+                              return <Chip key={skill} label={skill} />;
+                            })}
+                        </Box>
+                      </Card>
+                    );
+                  })}
+              {!showMoreJunior && profile.favorites?.length > 2 && (
+                <Button
+                  variant="contained"
+                  sx={{ bgcolor: "#6b9080", mt: 1 }}
+                  onClick={() => {
+                    setShowMoreJunior(true);
+                    setIndexJunior(profile.favorites.length);
+                  }}
+                >
+                  Show more
+                </Button>
+              )}
+              {showMoreJunior && (
+                <Button
+                  variant="contained"
+                  sx={{ bgcolor: "#6b9080", mt: 1 }}
+                  onClick={() => {
+                    setShowMoreJunior(false);
+                    setIndexJunior(2);
+                  }}
+                >
+                  Show less
+                </Button>
+              )}
+            </List>
+          </Box>
+          <Divider flexItem orientation="vertical" sx={{ ml: 2, mr: 2 }} />
+          <Box sx={{ flexGrow: 1, minWidth: "50%" }}>
+            <Typography variant="h6">Your job posts:</Typography>
+            <List sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
+              {profile.jobPosts
+                ?.filter((favorite, index) => index < indexPost)
+                .map((post) => {
                   return (
                     <li className="jobpost-li" key={post._id}>
-                      <JobPostCard
-                        post={post}
-                        profile={profile}
-                        getProfile={getProfile}
-                      />
+                      <JobPostProfile jobPost={post} />
                     </li>
                   );
                 })}
-              </ul>
-            </div>
-          </div>
-        </div>
-      </>
-    )
+              {!showMorePost && profile.jobPosts?.length > 2 && (
+                <Button
+                  variant="contained"
+                  sx={{ bgcolor: "#6b9080", mt: 1 }}
+                  onClick={() => {
+                    setShowMorePost(true);
+                    setIndexPost(profile.jobPosts.length);
+                  }}
+                >
+                  Show more
+                </Button>
+              )}
+              {showMorePost && (
+                <Button
+                  variant="contained"
+                  sx={{ bgcolor: "#6b9080", mt: 1 }}
+                  onClick={() => {
+                    setShowMorePost(false);
+                    setIndexPost(2);
+                  }}
+                >
+                  Show less
+                </Button>
+              )}
+            </List>
+          </Box>
+        </Card>
+      </Container>
+      {/* Modal to update user's info */}
+      {isEditing && (
+        <Modal
+          sx={{ display: "flex", alignItems: "center" }}
+          aria-labelledby="edit-info-form"
+          aria-describedby="edit-info-form"
+          open={open}
+          onClose={() => setIsEditing(false)}
+        >
+          <Container sx={{ display: "flex", justifyContent: "center" }}>
+            <Card sx={{ bgcolor: "#eaf4f4", padding: 3 }}>
+              <Typography variant="h4" sx={{ mb: 2 }}>
+                Update your personal info
+              </Typography>
+              <Box component="form" onSubmit={handleEdit}>
+                <TextField
+                  sx={{ mb: 2, bgcolor: "white" }}
+                  fullWidth
+                  id="company-name"
+                  label="Company Name"
+                  variant="outlined"
+                  type="text"
+                  value={nameInput}
+                  onChange={(event) => setNameInput(event.target.value)}
+                />
+                <TextField
+                  sx={{ mb: 2, bgcolor: "white" }}
+                  fullWidth
+                  id="email"
+                  label="Email"
+                  variant="outlined"
+                  type="email"
+                  value={emailInput}
+                  onChange={(event) => setEmailInput(event.target.value)}
+                />
+                <TextField
+                  sx={{ mb: 2, bgcolor: "white" }}
+                  fullWidth
+                  id="street"
+                  label="Street"
+                  variant="outlined"
+                  type="text"
+                  value={streetInput}
+                  onChange={(event) => setStreetInput(event.target.value)}
+                />
+                <TextField
+                  sx={{ mb: 2, bgcolor: "white" }}
+                  fullWidth
+                  id="zipcode"
+                  label="ZIP code"
+                  variant="outlined"
+                  type="text"
+                  value={zipCodeInput}
+                  onChange={(event) => setZipCodeInput(event.target.value)}
+                />
+                <Autocomplete
+                  sx={{ mb: 2, bgcolor: "white" }}
+                  fullWidth
+                  id="country-select"
+                  options={countries}
+                  autoHighlight
+                  getOptionLabel={(option) => option.name}
+                  onChange={(event) => setCountryInput(event.target.innerText)}
+                  renderOption={(props, option) => (
+                    <Box component="li" key={option.iso3} sx={{ "& > img": { mr: 2, flexShrink: 0 } }} {...props}>
+                      <img loading="lazy" width="20" src={option.flag} alt={option.name} />
+                      {option.name}
+                    </Box>
+                  )}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label="Country"
+                      inputProps={{
+                        ...params.inputProps,
+                        autoComplete: "new-password",
+                      }}
+                    />
+                  )}
+                />
+                <Autocomplete
+                  sx={{ mb: 2, bgcolor: "white" }}
+                  fullWidth
+                  id="city-select"
+                  freeSolo
+                  value={cityInput}
+                  options={citiesList}
+                  placeholder={city}
+                  filterOptions={filterOptions}
+                  onChange={(event) => setCityInput(event.target.innerText)}
+                  renderInput={(params) => <TextField {...params} label="City" />}
+                />
+                <Typography variant="h5">Change your company picture</Typography>
+                <CloudinaryUploadWidget profilePicture={profilePicture} setProfilePicture={setProfilePicture} />
+                <Box sx={{ display: "flex", gap: 1 }}>
+                  <Button variant="contained" sx={{ bgcolor: "#6b9080", mt: 3, mb: 2 }} type="submit">
+                    Commit Changes
+                  </Button>
+                  <Button
+                    variant="contained"
+                    sx={{ bgcolor: "#6b9080", mt: 3, mb: 2 }}
+                    type="button"
+                    onClick={() => {
+                      setNameInput(name);
+                      setEmailInput(email);
+                      setStreetInput(street);
+                      setZipCodeInput(zipCode);
+                      setCityInput(city);
+                      setCountryInput(country);
+                      setIsEdited(false);
+                      setIsEditing(false);
+                    }}
+                  >
+                    Cancel
+                  </Button>
+                </Box>
+              </Box>
+            </Card>
+          </Container>
+        </Modal>
+      )}
+    </>
   );
 }
 
