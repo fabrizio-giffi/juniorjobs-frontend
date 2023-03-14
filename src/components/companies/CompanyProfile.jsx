@@ -45,7 +45,7 @@ function CompanyProfile() {
   if (isFetching) {
     return (
       <Container
-        maxWidth="lg"
+        maxWidth="md"
         sx={{ display: "flex", flexDirection: "column", gap: 3, justifyContent: "center", mb: 3 }}
       >
         <Skeleton variant="rounded" sx={{ height: 300 }} />
