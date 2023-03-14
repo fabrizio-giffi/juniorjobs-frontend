@@ -115,7 +115,7 @@ function LoginPage() {
           {errorMessage && (
             <Stack
               sx={{
-                color: "white",
+                color: "fbfbfb",
                 bgcolor: red[500],
                 display: "flex",
                 alignItems: "center",

@@ -45,7 +45,7 @@ function CompanyProfile() {
   if (isFetching) {
     return (
       <Container
-        maxWidth="md"
+        maxWidth="lg"
         sx={{ display: "flex", flexDirection: "column", gap: 3, justifyContent: "center", mb: 3 }}
       >
         <Skeleton variant="rounded" sx={{ height: 300 }} />
@@ -57,10 +57,10 @@ function CompanyProfile() {
   return (
     <>
       <Container
-        maxWidth="md"
+        maxWidth="lg"
         sx={{ display: "flex", flexDirection: "column", gap: 3, justifyContent: "center", mb: 3 }}
       >
-        <Card className="media-break" sx={{ bgcolor: "#eaf4f4", display: "flex", padding: "2rem 3rem" }}>
+        <Card className="media-break" sx={{ bgcolor: "#eaf4f4", display: "flex" }}>
           <CompanyBio
             profilePicture={profilePicture}
             setProfilePicture={setProfilePicture}
@@ -73,8 +73,8 @@ function CompanyProfile() {
             setIsEditing={setIsEditing}
             isEdited={isEdited}
           />
-          <Divider flexItem orientation="vertical" sx={{ ml: 2, mr: 2 }} />
-          <Box sx={{ bgcolor: "#eaf4f4", flexGrow: 1, minWidth: "50%" }}>
+          <Divider flexItem variant="middle" orientation="vertical" />
+          <Box className="collapsemobile" sx={{ bgcolor: "#eaf4f4", minWidth: "50%", boxSizing: "border-box", p: 3 }}>
             <iframe
               width="100%"
               height="100%"
@@ -86,9 +86,9 @@ function CompanyProfile() {
             ></iframe>
           </Box>
         </Card>
-        <Card className="media-break" sx={{ bgcolor: "#eaf4f4", display: "flex", padding: "2rem 3rem" }}>
+        <Card className="media-break" sx={{ bgcolor: "#eaf4f4", display: "flex" }}>
           <FavJuniors />
-          <Divider flexItem orientation="vertical" sx={{ ml: 2, mr: 2 }} />
+          <Divider className="collapsemobile" flexItem variant="middle" orientation="vertical" />
           <JobPostProfile />
         </Card>
       </Container>

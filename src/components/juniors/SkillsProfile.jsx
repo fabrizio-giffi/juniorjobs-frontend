@@ -1,7 +1,8 @@
-import { Box, Button, Chip, Stack, TextField, Typography } from "@mui/material";
+import { Box, Chip, IconButton, Stack, TextField, Typography } from "@mui/material";
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../context/auth.context";
+import AddIcon from "@mui/icons-material/Add";
 
 const api_URL = import.meta.env.VITE_API_URL;
 
@@ -49,27 +50,44 @@ function SkillsProfile() {
   }, []);
 
   return (
-    <Box sx={{ bgcolor: "#eaf4f4", flexGrow: 1, minWidth: "50%" }}>
-      <Typography variant="h6">Your skills:</Typography>
-      <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1, mb: 2 }}>
-        {skills.length > 0 &&
-          skills.map((skill) => {
-            return <Chip key={skill} label={skill} onDelete={() => deleteSkill(skill)} />;
-          })}
+    <Box
+    className="notop"
+      sx={{
+        bgcolor: "#eaf4f4",
+        minWidth: "50%",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "space-between",
+        boxSizing: "border-box",
+        p: 3,
+      }}
+    >
+      <Box>
+        <Typography sx={{ mb: 2 }} variant="h6">
+          Your skills
+        </Typography>
+        <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1, mb: 2 }}>
+          {skills.length > 0 &&
+            skills.map((skill) => {
+              return <Chip key={skill} label={skill} onDelete={() => deleteSkill(skill)} />;
+            })}
+        </Box>
       </Box>
       <Stack>
-        <Typography variant="h6">Add a new skill:</Typography>
         <TextField
-          sx={{ bgcolor: "white" }}
-          type="text"
+          sx={{ bgcolor: "#fbfbfb" }}
           placeholder="e.g. Machine learning"
           value={newSkill}
+          label="Add a new skill"
           onChange={(event) => setNewSkill(event.target.value)}
-          autoFocus
+          InputProps={{
+            endAdornment: (
+              <IconButton position="end" onClick={addSkill}>
+                <AddIcon />
+              </IconButton>
+            ),
+          }}
         />
-        <Button onClick={addSkill} variant="contained" sx={{ bgcolor: "#6b9080", mt: 2 }} type="submit">
-          Add Skill
-        </Button>
       </Stack>
     </Box>
   );

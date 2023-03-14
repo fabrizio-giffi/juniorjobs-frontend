@@ -97,20 +97,20 @@ function EditCompany({
 
   return (
     <Modal
-      sx={{ display: "flex", alignItems: "center" }}
+      sx={{ maxWidth: "sm", display: "flex", alignItems: "center", margin: "auto" }}
       aria-labelledby="edit-info-form"
       aria-describedby="edit-info-form"
       open={open}
       onClose={() => setIsEditing(false)}
     >
-      <Container sx={{ display: "flex", justifyContent: "center" }}>
+      <Container>
         <Card sx={{ bgcolor: "#eaf4f4", padding: 3 }}>
           <Typography variant="h4" sx={{ mb: 2 }}>
-            Update your personal info
+            Update profile
           </Typography>
           <Box component="form" onSubmit={handleEdit}>
             <TextField
-              sx={{ mb: 2, bgcolor: "white" }}
+              sx={{ mb: 2, bgcolor: "#fbfbfb" }}
               fullWidth
               id="company-name"
               label="Company Name"
@@ -120,7 +120,7 @@ function EditCompany({
               onChange={(event) => setNameInput(event.target.value)}
             />
             <TextField
-              sx={{ mb: 2, bgcolor: "white" }}
+              sx={{ mb: 2, bgcolor: "#fbfbfb" }}
               fullWidth
               id="email"
               label="Email"
@@ -130,7 +130,7 @@ function EditCompany({
               onChange={(event) => setEmailInput(event.target.value)}
             />
             <TextField
-              sx={{ mb: 2, bgcolor: "white" }}
+              sx={{ mb: 2, bgcolor: "#fbfbfb" }}
               fullWidth
               id="street"
               label="Street"
@@ -140,7 +140,7 @@ function EditCompany({
               onChange={(event) => setStreetInput(event.target.value)}
             />
             <TextField
-              sx={{ mb: 2, bgcolor: "white" }}
+              sx={{ mb: 2, bgcolor: "#fbfbfb" }}
               fullWidth
               id="zipcode"
               label="ZIP code"
@@ -150,7 +150,7 @@ function EditCompany({
               onChange={(event) => setZipCodeInput(event.target.value)}
             />
             <Autocomplete
-              sx={{ mb: 2, bgcolor: "white" }}
+              sx={{ mb: 2, bgcolor: "#fbfbfb" }}
               fullWidth
               id="country-select"
               options={countries}
@@ -175,7 +175,7 @@ function EditCompany({
               )}
             />
             <Autocomplete
-              sx={{ mb: 2, bgcolor: "white" }}
+              sx={{ mb: 2, bgcolor: "#fbfbfb" }}
               fullWidth
               id="city-select"
               freeSolo
@@ -187,7 +187,7 @@ function EditCompany({
               renderInput={(params) => <TextField {...params} label="City" />}
             />
 
-            <Box sx={{ display: "flex", gap: 1 }}>
+            <Box sx={{ display: "flex", gap: 1, justifyContent: "center" }}>
               <Button variant="contained" sx={{ bgcolor: "#6b9080", mt: 3, mb: 2 }} type="submit">
                 Commit Changes
               </Button>

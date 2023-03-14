@@ -43,7 +43,7 @@ function JuniorProfile() {
   if (isFetching) {
     return (
       <Container
-        maxWidth="md"
+        maxWidth="lg"
         sx={{ display: "flex", flexDirection: "column", gap: 3, justifyContent: "center", mb: 3 }}
       >
         <Skeleton variant="rounded" sx={{ height: 300 }} />
@@ -55,10 +55,10 @@ function JuniorProfile() {
   return (
     <>
       <Container
-        maxWidth="md"
+        maxWidth="lg"
         sx={{ display: "flex", flexDirection: "column", gap: 3, justifyContent: "center", mb: 3 }}
       >
-        <Card className="media-break" sx={{ bgcolor: "#eaf4f4", display: "flex", padding: "2rem 3rem" }}>
+        <Card className="media-break" sx={{ bgcolor: "#eaf4f4", display: "flex" }}>
           <JuniorBio
             firstName={firstName}
             lastName={lastName}
@@ -68,14 +68,14 @@ function JuniorProfile() {
             setIsEditing={setIsEditing}
             isEdited={isEdited}
           />
-          <Divider flexItem orientation="vertical" sx={{ ml: 2, mr: 2 }} />
+          <Divider className="collapsemobile" flexItem variant="middle" orientation="vertical" />
           <SkillsProfile />
         </Card>
 
-        <Card className="media-break" sx={{ bgcolor: "#eaf4f4", display: "flex", padding: "2rem 3rem" }}>
-          <JobPostProfile />
-          <Divider flexItem orientation="vertical" sx={{ ml: 2, mr: 2 }} />
+        <Card className="media-break" sx={{ bgcolor: "#eaf4f4", display: "flex" }}>
           <FavCompaniesProfile />
+          <Divider className="collapsemobile" flexItem variant="middle" orientation="vertical" />
+          <JobPostProfile />
         </Card>
       </Container>
 

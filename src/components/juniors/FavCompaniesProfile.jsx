@@ -1,4 +1,4 @@
-import { Avatar, Box, Divider, IconButton, List, Stack, Typography } from "@mui/material";
+import { Avatar, Box, Card, IconButton, List, Stack, Typography } from "@mui/material";
 import { Fragment, useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import ClearIcon from "@mui/icons-material/Clear";
@@ -35,26 +35,26 @@ function FavCompaniesProfile() {
   }, []);
 
   return (
-    <Box sx={{ flexGrow: 1, minWidth: "50%" }}>
-      <Typography variant="h6">Favorite companies:</Typography>
-      <List>
+    <Box className="nobottom" sx={{ minWidth: "50%", boxSizing: "border-box", p: 4 }}>
+      <Typography variant="h6">Favorite companies</Typography>
+      <List sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
         {favoriteCompanies.length > 0 &&
           favoriteCompanies.map((company) => {
             return (
-              <Fragment key={company._id}>
-                <Box sx={{ display: "flex", p: 2, alignItems: "center", justifyContent: "space-between" }}>
-                  <Link to={`/company/${company._id}`} key={company._id}>
-                    <Stack direction="row" sx={{ display: "flex", alignItems: "center" }}>
-                      <Avatar sx={{ mr: 1 }} alt={company.name} src={company.profilePic} />
-                      <Typography>{company.name}</Typography>
-                    </Stack>
-                  </Link>
-                  <IconButton sx={{ ml: 1, p: 0 }} type="button" onClick={() => deleteCompany(company._id)}>
-                    <ClearIcon sx={{ width: 20 }} />
-                  </IconButton>
-                </Box>
-                <Divider component="li" flexItem orientation="horizontal" />
-              </Fragment>
+              <Card
+                key={company._id}
+                sx={{ display: "flex", p: 2, alignItems: "center", justifyContent: "space-between" }}
+              >
+                <Link to={`/company/${company._id}`} key={company._id}>
+                  <Stack direction="row" sx={{ display: "flex", alignItems: "center" }}>
+                    <Avatar sx={{ mr: 1 }} alt={company.name} src={company.profilePic} />
+                    <Typography>{company.name}</Typography>
+                  </Stack>
+                </Link>
+                <IconButton sx={{ ml: 1, p: 0 }} type="button" onClick={() => deleteCompany(company._id)}>
+                  <ClearIcon sx={{ width: 20 }} />
+                </IconButton>
+              </Card>
             );
           })}
       </List>

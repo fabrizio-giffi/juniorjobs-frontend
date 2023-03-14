@@ -92,20 +92,20 @@ function EditJunior({
 
   return (
     <Modal
-      sx={{ display: "flex", alignItems: "center" }}
+      sx={{ maxWidth: "sm", display: "flex", alignItems: "center", margin: "auto" }}
       aria-labelledby="edit-info-form"
       aria-describedby="edit-info-form"
       open={open}
       onClose={() => setIsEditing(false)}
     >
-      <Container sx={{ display: "flex", justifyContent: "center" }}>
+      <Container>
         <Card sx={{ bgcolor: "#eaf4f4", padding: 3 }}>
           <Typography variant="h4" sx={{ mb: 2 }}>
-            Update your personal info
+            Update profile
           </Typography>
           <Box component="form" onSubmit={handleEdit}>
             <TextField
-              sx={{ mb: 2, bgcolor: "white" }}
+              sx={{ mb: 2, bgcolor: "#fbfbfb" }}
               fullWidth
               id="first-name"
               label="First Name"
@@ -115,7 +115,7 @@ function EditJunior({
               onChange={(event) => setFirstNameInput(event.target.value)}
             />
             <TextField
-              sx={{ mb: 2, bgcolor: "white" }}
+              sx={{ mb: 2, bgcolor: "#fbfbfb" }}
               fullWidth
               id="last-name"
               label="Last Name"
@@ -125,7 +125,7 @@ function EditJunior({
               onChange={(event) => setLastNameInput(event.target.value)}
             />
             <Autocomplete
-              sx={{ mb: 2, bgcolor: "white" }}
+              sx={{ mb: 2, bgcolor: "#fbfbfb" }}
               fullWidth
               id="country-select"
               options={countries}
@@ -150,7 +150,7 @@ function EditJunior({
               )}
             />
             <Autocomplete
-              sx={{ mb: 2, bgcolor: "white" }}
+              sx={{ mb: 2, bgcolor: "#fbfbfb" }}
               fullWidth
               id="city-select"
               freeSolo
@@ -166,11 +166,11 @@ function EditJunior({
               id="calendly"
               label="Calendly link"
               variant="outlined"
-              sx={{ bgcolor: "white" }}
+              sx={{ bgcolor: "#fbfbfb" }}
               value={calendlyInput}
               onChange={(event) => setCalendlyInput(event.target.value)}
             />
-            <Box sx={{ display: "flex", gap: 1 }}>
+            <Box sx={{ display: "flex", gap: 1, justifyContent: "center" }}>
               <Button variant="contained" sx={{ bgcolor: "#6b9080", mt: 3, mb: 2 }} type="submit">
                 Commit Changes
               </Button>

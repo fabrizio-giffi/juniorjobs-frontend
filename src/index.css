@@ -53,7 +53,13 @@ button:hover {
     flex-direction: column;
     gap: 2rem;
   }
-  iframe {
+  .nobottom {
+    padding-bottom: 0 !important;
+  }
+  .notop {
+    padding-top: 0 !important;
+  }
+  .collapsemobile {
     display: none;
   }
 }

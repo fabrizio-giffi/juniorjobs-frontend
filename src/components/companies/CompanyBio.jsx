@@ -63,8 +63,18 @@ function CompanyBio({
   };
 
   return (
-    <Box sx={{ flexGrow: 1, minWidth: "50%" }}>
-      <Box sx={{ mb: 4, display: "flex", alignItems: "center" }}>
+    <Box
+      className="nobottom"
+      sx={{
+        minWidth: "50%",
+        boxSizing: "border-box",
+        p: 4,
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+      }}
+    >
+      <Box sx={{ mb: 4, display: "flex", alignItems: "center", justifyContent: "center" }}>
         <Avatar
           className="profilePic"
           src={profilePicture}
@@ -74,32 +84,34 @@ function CompanyBio({
         />
         <Typography variant="h5">{name}</Typography>
       </Box>
-      <Stack direction="row" sx={{ display: "flex", alignItems: "center", mb: 1 }}>
-        <IconButton size="small">
-          <EmailIcon />
-        </IconButton>
-        <Typography variant="body1" sx={{ ml: 1 }}>
-          {email}
-        </Typography>
-      </Stack>
-      <Stack direction="row" sx={{ display: "flex", alignItems: "center", mb: 1 }}>
-        <IconButton size="small">
-          <PublicIcon />
-        </IconButton>
-        <Typography variant="body1" sx={{ ml: 1 }}>
-          {city}, {country}
-        </Typography>
-      </Stack>
-      <Stack direction="row" sx={{ display: "flex", alignItems: "center", mb: 1 }}>
-        <IconButton size="small">
-          <PlaceIcon />
-        </IconButton>
-        <Typography variant="body1" sx={{ ml: 1 }}>
-          {zipCode}, {street}
-        </Typography>
-      </Stack>
+      <Box sx={{ display: "flex", flexDirection: "column", alignItems: "start", mb: 1 }}>
+        <Stack direction="row" sx={{ display: "flex", alignItems: "center", mb: 1 }}>
+          <IconButton size="small">
+            <EmailIcon />
+          </IconButton>
+          <Typography variant="body1" sx={{ ml: 1 }}>
+            {email}
+          </Typography>
+        </Stack>
+        <Stack direction="row" sx={{ display: "flex", alignItems: "center", mb: 1 }}>
+          <IconButton size="small">
+            <PublicIcon />
+          </IconButton>
+          <Typography variant="body1" sx={{ ml: 1 }}>
+            {city}, {country}
+          </Typography>
+        </Stack>
+        <Stack direction="row" sx={{ display: "flex", alignItems: "center", mb: 1 }}>
+          <IconButton size="small">
+            <PlaceIcon />
+          </IconButton>
+          <Typography variant="body1" sx={{ ml: 1 }}>
+            {zipCode}, {street}
+          </Typography>
+        </Stack>
+      </Box>
 
-      <Box sx={{ display: "flex", flexDirection: "column", alignItems: "start" }}>
+      <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
         {!isUploaded && (
           <Button
             type="submit"
@@ -128,7 +140,7 @@ function CompanyBio({
             </Stack>
           </>
         )}
-        {isEdited && <Typography>Your personal profile has been updated!</Typography>}
+        {isEdited && <Typography sx={{ textAlign: "center" }}>Your profile has been updated!</Typography>}
       </Box>
     </Box>
   );

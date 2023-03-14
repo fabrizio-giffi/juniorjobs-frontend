@@ -36,9 +36,9 @@ function FavJuniors() {
   }, []);
 
   return (
-    <Box sx={{ flexGrow: 1, minWidth: "50%" }}>
-      <Typography variant="h6">Favorite juniors:</Typography>
-      <List sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
+    <Box className="nobottom" sx={{ minWidth: "50%", boxSizing: "border-box", p: 4 }}>
+      <Typography variant="h6">Favorite juniors</Typography>
+      <List sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
         {favoriteJuniors.length > 0 &&
           favoriteJuniors
             .filter((favorite, index) => index < showIndex)
@@ -47,7 +47,7 @@ function FavJuniors() {
                 <Card
                   sx={{
                     display: "flex",
-                    bgcolor: "#eaf4f4",
+                    bgcolor: "#fbfbfb",
                     flexDirection: "column",
                     alignItems: "start",
                     p: 1,
@@ -83,7 +83,7 @@ function FavJuniors() {
                       <ClearIcon />
                     </IconButton>
                   </Box>
-                  <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1, mb: 2 }}>
+                  <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1, mb: 2, pl: 2, pr: 2 }}>
                     {favorite.skills.length > 0 &&
                       favorite.skills.map((skill) => {
                         return <Chip key={skill} label={skill} />;
@@ -95,7 +95,7 @@ function FavJuniors() {
         {!showMore && favoriteJuniors.length > 2 && (
           <Button
             variant="contained"
-            sx={{ bgcolor: "#6b9080", mt: 1 }}
+            sx={{ bgcolor: "#6b9080", mt: 1, margin: "1% auto" }}
             onClick={() => {
               setShowMore(true);
               setShowIndex(favoriteJuniors.length);
@@ -107,7 +107,7 @@ function FavJuniors() {
         {showMore && (
           <Button
             variant="contained"
-            sx={{ bgcolor: "#6b9080", mt: 1 }}
+            sx={{ bgcolor: "#6b9080", mt: 1, margin: "1% auto" }}
             onClick={() => {
               setShowMore(false);
               setShowIndex(2);

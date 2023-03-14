@@ -4,7 +4,7 @@ import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 
 function JuniorBio({ firstName, lastName, city, country, calendly, setIsEditing, isEdited }) {
   return (
-    <Box sx={{ flexGrow: 1, minWidth: "50%" }}>
+    <Box className="nobottom" sx={{ minWidth: "50%", boxSizing: "border-box", padding: "2rem 3rem" }}>
       <Box sx={{ mb: 4, display: "flex", alignItems: "center" }}>
         <Avatar alt="N/A" sx={{ width: 56, height: 56, mr: 2 }}>
           {firstName[0]}
@@ -40,7 +40,7 @@ function JuniorBio({ firstName, lastName, city, country, calendly, setIsEditing,
         >
           Edit information
         </Button>
-        {isEdited && <Typography>Your personal profile has been updated!</Typography>}
+        {isEdited && <Typography sx={{ textAlign: "center" }}>Your profile has been updated!</Typography>}
       </Box>
     </Box>
   );

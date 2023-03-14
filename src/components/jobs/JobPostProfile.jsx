@@ -57,9 +57,9 @@ function JobPostProfile() {
   }, []);
 
   return (
-    <Box sx={{ flexGrow: 1, minWidth: "50%" }}>
-      <Typography variant="h6">{user.role === "junior" ? "Favorite" : "Your"} job posts:</Typography>
-      <List sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
+    <Box className="notop" sx={{ minWidth: "50%", boxSizing: "border-box", p: 4 }}>
+      <Typography variant="h6">{user.role === "junior" ? "Favorite" : "Your"} job posts</Typography>
+      <List sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
         {jobPosts.length > 0 &&
           jobPosts
             .filter((jobPost, index) => index < showIndex)
@@ -68,10 +68,11 @@ function JobPostProfile() {
                 <Card
                   sx={{
                     display: "flex",
-                    bgcolor: "#eaf4f4",
+                    bgcolor: "#fbfbfb",
                     flexDirection: "column",
                     alignItems: "start",
                     p: 1,
+                    pb: 2,
                   }}
                   key={jobPost._id}
                 >
@@ -97,7 +98,7 @@ function JobPostProfile() {
                     )}
                   </Box>
 
-                  <Stack direction="row" alignItems="center" gap={1}>
+                  <Stack direction="row" alignItems="center" gap={1} sx={{ pl: 2, pr: 2 }}>
                     <IconButton size="small">
                       <PaidIcon />
                     </IconButton>
@@ -106,7 +107,7 @@ function JobPostProfile() {
                     </Typography>
                   </Stack>
                   <Link to={`/company/${jobPost.company._id}`}>
-                    <Stack direction="row" alignItems="center" gap={1}>
+                    <Stack direction="row" alignItems="center" gap={1} sx={{ pl: 2, pr: 2 }}>
                       <IconButton size="small">
                         <ApartmentIcon />
                       </IconButton>
@@ -121,7 +122,7 @@ function JobPostProfile() {
         {!showMore && jobPosts.length > 2 && (
           <Button
             variant="contained"
-            sx={{ bgcolor: "#6b9080", mt: 1 }}
+            sx={{ bgcolor: "#6b9080", mt: 1, margin: "1% auto" }}
             onClick={() => {
               setShowMore(true);
               setShowIndex(jobPosts.length);
@@ -133,7 +134,7 @@ function JobPostProfile() {
         {showMore && (
           <Button
             variant="contained"
-            sx={{ bgcolor: "#6b9080", mt: 1 }}
+            sx={{ bgcolor: "#6b9080", mt: 1, margin: "1% auto" }}
             onClick={() => {
               setShowMore(false);
               setShowIndex(2);
