@@ -23,7 +23,21 @@ function CompanyBio({
   const { user } = useContext(AuthContext);
   const [fileName, setFileName] = useState("");
   const [imageSelected, setImageSelected] = useState("");
+  const [isUploaded, setIsUploaded] = useState(false);
   const hiddenFileInput = useRef(null);
+
+  const handleClick = () => {
+    hiddenFileInput.current.click();
+  };
+
+  const handleChange = (event) => {
+    console.log("Am I here?");
+    const fileUploadedName = event.target.files[0].name;
+    const fileUploaded = event.target.files[0];
+    setFileName(fileUploadedName);
+    setImageSelected(fileUploaded);
+    setIsUploaded(true);
+  };
 
   const uploadImage = async () => {
     const formData = new FormData();
@@ -36,20 +50,16 @@ function CompanyBio({
         profilePicture: url,
       });
       setProfilePicture(url);
+      setImageSelected("");
+      setIsUploaded(false);
     } catch (error) {
       console.log(error);
     }
   };
 
-  const handleClick = () => {
-    hiddenFileInput.current.click();
-  };
-
-  const handleChange = (event) => {
-    const fileUploadedName = event.target.files[0].name;
-    const fileUploaded = event.target.files[0];
-    setFileName(fileUploadedName);
-    setImageSelected(fileUploaded);
+  const cancelUpload = () => {
+    setImageSelected("");
+    setIsUploaded(false);
   };
 
   return (
@@ -90,19 +100,34 @@ function CompanyBio({
       </Stack>
 
       <Box sx={{ display: "flex", flexDirection: "column", alignItems: "start" }}>
-        <Button
-          type="submit"
-          variant="contained"
-          sx={{ bgcolor: "#6b9080", mt: 3, mb: 2 }}
-          onClick={() => setIsEditing(true)}
-        >
-          Edit information
-        </Button>
-        <Button type="submit" variant="contained" sx={{ bgcolor: "#6b9080", mt: 3, mb: 2 }} onClick={uploadImage}>
-          Upload image
-        </Button>
+        {!isUploaded && (
+          <Button
+            type="submit"
+            variant="contained"
+            sx={{ bgcolor: "#6b9080", mt: 3, mb: 2 }}
+            onClick={() => setIsEditing(true)}
+          >
+            Edit information
+          </Button>
+        )}
+
         <input type="file" ref={hiddenFileInput} onChange={handleChange} style={{ display: "none" }} />
-        <Typography variant="body1">{fileName}</Typography>
+        {isUploaded && (
+          <>
+            <Stack sx={{ width: "100%", mt: 2 }}>
+              <Typography variant="button">Confirm your image selection</Typography>
+              <Typography variant="body1">{fileName}</Typography>
+            </Stack>
+            <Stack direction="row" sx={{ width: "100%", gap: 3 }}>
+              <Button fullWidth variant="contained" sx={{ bgcolor: "#6b9080", mt: 3, mb: 2 }} onClick={uploadImage}>
+                Upload image
+              </Button>
+              <Button fullWidth variant="contained" sx={{ bgcolor: "#6b9080", mt: 3, mb: 2 }} onClick={cancelUpload}>
+                Cancel
+              </Button>
+            </Stack>
+          </>
+        )}
         {isEdited && <Typography>Your personal profile has been updated!</Typography>}
       </Box>
     </Box>

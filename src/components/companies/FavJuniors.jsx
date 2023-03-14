@@ -17,7 +17,6 @@ function FavJuniors() {
   const getJuniors = async () => {
     try {
       const response = await axios.get(`${api_URL}/company/${user.id}`);
-      console.log(response.data.favorites);
       setFavoriteJuniors(response.data.favorites);
     } catch (error) {
       console.log(error);
