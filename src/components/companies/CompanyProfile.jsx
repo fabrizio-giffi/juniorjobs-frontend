@@ -1,11 +1,9 @@
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../context/auth.context";
-import { Link } from "react-router-dom";
-import JobPostCard from "../jobs/JobPostCard";
 import CloudinaryUploadWidget from "../CloudinaryUploadWidget";
+import JobPostProfile from "../jobs/JobPostProfile";
 import {
-  IconButton,
   Button,
   Modal,
   Container,
@@ -15,24 +13,13 @@ import {
   Box,
   createFilterOptions,
   Autocomplete,
-  Avatar,
-  Stack,
   Divider,
-  List,
-  CardHeader,
-  Chip,
+  Skeleton,
 } from "@mui/material";
-import ClearIcon from "@mui/icons-material/Clear";
-import PlaceIcon from "@mui/icons-material/Place";
-import ApartmentIcon from "@mui/icons-material/Apartment";
-import PaidIcon from "@mui/icons-material/Paid";
-import PublicIcon from "@mui/icons-material/Public";
-import EmailIcon from "@mui/icons-material/Email";
-
-import "./CompanyProfile.css";
 
 import countries from "../../data/countries.json";
-import JobPostProfile from "../JobPostProfile";
+import FavJuniors from "./FavJuniors";
+import CompanyBio from "./CompanyBio";
 const api_URL = import.meta.env.VITE_API_URL;
 const gmaps = import.meta.env.VITE_GMAPS;
 
@@ -63,10 +50,6 @@ function CompanyProfile() {
   const [isEdited, setIsEdited] = useState(false);
   const [citiesList, setCitiesList] = useState([]);
   const [isFetching, setIsFetching] = useState(true);
-  const [indexJunior, setIndexJunior] = useState(2);
-  const [indexPost, setIndexPost] = useState(2);
-  const [showMoreJunior, setShowMoreJunior] = useState(false);
-  const [showMorePost, setShowMorePost] = useState(false);
 
   const getProfile = async () => {
     try {
@@ -89,15 +72,6 @@ function CompanyProfile() {
     } catch (error) {
       console.log("There was an error getting the profile", error);
     }
-  };
-
-  const deleteFavorite = async (favoriteId) => {
-    const id = profile._id;
-    const requestBody = { id, favoriteId };
-    try {
-      await axios.put(`${api_URL}/company/delete/favorite`, requestBody);
-      getProfile();
-    } catch (error) {}
   };
 
   const handleEdit = async (event) => {
@@ -153,7 +127,15 @@ function CompanyProfile() {
   }, [countryInput]);
 
   if (isFetching) {
-    return <div>Loading...</div>;
+    return (
+      <Container
+        maxWidth="md"
+        sx={{ display: "flex", flexDirection: "column", gap: 3, justifyContent: "center", mb: 3 }}
+      >
+        <Skeleton variant="rounded" sx={{ height: 300 }} />
+        <Skeleton variant="rounded" sx={{ height: 400 }} />
+      </Container>
+    );
   }
 
   return (
@@ -163,48 +145,18 @@ function CompanyProfile() {
         sx={{ display: "flex", flexDirection: "column", gap: 3, justifyContent: "center", mb: 3 }}
       >
         <Card className="media-break" sx={{ bgcolor: "#eaf4f4", display: "flex", padding: "2rem 3rem" }}>
-          <Box sx={{ flexGrow: 1, minWidth: "50%" }}>
-            <Box sx={{ mb: 4, display: "flex", alignItems: "center" }}>
-              <Avatar src={profilePicture} alt="N/A" sx={{ width: 56, height: 56, mr: 2 }} />
-              <Typography variant="h5">{name}</Typography>
-            </Box>
-            <Stack direction="row" sx={{ display: "flex", alignItems: "center", mb: 1 }}>
-              <IconButton size="small">
-                <EmailIcon />
-              </IconButton>
-              <Typography variant="body1" sx={{ ml: 1 }}>
-                {email}
-              </Typography>
-            </Stack>
-            <Stack direction="row" sx={{ display: "flex", alignItems: "center", mb: 1 }}>
-              <IconButton size="small">
-                <PublicIcon />
-              </IconButton>
-              <Typography variant="body1" sx={{ ml: 1 }}>
-                {city}, {country}
-              </Typography>
-            </Stack>
-            <Stack direction="row" sx={{ display: "flex", alignItems: "center", mb: 1 }}>
-              <IconButton size="small">
-                <PlaceIcon />
-              </IconButton>
-              <Typography variant="body1" sx={{ ml: 1 }}>
-                {zipCode}, {street}
-              </Typography>
-            </Stack>
-
-            <Box sx={{ display: "flex", flexDirection: "column", alignItems: "start" }}>
-              <Button
-                type="submit"
-                variant="contained"
-                sx={{ bgcolor: "#6b9080", mt: 3, mb: 2 }}
-                onClick={() => setIsEditing(true)}
-              >
-                Edit information
-              </Button>
-              {isEdited && <Typography>Your personal profile has been updated!</Typography>}
-            </Box>
-          </Box>
+          <CompanyBio
+            profilePicture={profilePicture}
+            setProfilePicture={setProfilePicture}
+            name={name}
+            email={email}
+            city={city}
+            country={country}
+            zipCode={zipCode}
+            street={street}
+            setIsEditing={setIsEditing}
+            isEdited={isEdited}
+          />
           <Divider flexItem orientation="vertical" sx={{ ml: 2, mr: 2 }} />
           <Box sx={{ bgcolor: "#eaf4f4", flexGrow: 1, minWidth: "50%" }}>
             <iframe
@@ -218,131 +170,13 @@ function CompanyProfile() {
             ></iframe>
           </Box>
         </Card>
-
         <Card className="media-break" sx={{ bgcolor: "#eaf4f4", display: "flex", padding: "2rem 3rem" }}>
-          <Box sx={{ flexGrow: 1, minWidth: "50%" }}>
-            <Typography variant="h6">Favorite juniors:</Typography>
-            <List sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
-              {profile.favorites?.length > 0 &&
-                profile.favorites
-                  .filter((favorite, index) => index < indexJunior)
-                  .map((favorite) => {
-                    return (
-                      <Card
-                        sx={{
-                          display: "flex",
-                          bgcolor: "#eaf4f4",
-                          flexDirection: "column",
-                          alignItems: "start",
-                          p: 1,
-                        }}
-                        key={favorite._id}
-                      >
-                        <Box
-                          sx={{
-                            display: "flex",
-                            justifyContent: "space-between",
-                            width: "100%",
-                            alignItems: "start",
-                          }}
-                        >
-                          <Link to={`/junior/${favorite._id}`}>
-                            <CardHeader
-                              avatar={
-                                <Avatar alt="N/A" sx={{ width: 56, height: 56, mr: 2 }}>
-                                  {favorite.firstName[0]}
-                                  {favorite.lastName[0]}
-                                </Avatar>
-                              }
-                              title={`${favorite.firstName} ${favorite.lastName}`}
-                              subheader={
-                                <Stack sx={{ display: "flex", alignItems: "center" }} direction="row">
-                                  <PublicIcon sx={{ mr: 1 }} />
-                                  {favorite.location.country}
-                                </Stack>
-                              }
-                            />
-                          </Link>
-                          <IconButton onClick={() => deleteFavorite(favorite._id)}>
-                            <ClearIcon />
-                          </IconButton>
-                        </Box>
-                        <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1, mb: 2 }}>
-                          {favorite.skills.length > 0 &&
-                            favorite.skills.map((skill) => {
-                              return <Chip key={skill} label={skill} />;
-                            })}
-                        </Box>
-                      </Card>
-                    );
-                  })}
-              {!showMoreJunior && profile.favorites?.length > 2 && (
-                <Button
-                  variant="contained"
-                  sx={{ bgcolor: "#6b9080", mt: 1 }}
-                  onClick={() => {
-                    setShowMoreJunior(true);
-                    setIndexJunior(profile.favorites.length);
-                  }}
-                >
-                  Show more
-                </Button>
-              )}
-              {showMoreJunior && (
-                <Button
-                  variant="contained"
-                  sx={{ bgcolor: "#6b9080", mt: 1 }}
-                  onClick={() => {
-                    setShowMoreJunior(false);
-                    setIndexJunior(2);
-                  }}
-                >
-                  Show less
-                </Button>
-              )}
-            </List>
-          </Box>
+          <FavJuniors />
           <Divider flexItem orientation="vertical" sx={{ ml: 2, mr: 2 }} />
-          <Box sx={{ flexGrow: 1, minWidth: "50%" }}>
-            <Typography variant="h6">Your job posts:</Typography>
-            <List sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
-              {profile.jobPosts
-                ?.filter((favorite, index) => index < indexPost)
-                .map((post) => {
-                  return (
-                    <li className="jobpost-li" key={post._id}>
-                      <JobPostProfile jobPost={post} />
-                    </li>
-                  );
-                })}
-              {!showMorePost && profile.jobPosts?.length > 2 && (
-                <Button
-                  variant="contained"
-                  sx={{ bgcolor: "#6b9080", mt: 1 }}
-                  onClick={() => {
-                    setShowMorePost(true);
-                    setIndexPost(profile.jobPosts.length);
-                  }}
-                >
-                  Show more
-                </Button>
-              )}
-              {showMorePost && (
-                <Button
-                  variant="contained"
-                  sx={{ bgcolor: "#6b9080", mt: 1 }}
-                  onClick={() => {
-                    setShowMorePost(false);
-                    setIndexPost(2);
-                  }}
-                >
-                  Show less
-                </Button>
-              )}
-            </List>
-          </Box>
+          <JobPostProfile />
         </Card>
       </Container>
+
       {/* Modal to update user's info */}
       {isEditing && (
         <Modal
@@ -436,7 +270,7 @@ function CompanyProfile() {
                   renderInput={(params) => <TextField {...params} label="City" />}
                 />
                 <Typography variant="h5">Change your company picture</Typography>
-                <CloudinaryUploadWidget profilePicture={profilePicture} setProfilePicture={setProfilePicture} />
+
                 <Box sx={{ display: "flex", gap: 1 }}>
                   <Button variant="contained" sx={{ bgcolor: "#6b9080", mt: 3, mb: 2 }} type="submit">
                     Commit Changes

@@ -5,7 +5,7 @@ import { AuthContext } from "../../context/auth.context";
 
 const api_URL = import.meta.env.VITE_API_URL;
 
-function SkillsProfile({ deleteSkill }) {
+function SkillsProfile() {
   const { user } = useContext(AuthContext);
   const [skills, setSkills] = useState([]);
   const [newSkill, setNewSkill] = useState();

@@ -1,5 +1,5 @@
 :root {
-  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
   line-height: 1.5;
   font-weight: 400;
   font-synthesis: none;
@@ -12,7 +12,6 @@
   --mint-green: #cce3de;
   --azure: #eaf4f4;
   --mint-cream: #f6fff8;
-  
 }
 
 body {
@@ -43,4 +42,15 @@ button:hover {
 
 .prompt a {
   color: #6b9080 !important;
+}
+
+.profilePic:hover {
+  cursor: pointer;
+}
+
+@media (max-width: 1250px) {
+  .media-break {
+    flex-direction: column;
+    gap: 2rem;
+  }
 }

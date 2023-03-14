@@ -1,6 +1,0 @@
-@media (max-width: 1250px) {
-  .media-break {
-    flex-direction: column;
-    gap: 2rem;
-  }
-}

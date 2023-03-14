@@ -1,6 +1,5 @@
 import axios from "axios";
 import { useEffect, useState, useContext } from "react";
-import "../components/companies/CompanyProfile.css";
 import JobPostCardCompanyPage from "./jobs/JobPostCardCompanyPage";
 import { useParams } from "react-router-dom";
 import { AuthContext } from "../context/auth.context";
