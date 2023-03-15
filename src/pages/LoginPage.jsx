@@ -1,6 +1,16 @@
 import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Avatar, Box, Button, CircularProgress, Container, Divider, Stack, TextField, Typography } from "@mui/material";
+import {
+  Avatar,
+  Box,
+  Button,
+  CircularProgress,
+  Container,
+  Divider,
+  Stack,
+  TextField,
+  Typography,
+} from "@mui/material";
 import axios from "axios";
 import PasswordForm from "../components/PasswordForm";
 import { AuthContext } from "../context/auth.context";
@@ -10,7 +20,8 @@ import { red } from "@mui/material/colors";
 const auth_URL = import.meta.env.VITE_AUTH_URL;
 
 function LoginPage() {
-  const { storeToken, authenticateUser, role, setRole } = useContext(AuthContext);
+  const { storeToken, authenticateUser, role, setRole } =
+    useContext(AuthContext);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -23,7 +34,10 @@ function LoginPage() {
     setIsSpinning(true);
     const requestBody = { name, email, password };
     try {
-      const response = await axios.post(`${auth_URL}/${role === "junior" ? "user" : "company"}/login`, requestBody);
+      const response = await axios.post(
+        `${auth_URL}/${role === "junior" ? "user" : "company"}/login`,
+        requestBody
+      );
       // response.data.authToken holds the token
       setIsSpinning(false);
       storeToken(response.data.authToken);
@@ -40,15 +54,34 @@ function LoginPage() {
   return (
     <>
       <Container component="main" maxWidth="xs">
-        <Stack sx={{ mt: 10 }} divider={<Divider orientation="vertical" flexItem />} spacing={2} direction="row">
-          <Button sx={{ bgcolor: "#6b9080" }} fullWidth variant="contained" onClick={() => setRole("junior")}>
+        <Stack
+          sx={{ mt: 10 }}
+          divider={<Divider orientation="vertical" flexItem />}
+          spacing={2}
+          direction="row"
+        >
+          <Button
+            sx={{ bgcolor: "#6b9080" }}
+            fullWidth
+            variant="contained"
+            onClick={() => setRole("junior")}
+          >
             Junior
           </Button>
-          <Button sx={{ bgcolor: "#6b9080" }} fullWidth variant="contained" onClick={() => setRole("company")}>
+          <Button
+            sx={{ bgcolor: "#6b9080" }}
+            fullWidth
+            variant="contained"
+            onClick={() => setRole("company")}
+          >
             Company
           </Button>
         </Stack>
-        <Typography variant="h5" sx={{ mt: 3, textAlign: "center" }} gutterBottom>
+        <Typography
+          variant="h5"
+          sx={{ mt: 3, textAlign: "center" }}
+          gutterBottom
+        >
           Are you a junior or a company?
         </Typography>
       </Container>
@@ -68,7 +101,12 @@ function LoginPage() {
             <Typography component="h1" variant="h5">
               Log in
             </Typography>
-            <Box component="form" onSubmit={handleLogin} noValidate sx={{ mt: 1 }}>
+            <Box
+              component="form"
+              onSubmit={handleLogin}
+              noValidate
+              sx={{ mt: 1 }}
+            >
               {role === "company" && (
                 <TextField
                   margin="normal"
@@ -97,17 +135,31 @@ function LoginPage() {
                 />
               )}
               <PasswordForm setPassword={setPassword} password={password} />
-              <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
                 <Button
                   type="submit"
                   fullWidth
                   variant="contained"
-                  sx={{ bgcolor: "#6b9080", mt: 3, mb: 2, position: "relative" }}
+                  sx={{
+                    bgcolor: "#6b9080",
+                    mt: 3,
+                    mb: 2,
+                    position: "relative",
+                  }}
                 >
                   Log In
                 </Button>
                 {isSpinning && (
-                  <CircularProgress size={20} sx={{ color: "white", position: "absolute", ml: 15, mt: 1 }} />
+                  <CircularProgress
+                    size={20}
+                    sx={{ color: "white", position: "absolute", ml: 15, mt: 1 }}
+                  />
                 )}
               </Box>
             </Box>
@@ -135,6 +187,14 @@ function LoginPage() {
           >
             <Typography>Don't have an account yet?</Typography>
             <Link to={"/signup"}>Sign Up</Link>
+          </Stack>
+          <Stack
+             sx={{ mt: 3, display: "flex", justifyContent: "center" }}
+             divider={<Divider orientation="vertical" flexItem />}
+             spacing={2}
+             direction="row">
+            <Typography>forgot your password?</Typography>
+            <Link to={"/forgot-password"}>click here</Link>
           </Stack>
         </Container>
       )}
