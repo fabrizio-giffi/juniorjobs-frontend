@@ -15,8 +15,12 @@ import ProfilePage from "./pages/ProfilePage";
 import SignupPage from "./pages/SignupPage";
 import Footer from "./components/Footer";
 import Landing from "./pages/Landing";
+import ForgotPassword from "./pages/ForgotPassword";
+import ResetPassword from "./pages/ResetPassword";
 
 function App() {
+
+
   return (
     <div style={{ height: "100vhs" }}>
       <div className="App">
@@ -45,6 +49,18 @@ function App() {
               <IsLoggedOut>
                 <SignupPage />
               </IsLoggedOut>
+            }
+          />
+          <Route
+            path="/forgot-password"
+            element={
+                <ForgotPassword />
+            }
+          />
+           <Route
+            path="/reset/:token"
+            element={
+                <ResetPassword />
             }
           />
           <Route
