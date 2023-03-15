@@ -42,55 +42,51 @@ function CompanyProfile() {
     getProfile();
   }, []);
 
-  if (isFetching) {
-    return (
-      <Container
-        maxWidth="md"
-        sx={{ display: "flex", flexDirection: "column", gap: 3, justifyContent: "center", mb: 3 }}
-      >
-        <Skeleton variant="rounded" sx={{ height: 300 }} />
-        <Skeleton variant="rounded" sx={{ height: 400 }} />
-      </Container>
-    );
-  }
-
   return (
     <>
       <Container
         maxWidth="lg"
         sx={{ display: "flex", flexDirection: "column", gap: 3, justifyContent: "center", mb: 3 }}
       >
-        <Card className="media-break" sx={{ bgcolor: "#eaf4f4", display: "flex" }}>
-          <CompanyBio
-            profilePicture={profilePicture}
-            setProfilePicture={setProfilePicture}
-            name={name}
-            email={email}
-            city={city}
-            country={country}
-            zipCode={zipCode}
-            street={street}
-            setIsEditing={setIsEditing}
-            isEdited={isEdited}
-          />
-          <Divider flexItem variant="middle" orientation="vertical" />
-          <Box className="collapsemobile" sx={{ bgcolor: "#eaf4f4", minWidth: "50%", boxSizing: "border-box", p: 3 }}>
-            <iframe
-              width="100%"
-              height="100%"
-              style={{ border: "none" }}
-              loading="lazy"
-              allowFullScreen
-              referrerPolicy="no-referrer-when-downgrade"
-              src={`https://www.google.com/maps/embed/v1/place?key=${gmaps}&q=${country}+${city}+${street}`}
-            ></iframe>
-          </Box>
-        </Card>
-        <Card className="media-break" sx={{ bgcolor: "#eaf4f4", display: "flex" }}>
-          <FavJuniors />
-          <Divider className="collapsemobile" flexItem variant="middle" orientation="vertical" />
-          <JobPostProfile />
-        </Card>
+        {isFetching ? (
+          <Skeleton variant="rounded" height={300} width="100%" />
+        ) : (
+          <Card className="media-break" sx={{ bgcolor: "#eaf4f4", display: "flex" }}>
+            <CompanyBio
+              profilePicture={profilePicture}
+              setProfilePicture={setProfilePicture}
+              name={name}
+              email={email}
+              city={city}
+              country={country}
+              zipCode={zipCode}
+              street={street}
+              setIsEditing={setIsEditing}
+              isEdited={isEdited}
+            />
+            <Divider flexItem variant="middle" orientation="vertical" />
+            <Box className="collapsemobile" sx={{ bgcolor: "#eaf4f4", minWidth: "50%", boxSizing: "border-box", p: 3 }}>
+              <iframe
+                width="100%"
+                height="100%"
+                style={{ border: "none" }}
+                loading="lazy"
+                allowFullScreen
+                referrerPolicy="no-referrer-when-downgrade"
+                src={`https://www.google.com/maps/embed/v1/place?key=${gmaps}&q=${country}+${city}+${street}`}
+              ></iframe>
+            </Box>
+          </Card>
+        )}
+        {isFetching ? (
+          <Skeleton variant="rounded" height={400} width="100%" />
+        ) : (
+          <Card className="media-break" sx={{ bgcolor: "#eaf4f4", display: "flex" }}>
+            <FavJuniors />
+            <Divider className="collapsemobile" flexItem variant="middle" orientation="vertical" />
+            <JobPostProfile />
+          </Card>
+        )}
       </Container>
 
       {/* Modal to update user's info */}
