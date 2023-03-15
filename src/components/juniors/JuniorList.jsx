@@ -2,12 +2,12 @@ import JuniorCardPublic from "./JuniorCardPublic";
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../context/auth.context";
-import { Avatar, Box, Skeleton, Typography } from "@mui/material";
+import { List, ListItem, Skeleton, Stack, Typography } from "@mui/material";
 import GeoFilter from "../filters/GeoFilter";
-import StackFilter from "../filters/StackFilter";
-import "./JuniorCard.css";
-import "./JuniorList.css";
+import FieldFilter from "../filters/FieldFilter";
 import { Container } from "@mui/system";
+import JuniorProfilePublic from "../../pages/JuniorProfilePublic";
+let filtered = [];
 
 const api_URL = import.meta.env.VITE_API_URL;
 
@@ -18,7 +18,8 @@ const JuniorList = () => {
   const [userDB, setUserDB] = useState({});
   const [updated, setUpdated] = useState(false);
   const [geoQuery, setGeoQuery] = useState("");
-  const [stackQuery, setStackQuery] = useState([]);
+  const [fieldQuery, setFieldQuery] = useState("");
+  const [focus, setFocus] = useState();
 
   const getUsers = async () => {
     const response = await axios.get(`${api_URL}/user`);
@@ -39,6 +40,10 @@ const JuniorList = () => {
     getUsers();
   }, [updated]);
 
+  useEffect(() => {
+    setFocus(filtered[0]?.props.children.props.junior);
+  }, [fieldQuery, geoQuery]);
+
   // FILTERS
   const countryFilter = [];
   juniors.forEach((junior) => {
@@ -51,83 +56,89 @@ const JuniorList = () => {
     }
   });
 
-  const stackFilter = [];
-  juniors.forEach((junior) => {
-    junior.skills.forEach((skill) => {
-      if (!stackFilter.includes(skill)) {
-        stackFilter.push(skill);
-      }
-    });
-  });
-
-  if (isFetching) {
-    return (
-      <>
-        <Container
-          className="filterCtn"
-          sx={{
-            mt: 8,
-            mb: 3,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            gap: 5,
-          }}
-        >
-          <Skeleton variant="rounded" sx={{ minWidth: "300px", maxWidth: "600px" }} height="40px" />
-          <Skeleton variant="rounded" sx={{ mt: 3, minWidth: "370px" }} height="140px" />
-          <Skeleton variant="rounded" sx={{ minWidth: "370px" }} height="140px" />
-          <Skeleton variant="rounded" sx={{ minWidth: "370px" }} height="140px" />
-          <Skeleton variant="rounded" sx={{ minWidth: "370px" }} height="140px" />
-        </Container>
-      </>
-    );
-  }
-
   return (
     juniors.length > 0 && (
-      <Box sx={{ mb: 10 }}>
-        <Container
-          className="filterCtn"
+      <Container maxWidth="lg" sx={{ mb: 10, mt: 3, display: "flex", flexDirection: "column", alignItems: "center" }}>
+        {isFetching ? (
+          <Skeleton variant="rounded" width="80%" height="40px" />
+        ) : (
+          <Container
+            className="filterCtn"
+            sx={{
+              mt: 3,
+              mb: 3,
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              gap: 1,
+            }}
+          >
+            <GeoFilter geoQuery={geoQuery} setGeoQuery={setGeoQuery} countryFilter={countryFilter} />
+            <FieldFilter fieldQuery={fieldQuery} setFieldQuery={setFieldQuery} />
+          </Container>
+        )}
+        {isFetching ? (
+          <Skeleton variant="text" sx={{ fontSize: "3rem" }} width="40%" />
+        ) : (
+          <Typography sx={{ textAlign: "center", mb: 3 }} variant="h4" gutterBottom>
+            Available juniors
+          </Typography>
+        )}
+        <Stack
+          direction="row"
           sx={{
-            mt: 3,
-            mb: 3,
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            gap: 1,
+            bgcolor: "#eaf4f4",
+            boxSizing: "border-box",
+            mb: 5,
+            width: "100%",
           }}
         >
-          <GeoFilter geoQuery={geoQuery} setGeoQuery={setGeoQuery} countryFilter={countryFilter} />
-          <StackFilter stackQuery={stackQuery} setStackQuery={setStackQuery} stackFilter={stackFilter} />
-        </Container>
-        <Typography sx={{ textAlign: "center", mb: 3 }} variant="h4" gutterBottom>
-          Available juniors
-        </Typography>
-
-        <div className="outer-junior-card">
-          {juniors
-            // Filter out the juniors that have an undefined firstName or lastName
-            .filter((junior) => junior.firstName || junior.lastName)
-            .filter((junior) => (geoQuery.length === 0 ? true : junior.location.country === geoQuery))
-            .filter((junior) =>
-              stackQuery.length === 0 ? true : stackQuery.every((skill) => junior.skills.includes(skill))
-            )
-            .map((junior) => {
-              return (
-                <JuniorCardPublic
-                  stackQuery={stackQuery}
-                  setStackQuery={setStackQuery}
-                  setGeoQuery={setGeoQuery}
-                  key={junior._id}
-                  junior={junior}
-                  userDB={userDB}
-                  setUpdated={setUpdated}
-                />
-              );
-            })}
-        </div>
-      </Box>
+          <List
+            disablePadding
+            sx={{
+              display: "flex",
+              boxSizing: "border-box",
+              flexDirection: "column",
+              alignItems: "center",
+              gap: 2,
+              maxHeight: "50vh",
+              overflow: "auto",
+              p: 4,
+            }}
+          >
+            {
+              (filtered = juniors
+                // Filter out the juniors that haven't yet set their firstName or lastName
+                .filter((junior) => junior.firstName !== "N/A" || junior.lastName !== "N/A")
+                .filter((junior) => (geoQuery === "" ? true : junior.location.country === geoQuery))
+                .filter((junior) => (fieldQuery === "" ? true : junior.field === fieldQuery))
+                .map((junior) => {
+                  return isFetching ? (
+                    <Skeleton variant="rounded" sx={{ minWidth: "370px", mb: 2 }} height="140px" />
+                  ) : (
+                    <ListItem disablePadding key={junior._id} onClick={() => setFocus(junior)}>
+                      <JuniorCardPublic
+                        fieldQuery={fieldQuery}
+                        setFieldQuery={setFieldQuery}
+                        setGeoQuery={setGeoQuery}
+                        junior={junior}
+                        userDB={userDB}
+                        setUpdated={setUpdated}
+                      />
+                    </ListItem>
+                  );
+                }))
+            }
+            {filtered.length === 0 && <Typography>Empty</Typography>}
+          </List>
+          <JuniorProfilePublic
+            focus={focus || filtered[0]?.props.children.props.junior}
+            isFetching={isFetching}
+            setFieldQuery={setFieldQuery}
+            fieldQuery={fieldQuery}
+          />
+        </Stack>
+      </Container>
     )
   );
 };

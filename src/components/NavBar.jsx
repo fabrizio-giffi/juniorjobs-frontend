@@ -27,7 +27,7 @@ function NavBar() {
       {isLoggedIn && (
         <>
           <li>
-            <NavLink to="/jobs">
+            <NavLink to={user.role === "company" ? "/junior" : "/jobs"}>
               {user.role === "company" ? "Juniors" : "Jobs"}
             </NavLink>
           </li>

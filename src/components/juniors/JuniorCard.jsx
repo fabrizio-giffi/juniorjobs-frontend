@@ -10,7 +10,7 @@ import PublicIcon from "@mui/icons-material/Public";
 
 const api_URL = import.meta.env.VITE_API_URL;
 
-const JuniorCard = ({ junior, userDB, setUpdated, setGeoQuery, setStackQuery, stackQuery }) => {
+const JuniorCard = ({ junior, userDB, setUpdated, setGeoQuery, setFieldQuery, fieldQuery }) => {
   const { user, isLoggedIn } = useContext(AuthContext);
 
   const addJunior = async (juniorId) => {
@@ -24,7 +24,7 @@ const JuniorCard = ({ junior, userDB, setUpdated, setGeoQuery, setStackQuery, st
   };
 
   const handleClick = (skill) => {
-    if (!stackQuery.includes(skill)) setStackQuery([...stackQuery, skill]);
+    if (!fieldQuery.includes(skill)) setFieldQuery([...fieldQuery, skill]);
   };
 
   return (

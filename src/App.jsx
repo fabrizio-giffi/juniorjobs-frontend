@@ -8,13 +8,14 @@ import IsLoggedOut from "./components/middlewares/IsLoggedOut";
 import JuniorProfilePublic from "./pages/JuniorProfilePublic";
 import NavBar from "./components/NavBar";
 import CreateJobPost from "./pages/CreateJobPost";
-import HomePage from "./pages/HomePage";
 import JobPostDetails from "./pages/JobPostDetails";
 import LoginPage from "./pages/LoginPage";
 import ProfilePage from "./pages/ProfilePage";
 import SignupPage from "./pages/SignupPage";
 import Footer from "./components/Footer";
 import Landing from "./pages/Landing";
+import JobList from "./components/jobs/JobList";
+import JuniorList from "./components/juniors/JuniorList";
 
 function App() {
   return (
@@ -27,7 +28,7 @@ function App() {
             path="/jobs"
             element={
               <IsLoading>
-                <HomePage />
+                <JobList />
               </IsLoading>
             }
           />
@@ -79,6 +80,7 @@ function App() {
               </IsLoading>
             }
           />
+          <Route path="/junior" element={<JuniorList />} />
           <Route path="/junior/:id" element={<JuniorProfilePublic />} />
           <Route path="*" element={<h1>404 Not Found</h1>} />
         </Routes>

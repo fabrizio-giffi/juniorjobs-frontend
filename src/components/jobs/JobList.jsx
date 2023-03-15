@@ -3,7 +3,7 @@ import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import CompanyFilter from "../filters/CompanyFilter";
 import GeoFilter from "../filters/GeoFilter";
-import StackFilter from "../filters/StackFilter";
+import FieldFilter from "../filters/FieldFilter";
 import JobPostCard from "./JobPostCard";
 import { AuthContext } from "../../context/auth.context";
 
@@ -17,7 +17,7 @@ function JobList() {
   const [isFetching, setIsFetching] = useState(true);
   const [geoQuery, setGeoQuery] = useState("");
   const [companyQuery, setCompanyQuery] = useState("");
-  const [stackQuery, setStackQuery] = useState([]);
+  const [fieldQuery, setFieldQuery] = useState("");
 
   const fetchData = async () => {
     const jobList = await axios.get(`${api_URL}/posts`);
@@ -51,15 +51,6 @@ function JobList() {
     if (!companyFilter.includes(post.company.name)) {
       companyFilter.push(post.company.name);
     }
-  });
-
-  const stackFilter = [];
-  jobList.forEach((post) => {
-    post.stack.forEach((stack) => {
-      if (!stackFilter.includes(stack)) {
-        stackFilter.push(stack);
-      }
-    });
   });
 
   if (isFetching) {
@@ -104,7 +95,7 @@ function JobList() {
       >
         <GeoFilter geoQuery={geoQuery} setGeoQuery={setGeoQuery} countryFilter={countryFilter} />
         <CompanyFilter companyQuery={companyQuery} setCompanyQuery={setCompanyQuery} companyFilter={companyFilter} />
-        <StackFilter stackQuery={stackQuery} setStackQuery={setStackQuery} stackFilter={stackFilter} />
+        <FieldFilter fieldQuery={fieldQuery} setFieldQuery={setFieldQuery} />
       </Container>
       <Container component="main" maxWidth="lg">
         <Typography sx={{ textAlign: "center", mb: 3 }} variant="h4" gutterBottom>
@@ -114,9 +105,7 @@ function JobList() {
           {jobList
             .filter((post) => (geoQuery.length === 0 ? true : post.address.country === geoQuery))
             .filter((post) => (companyQuery.length === 0 ? true : post.company.name === companyQuery))
-            .filter((post) =>
-              stackQuery.length === 0 ? true : stackQuery.every((stack) => post.stack.includes(stack))
-            )
+            .filter((post) => (fieldQuery === "" ? true : post.field === fieldQuery))
             .map((post) => {
               return jobList.length > 0 ? (
                 <JobPostCard key={post._id} post={post} userDB={userDB} setUpdated={setUpdated} />

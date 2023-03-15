@@ -8,11 +8,24 @@ function CompanyFilter({ setCompanyQuery, companyQuery, companyFilter }) {
         sx={{ width: "370px" }}
         type="text"
         onChange={(event) => setCompanyQuery(event.target.value)}
-        id="outlined-basic"
+        id="company-filter"
         label="Company"
         value={companyQuery}
         variant="outlined"
         select
+        InputProps={{
+          endAdornment: (
+            <IconButton
+              position="end"
+              sx={{ mr: 2, display: companyQuery === "" ? "none" : "flex", alignItems: "center" }}
+              size="small"
+              aria-label="remove filters"
+              onClick={() => setCompanyQuery("")}
+            >
+              <ClearIcon fontSize="inherit" />
+            </IconButton>
+          ),
+        }}
       >
         {companyFilter.map((company) => (
           <MenuItem key={company} value={company}>
@@ -20,9 +33,6 @@ function CompanyFilter({ setCompanyQuery, companyQuery, companyFilter }) {
           </MenuItem>
         ))}
       </TextField>
-      <IconButton size="small" aria-label="remove filters" onClick={() => setCompanyQuery("")}>
-        <ClearIcon fontSize="inherit" />
-      </IconButton>
     </Box>
   );
 }
