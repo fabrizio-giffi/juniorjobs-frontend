@@ -1,4 +1,16 @@
-import { Button, Container, IconButton, List, ListItem, ListItemIcon, ListItemText, Typography } from "@mui/material";
+import {
+  Button,
+  Card,
+  Container,
+  Divider,
+  IconButton,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  Stack,
+  Typography,
+} from "@mui/material";
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
@@ -66,74 +78,58 @@ function JobPostDetails() {
   }
 
   return (
-    <Container
-      component="main"
-      maxWidth="md"
-      sx={{
-        border: "0px solid grey",
-        borderRadius: "30px",
-        marginTop: "30px",
-        marginBottom: "30px !important",
-        webkitBoxShadow: "2px 2px 15px -3px rgba(0,0,0,0.51)",
-        boxShadow: "2px 2px 15px -3px rgba(0,0,0,0.51)",
-        padding: "20px 50px !important",
-      }}
-    >
+    <Container component="main" maxWidth="lg">
       {!editing && (
-        <>
-          {" "}
-          <Typography variant="h3" paddingTop={"30px"} gutterBottom>
-            {jobPost.title}
-          </Typography>
-          <Box sx={{ display: "flex" }}>
-            <ListItemIcon variant="overline">
+        <Card sx={{ px: 4, py: 3, my: 4 }}>
+          <Box sx={{ display: "flex", flexDirection: "column" }}>
+            <Typography variant="h4" gutterBottom>
+              {jobPost.title}
+            </Typography>
+            <ListItemIcon>
               <HomeRepairServiceIcon sx={{ mr: 1 }} />
-              <Typography variant="overline">{jobPost.description.jobtype}</Typography>
+              <Typography variant="button">{jobPost.description.jobtype}</Typography>
+            </ListItemIcon>
+            <ListItemIcon>
+              <LabelRoundedIcon sx={{ mr: 1 }} />
+              <Typography variant="button">temp</Typography>
             </ListItemIcon>
           </Box>
-          <List sx={{ display: "flex" }}>
-            {jobPost.stack.map((element) => (
-              <ListItem key={element} disablePadding>
-                <ListItemIcon sx={{ display: "flex", alignItems: "center" }}>
-                  <LabelRoundedIcon sx={{ mr: 1 }} />
-                  <Typography variant="overline">{element}</Typography>
-                </ListItemIcon>
-                <ListItemText />
-              </ListItem>
-            ))}
-          </List>
           {isLoggedIn ? (
             <>
               <Typography variant="h6">HR Contact: {jobPost.email}</Typography>
               <Link to={`/company/${jobPost.company._id}`}>
-                <Typography sx={{ fontSize: "30px", fontWeight: "600", color: "var(--mint-green)", padding: "10px 0" }}>
+                <Typography variant="h5" color="success">
                   {jobPost.company.name}
                 </Typography>
               </Link>
               <Typography>
                 {jobPost.address.city} - {jobPost.address.country}
               </Typography>
-              <h3>Job Description:</h3>
+              <Divider />
+              <Typography variant="h6">Job Description</Typography>
               <Typography variant="body1" gutterBottom>
                 {jobPost.description.heading}
               </Typography>
-              <h3>Your tasks:</h3>
+              <Typography variant="h6">Your tasks</Typography>
               <Typography variant="body1" gutterBottom>
                 {jobPost.description.tasks}
               </Typography>
-              <h3>Your profile:</h3>
+              <Typography variant="h6">Your profile</Typography>
               <Typography variant="body1" gutterBottom>
                 {jobPost.description.requirements}
               </Typography>
-              <h3>Benefits:</h3>
+              <Typography variant="h6">Benefits</Typography>
               <Typography variant="body1" gutterBottom>
                 {jobPost.description.benefits}
               </Typography>
-              <h3>Salary range:</h3>
+              <Divider />
+              <Typography variant="h6">Salary range</Typography>
               <Typography variant="body1" gutterBottom>
                 €<span>{jobPost.salaryRange.minimum}</span> - €<span>{jobPost.salaryRange.maximum}</span>
               </Typography>
-              <Typography style={{ marginBottom: "40px" }}>Created: {dateCreated.toLocaleDateString("en-US", options)}</Typography>
+              <Typography style={{ marginBottom: "40px" }}>
+                Created: {dateCreated.toLocaleDateString("en-US", options)}
+              </Typography>
               <iframe
                 width="300"
                 height="300"
@@ -161,7 +157,7 @@ function JobPostDetails() {
               <Link to="/login">Log in</Link> or <Link to="/signup">sign up</Link> to see more informations
             </p>
           )}
-        </>
+        </Card>
       )}
 
       {!isLoggedIn ||

@@ -25,7 +25,7 @@ function JuniorProfilePublic({ focus, isFetching }) {
   return typeof focus === "undefined" ? (
     <Typography>No user matches your query</Typography>
   ) : (
-    <Card sx={{ width: "50%", bgcolor: "#fbfbfb", p: 4, m: 4 }}>
+    <Card sx={{ width: "100%", bgcolor: "#fbfbfb", p: 4, m: 4 }}>
       <Avatar sx={{ width: 128, height: 128 }} src={focus.profilePic} />
       <Typography variant="h4">
         {focus.firstName} {focus.lastName}
@@ -34,7 +34,7 @@ function JuniorProfilePublic({ focus, isFetching }) {
         <Typography variant="h6">
           {focus.location.country}, {focus.location.city}
         </Typography>
-      )}{" "}
+      )}
       <Typography variant="body1">{focus.field} junior developer</Typography>
       <List sx={{ display: "flex", flexDirection: "row", flexWrap: "wrap" }}>
         {focus.skills.length > 0 &&

@@ -1,4 +1,4 @@
-import { Avatar, Box, Button, Card, CardHeader, Chip, IconButton, List, Typography } from "@mui/material";
+import { Avatar, Box, Button, Card, CardHeader, Divider, IconButton, Typography } from "@mui/material";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import { useContext } from "react";
@@ -26,9 +26,10 @@ const JuniorCard = ({ junior, userDB, setUpdated, setGeoQuery, setFieldQuery, fi
   };
 
   return (
-    <Card sx={{ width: "50%", bgcolor: "#fbfbfb", p: 3 }}>
-      <Box sx={{ width: "100", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+    <Card sx={{ bgcolor: "#fbfbfb", p: 3, width: "100%" }}>
+      <Box sx={{ width: "100", display: "flex", justifyContent: "space-between", alignItems: "start" }}>
         <CardHeader
+          sx={{ px: 0, pt: 0 }}
           avatar={
             <Avatar
               sx={{ width: 64, height: 64 }}
@@ -54,6 +55,7 @@ const JuniorCard = ({ junior, userDB, setUpdated, setGeoQuery, setFieldQuery, fi
           {junior.location?.country !== "" ? junior.location?.country : "N/A"}
         </Button>
       </Box>
+      <Divider sx={{ mb: 3 }} />
       <Typography>{junior.bio}</Typography>
       <div className="country">
         {!isLoggedIn || !userDB || userDB.favorites?.some((favorite) => favorite._id === junior._id) ? (

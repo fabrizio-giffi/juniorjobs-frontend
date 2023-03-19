@@ -90,16 +90,16 @@ const JuniorList = () => {
             bgcolor: "#eaf4f4",
             boxSizing: "border-box",
             mb: 5,
-            width: "100%",
+            minWidth: "100%",
           }}
         >
           <List
             disablePadding
             sx={{
+              minWidth: "50%",
               display: "flex",
               boxSizing: "border-box",
               flexDirection: "column",
-              alignItems: "center",
               gap: 2,
               maxHeight: "50vh",
               overflow: "auto",
@@ -116,7 +116,7 @@ const JuniorList = () => {
                   return isFetching ? (
                     <Skeleton variant="rounded" sx={{ minWidth: "370px", mb: 2 }} height="140px" />
                   ) : (
-                    <ListItem disablePadding key={junior._id} onClick={() => setFocus(junior)}>
+                    <ListItem sx={{ width: "100%" }} disablePadding key={junior._id} onClick={() => setFocus(junior)}>
                       <JuniorCardPublic
                         fieldQuery={fieldQuery}
                         setFieldQuery={setFieldQuery}
@@ -132,6 +132,7 @@ const JuniorList = () => {
             {filtered.length === 0 && <Typography>Empty</Typography>}
           </List>
           <JuniorProfilePublic
+            style={{ width: "100%" }}
             focus={focus || filtered[0]?.props.children.props.junior}
             isFetching={isFetching}
             setFieldQuery={setFieldQuery}
