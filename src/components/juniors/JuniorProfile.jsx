@@ -15,6 +15,10 @@ function JuniorProfile() {
   const [country, setCountry] = useState("");
   const [city, setCity] = useState("");
   const [calendly, setCalendly] = useState("");
+  const [bio, setBio] = useState("");
+  const [pronouns, setPronouns] = useState("");
+  const [field, setField] = useState("");
+  const [profilePicture, setProfilePicture] = useState();
   const [isFetching, setIsFetching] = useState(true);
   const [isEditing, setIsEditing] = useState(false);
   const [isEdited, setIsEdited] = useState(false);
@@ -29,6 +33,10 @@ function JuniorProfile() {
       setCountry(response.data.location.country);
       setCity(response.data.location.city);
       setCalendly(response.data.calendly);
+      setProfilePicture(response.data.profilePic);
+      setBio(response.data.bio);
+      setPronouns(response.data.pronouns);
+      setField(response.data.field);
 
       setIsFetching(false);
     } catch (error) {
@@ -51,11 +59,16 @@ function JuniorProfile() {
         ) : (
           <Card className="media-break" sx={{ bgcolor: "#eaf4f4", display: "flex" }}>
             <JuniorBio
+              profilePicture={profilePicture}
+              setProfilePicture={setProfilePicture}
               firstName={firstName}
               lastName={lastName}
               city={city}
               country={country}
               calendly={calendly}
+              bio={bio}
+              pronouns={pronouns}
+              field={field}
               setIsEditing={setIsEditing}
               isEdited={isEdited}
             />
@@ -84,6 +97,8 @@ function JuniorProfile() {
           country={country}
           city={city}
           calendly={calendly}
+          bio={bio}
+          pronouns={pronouns}
           setIsEditing={setIsEditing}
           setIsEdited={setIsEdited}
           setFirstName={setFirstName}
@@ -91,6 +106,8 @@ function JuniorProfile() {
           setCountry={setCountry}
           setCity={setCity}
           setCalendly={setCalendly}
+          setBio={setBio}
+          setPronouns={setPronouns}
         />
       )}
     </>

@@ -33,7 +33,7 @@ const JuniorCard = ({ junior, userDB, setUpdated, setGeoQuery, setFieldQuery, fi
           avatar={
             <Avatar
               sx={{ width: 64, height: 64 }}
-              src={`https://api.dicebear.com/5.x/initials/svg?seed=${junior.firstName[0]}${junior.lastName[0]}`}
+              src={junior.profilePic}
               alt={`${junior.firstName} ${junior.lastName}`}
             />
           }

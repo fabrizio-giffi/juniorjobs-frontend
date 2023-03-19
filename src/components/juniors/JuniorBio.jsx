@@ -1,46 +1,150 @@
-import { Avatar, Box, Button, IconButton, Stack, Typography } from "@mui/material";
+import { Alert, Avatar, Box, Button, IconButton, Stack, Typography } from "@mui/material";
 import PlaceIcon from "@mui/icons-material/Place";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
+import { useContext, useRef, useState } from "react";
+import axios from "axios";
+import { AuthContext } from "../../context/auth.context";
+import AddAPhotoIcon from "@mui/icons-material/AddAPhoto";
+import EditIcon from "@mui/icons-material/Edit";
 
-function JuniorBio({ firstName, lastName, city, country, calendly, setIsEditing, isEdited }) {
+const api_URL = import.meta.env.VITE_API_URL;
+
+function JuniorBio({
+  profilePicture,
+  setProfilePicture,
+  firstName,
+  lastName,
+  city,
+  country,
+  calendly,
+  bio,
+  pronouns,
+  setIsEditing,
+  isEdited,
+}) {
+  const { user } = useContext(AuthContext);
+  const [fileName, setFileName] = useState("");
+  const [imageSelected, setImageSelected] = useState("");
+  const [isUploaded, setIsUploaded] = useState(false);
+  const hiddenFileInput = useRef(null);
+  const [isHovered, setIsHovered] = useState(false);
+
+  const handleClick = () => {
+    hiddenFileInput.current.click();
+  };
+
+  const handleChange = (event) => {
+    console.log("Am I here?");
+    const fileUploadedName = event.target.files[0].name;
+    const fileUploaded = event.target.files[0];
+    setFileName(fileUploadedName);
+    setImageSelected(fileUploaded);
+    setIsUploaded(true);
+  };
+
+  const uploadImage = async () => {
+    const formData = new FormData();
+    formData.append("file", imageSelected);
+    formData.append("upload_preset", "qt1a58q1");
+    try {
+      const response = await axios.post("https://api.cloudinary.com/v1_1/dbxtlw5rz/image/upload", formData);
+      const url = response.data.url;
+      await axios.put(`${api_URL}/user/edit/picture/${user.id}`, {
+        profilePicture: url,
+      });
+      setProfilePicture(url);
+      setImageSelected("");
+      setIsUploaded(false);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const cancelUpload = () => {
+    setImageSelected("");
+    setIsUploaded(false);
+  };
+
   return (
-    <Box className="nobottom" sx={{ minWidth: "50%", boxSizing: "border-box", padding: "2rem 3rem" }}>
-      <Box sx={{ mb: 4, display: "flex", alignItems: "center" }}>
-        <Avatar alt="N/A" sx={{ width: 56, height: 56, mr: 2 }}>
-          {firstName[0]}
-          {lastName[0]}
-        </Avatar>
-        <Typography variant="h5">
-          {firstName} {lastName}
-        </Typography>
+    <Box className="nobottom" sx={{ minWidth: "50%", boxSizing: "border-box", padding: "2rem 2rem" }}>
+      <Box className="media-break" sx={{ mb: 4, display: "flex", alignItems: "start", gap: 4 }}>
+        <Box sx={{ position: "relative" }}>
+          <Avatar
+            className="profilePic"
+            src={profilePicture}
+            alt="N/A"
+            sx={{ width: 150, height: 150, mr: 2, opacity: isHovered ? 0.6 : 1, border: "solid 3px #6b9080" }}
+            onClick={handleClick}
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
+          />
+          {isHovered && <AddAPhotoIcon color="action" sx={{ position: "absolute", left: 0, bottom: 0 }} />}
+        </Box>
+        <Box>
+          <Stack
+            direction="row"
+            sx={{ width: "100%", display: "flex", justifyContent: "space-between", alignItems: "start", mb: 1 }}
+          >
+            <Box>
+              <Typography variant="h5">
+                {firstName} {lastName}
+              </Typography>
+              <Typography
+                sx={{ display: pronouns === "other" ? "none" : "block" }}
+                variant="body2"
+                color="text.secondary"
+              >
+                ({pronouns})
+              </Typography>
+            </Box>
+            <IconButton onClick={() => setIsEditing(true)}>
+              <EditIcon color="action" />
+            </IconButton>
+          </Stack>
+          <Stack direction="row" sx={{ display: "flex", alignItems: "center" }}>
+            <PlaceIcon color="action" size="small" />
+            <Typography variant="body2" sx={{ ml: 1 }}>
+              {city}, {country}
+            </Typography>
+          </Stack>
+          <Stack direction="row" sx={{ display: "flex", alignItems: "center" }}>
+            <CalendarMonthIcon color="action" size="small" />
+            <Typography variant="body2" sx={{ ml: 1 }}>
+              Calendly Link: {calendly}
+            </Typography>
+          </Stack>
+          <Stack sx={{ mt: 2 }}>
+            <Typography variant="body1">{bio}</Typography>
+          </Stack>
+        </Box>
       </Box>
-      <Stack direction="row" sx={{ display: "flex", alignItems: "center", mb: 1 }}>
-        <IconButton size="small">
-          <PlaceIcon />
-        </IconButton>
-        <Typography variant="body1" sx={{ ml: 1 }}>
-          {city}, {country}
-        </Typography>
-      </Stack>
-      <Stack direction="row" sx={{ display: "flex", alignItems: "center" }}>
-        <IconButton size="small">
-          <CalendarMonthIcon />
-        </IconButton>
-        <Typography variant="body1" sx={{ ml: 1 }}>
-          Calendly Link: {calendly}
-        </Typography>
-      </Stack>
 
       <Box sx={{ display: "flex", flexDirection: "column", alignItems: "start" }}>
-        <Button
-          type="submit"
-          variant="contained"
-          sx={{ bgcolor: "#6b9080", mt: 3, mb: 2 }}
-          onClick={() => setIsEditing(true)}
-        >
-          Edit information
-        </Button>
-        {isEdited && <Typography sx={{ textAlign: "center" }}>Your profile has been updated!</Typography>}
+        <input type="file" ref={hiddenFileInput} onChange={handleChange} style={{ display: "none" }} />
+        {isUploaded && (
+          <>
+            <Stack sx={{ width: "100%", mt: 2 }}>
+              <Alert severity="warning" sx={{ fontWeight: 600, display: "flex", alignItems: "center" }}>
+                Confirm your image selection:
+                <br />
+                <Typography>{fileName}</Typography>
+              </Alert>
+            </Stack>
+            <Stack direction="row" sx={{ width: "100%", gap: 3 }}>
+              <Button fullWidth variant="contained" sx={{ bgcolor: "#6b9080", mt: 3, mb: 2 }} onClick={uploadImage}>
+                Upload image
+              </Button>
+              <Button fullWidth variant="contained" sx={{ bgcolor: "#6b9080", mt: 3, mb: 2 }} onClick={cancelUpload}>
+                Cancel
+              </Button>
+            </Stack>
+          </>
+        )}
+        {isEdited && (
+          <Alert severity="success" sx={{ textAlign: "center", bgcolor: "#fbfbfb" }}>
+            Your profile has been updated!
+          </Alert>
+        )}
       </Box>
     </Box>
   );

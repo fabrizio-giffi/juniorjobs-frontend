@@ -16,6 +16,8 @@ import countries from "../../data/countries.json";
 
 const api_URL = import.meta.env.VITE_API_URL;
 
+const pronounsList = ["he/him", "she/her", "they/them", "other"];
+
 // Filter for the cities select
 const filterOptions = createFilterOptions({
   matchFrom: "start",
@@ -28,11 +30,15 @@ function EditJunior({
   country,
   city,
   calendly,
+  bio,
+  pronouns,
   setFirstName,
   setLastName,
   setCountry,
   setCity,
   setCalendly,
+  setBio,
+  setPronouns,
   setIsEdited,
   setIsEditing,
   isFetching,
@@ -43,7 +49,10 @@ function EditJunior({
   const [countryInput, setCountryInput] = useState(country);
   const [cityInput, setCityInput] = useState(city);
   const [calendlyInput, setCalendlyInput] = useState(calendly);
+  const [bioInput, setBioInput] = useState(bio);
+  const [pronounsInput, setPronounsInput] = useState(pronouns);
   const [citiesList, setCitiesList] = useState([]);
+  const [refreshCities, setRefreshCities] = useState(true);
 
   const handleEdit = async (event) => {
     event.preventDefault();
@@ -53,12 +62,16 @@ function EditJunior({
       country: countryInput,
       city: cityInput,
       calendly: calendlyInput,
+      bio: bioInput,
+      pronouns: pronounsInput,
     };
     setFirstName(firstNameInput);
     setLastName(lastNameInput);
     setCountry(countryInput);
     setCity(cityInput);
     setCalendly(calendlyInput);
+    setBio(bioInput);
+    setPronouns(pronounsInput);
 
     try {
       await axios.put(`${api_URL}/user/edit/${user.id}`, requestBody);
@@ -86,8 +99,16 @@ function EditJunior({
   };
 
   useEffect(() => {
-    setCityInput("");
     getCities();
+  }, []);
+
+  useEffect(() => {
+    if (country !== countryInput) {
+      setCityInput("");
+      getCities();
+    } else {
+      return;
+    }
   }, [countryInput]);
 
   return (
@@ -127,11 +148,24 @@ function EditJunior({
             <Autocomplete
               sx={{ mb: 2, bgcolor: "#fbfbfb" }}
               fullWidth
+              id="pronouns-select"
+              freeSolo
+              value={pronouns}
+              inputValue={pronounsInput}
+              onInputChange={(event, newInputValue) => setPronounsInput(newInputValue)}
+              options={pronounsList}
+              renderInput={(params) => <TextField {...params} label="Pronouns" />}
+            />
+            <Autocomplete
+              sx={{ mb: 2, bgcolor: "#fbfbfb" }}
+              fullWidth
               id="country-select"
               options={countries}
               autoHighlight
               getOptionLabel={(option) => option.name}
-              onChange={(event) => setCountryInput(event.target.innerText)}
+              onInputChange={(event) => {
+                setCountryInput(event.target.innerText);
+              }}
               renderOption={(props, option) => (
                 <Box component="li" key={option.iso3} sx={{ "& > img": { mr: 2, flexShrink: 0 } }} {...props}>
                   <img loading="lazy" width="20" src={option.flag} alt={option.name} />
@@ -154,12 +188,22 @@ function EditJunior({
               fullWidth
               id="city-select"
               freeSolo
-              value={cityInput}
+              value={city}
+              inputValue={cityInput}
+              onInputChange={(event, newInputValue) => setCityInput(newInputValue)}
               options={citiesList}
-              placeholder={city}
               filterOptions={filterOptions}
-              onChange={(event) => setCityInput(event.target.innerText)}
               renderInput={(params) => <TextField {...params} label="City" />}
+            />
+            <TextField
+              sx={{ mb: 2, bgcolor: "#fbfbfb" }}
+              fullWidth
+              id="bio"
+              label="Bio"
+              variant="outlined"
+              type="text"
+              value={bioInput === "Describe yourself" ? "" : bioInput}
+              onChange={(event) => setBioInput(event.target.value)}
             />
             <TextField
               fullWidth
@@ -170,6 +214,7 @@ function EditJunior({
               value={calendlyInput}
               onChange={(event) => setCalendlyInput(event.target.value)}
             />
+
             <Box sx={{ display: "flex", gap: 1, justifyContent: "center" }}>
               <Button variant="contained" sx={{ bgcolor: "#6b9080", mt: 3, mb: 2 }} type="submit">
                 Commit Changes
@@ -184,6 +229,8 @@ function EditJunior({
                   setCityInput(city);
                   setCountryInput(country);
                   setCalendlyInput(calendly);
+                  setBioInput(bio);
+                  setPronounsInput(pronouns);
                   setIsEdited(false);
                   setIsEditing(false);
                 }}
