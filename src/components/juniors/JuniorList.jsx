@@ -87,6 +87,7 @@ const JuniorList = () => {
         <Stack
           direction="row"
           sx={{
+            borderRadius: "8px",
             bgcolor: "#eaf4f4",
             boxSizing: "border-box",
             mb: 5,

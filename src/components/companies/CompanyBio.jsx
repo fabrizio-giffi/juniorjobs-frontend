@@ -31,7 +31,6 @@ function CompanyBio({
   };
 
   const handleChange = (event) => {
-    console.log("Am I here?");
     const fileUploadedName = event.target.files[0].name;
     const fileUploaded = event.target.files[0];
     setFileName(fileUploadedName);

@@ -5,7 +5,6 @@ import IsCompany from "./components/middlewares/IsCompany";
 import IsLoading from "./components/middlewares/IsLoading";
 import IsLoggedIn from "./components/middlewares/IsLoggedIn";
 import IsLoggedOut from "./components/middlewares/IsLoggedOut";
-import JuniorCard from "./components/juniors/JuniorCard";
 import NavBar from "./components/NavBar";
 import CreateJobPost from "./pages/CreateJobPost";
 import JobPostDetails from "./pages/JobPostDetails";
@@ -18,9 +17,9 @@ import JobList from "./components/jobs/JobList";
 import JuniorList from "./components/juniors/JuniorList";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
+import JuniorDetails from "./pages/JuniorDetails";
+
 function App() {
-
-
   return (
     <div style={{ height: "100vhs" }}>
       <div className="App">
@@ -51,18 +50,8 @@ function App() {
               </IsLoggedOut>
             }
           />
-          <Route
-            path="/forgot-password"
-            element={
-                <ForgotPassword />
-            }
-          />
-           <Route
-            path="/reset/:token"
-            element={
-                <ResetPassword />
-            }
-          />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/reset/:token" element={<ResetPassword />} />
           <Route
             path="/profile"
             element={
@@ -96,7 +85,7 @@ function App() {
             }
           />
           <Route path="/junior" element={<JuniorList />} />
-          <Route path="/junior/:id" element={<JuniorCard />} />
+          <Route path="/junior/:id" element={<JuniorDetails />} />
           <Route path="*" element={<h1>404 Not Found</h1>} />
         </Routes>
       </div>

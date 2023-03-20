@@ -1,11 +1,10 @@
 import { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Avatar, Box, Button, CircularProgress, Container, Divider, Stack, TextField, Typography } from "@mui/material";
+import { Alert, Avatar, Box, Button, CircularProgress, Container, Divider, Stack, TextField, Typography } from "@mui/material";
 import axios from "axios";
 import PasswordForm from "../components/PasswordForm";
 import { AuthContext } from "../context/auth.context";
 import LoginIcon from "@mui/icons-material/Login";
-import { red } from "@mui/material/colors";
 
 const auth_URL = import.meta.env.VITE_AUTH_URL;
 
@@ -108,18 +107,8 @@ function SignupPage() {
             </Box>
           </Box>
           {errorMessage && (
-            <Stack
-              sx={{
-                color: "#fbfbfb",
-                bgcolor: red[500],
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                borderRadius: "4px",
-                height: "35px",
-              }}
-            >
-              <Typography>{errorMessage}</Typography>
+            <Stack>
+              <Alert severity="error">{errorMessage}</Alert>
             </Stack>
           )}
           <Stack

@@ -1,8 +1,8 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../context/auth.context";
 import axios from "axios";
 import { InlineWidget } from "react-calendly";
-import { Avatar, Box, Button, Card, Chip, List, TextField, Typography } from "@mui/material";
+import { Avatar, Box, Button, Card, Chip, List, Stack, TextField, Typography } from "@mui/material";
 
 const api_INDEX = import.meta.env.VITE_INDEX_URL;
 
@@ -13,6 +13,12 @@ function JuniorCard({ focus, isFetching }) {
   const [message, setMessage] = useState("");
   const [contactInfo, setContactInfo] = useState(user?.email || "");
   const [messageSent, setMessageSent] = useState(false);
+
+  useEffect(() => {
+    setFormShow(false);
+    setSubject("");
+    setMessage("");
+  }, [focus]);
 
   const handleMessage = async (event) => {
     event.preventDefault();
@@ -59,7 +65,7 @@ function JuniorCard({ focus, isFetching }) {
           <Button onClick={() => setFormShow(true)}>Message</Button>
         ) : (
           <>
-            <Box component="form" onSubmit={handleMessage}>
+            <Stack spacing={1} component="form" onSubmit={handleMessage}>
               <TextField
                 type="text"
                 value={subject}
@@ -92,11 +98,13 @@ function JuniorCard({ focus, isFetching }) {
                 fullWidth
                 onChange={(event) => setContactInfo(event.target.value)}
               />
-              <Button type="submit">Send message</Button>
-              <Button type="submit" onClick={() => setFormShow(false)}>
-                Cancel
-              </Button>
-            </Box>
+              <Stack direction="row" sx={{ display: "flex", justifyContent: "center" }}>
+                <Button type="submit">Send message</Button>
+                <Button type="submit" onClick={() => setFormShow(false)}>
+                  Cancel
+                </Button>
+              </Stack>
+            </Stack>
           </>
         )}
       </div>

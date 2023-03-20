@@ -1,9 +1,22 @@
-import { Avatar, Box, Button, Card, CardHeader, Chip, IconButton, List, Stack, Typography } from "@mui/material";
+import {
+  Avatar,
+  Box,
+  Button,
+  Card,
+  CardHeader,
+  Chip,
+  Divider,
+  IconButton,
+  List,
+  Stack,
+  Typography,
+} from "@mui/material";
 import { Link } from "react-router-dom";
 import ClearIcon from "@mui/icons-material/Clear";
 import PublicIcon from "@mui/icons-material/Public";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../context/auth.context";
+import PlaceIcon from "@mui/icons-material/Place";
 import axios from "axios";
 
 const api_URL = import.meta.env.VITE_API_URL;
@@ -35,6 +48,8 @@ function FavJuniors() {
     getJuniors();
   }, []);
 
+  console.log(favoriteJuniors);
+
   return (
     <Box className="nobottom" sx={{ minWidth: "50%", boxSizing: "border-box", p: 4 }}>
       <Typography variant="h6">Favorite juniors</Typography>
@@ -64,18 +79,18 @@ function FavJuniors() {
                   >
                     <Link to={`/junior/${favorite._id}`}>
                       <CardHeader
-                        avatar={
-                          <Avatar alt="N/A" sx={{ width: 56, height: 56, mr: 2 }}>
-                            {favorite.firstName[0]}
-                            {favorite.lastName[0]}
-                          </Avatar>
-                        }
+                        avatar={<Avatar src={favorite.profilePic} alt="N/A" sx={{ width: 56, height: 56, mr: 2 }} />}
                         title={`${favorite.firstName} ${favorite.lastName}`}
                         subheader={
-                          <Stack sx={{ display: "flex", alignItems: "center" }} direction="row">
-                            <PublicIcon sx={{ mr: 1 }} />
-                            {favorite.location.country}
-                          </Stack>
+                          <>
+                            <Stack sx={{ display: "flex", alignItems: "center" }} direction="row">
+                              <PlaceIcon size="small" sx={{ mr: 1 }} />
+                              <Typography variant="body2" sx={{ ml: 1 }}>
+                                {favorite.location.city}, {favorite.location.country}
+                              </Typography>
+                            </Stack>
+                            <Typography variant="body2">{favorite.field} junior developer</Typography>
+                          </>
                         }
                       />
                     </Link>
@@ -83,7 +98,8 @@ function FavJuniors() {
                       <ClearIcon />
                     </IconButton>
                   </Box>
-                  <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1, mb: 2, pl: 2, pr: 2 }}>
+                  <Divider flexItem />
+                  <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1, my: 2, pl: 2, pr: 2 }}>
                     {favorite.skills.length > 0 &&
                       favorite.skills.map((skill) => {
                         return <Chip key={skill} label={skill} />;

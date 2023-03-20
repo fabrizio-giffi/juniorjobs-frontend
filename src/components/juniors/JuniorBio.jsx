@@ -34,7 +34,6 @@ function JuniorBio({
   };
 
   const handleChange = (event) => {
-    console.log("Am I here?");
     const fileUploadedName = event.target.files[0].name;
     const fileUploaded = event.target.files[0];
     setFileName(fileUploadedName);
@@ -90,7 +89,7 @@ function JuniorBio({
                 {firstName} {lastName}
               </Typography>
               <Typography
-                sx={{ display: pronouns === "other" ? "none" : "block" }}
+                sx={{ display: pronouns === "other" || "" ? "none" : "block" }}
                 variant="body2"
                 color="text.secondary"
               >
