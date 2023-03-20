@@ -148,13 +148,12 @@ function LoginPage() {
             <Link to={"/signup"}>Sign Up</Link>
           </Stack>
           <Stack
-            sx={{ mt: 3, display: "flex", justifyContent: "center" }}
-            divider={<Divider orientation="vertical" flexItem />}
-            spacing={2}
-            direction="row"
-          >
-            <Typography>Forgot your password?</Typography>
-            <Link to={"/forgot-password"}>Click here</Link>
+             sx={{ mt: 3, display: "flex", justifyContent: "center" }}
+             divider={<Divider orientation="vertical" flexItem />}
+             spacing={2}
+             direction="row">
+            <Typography>forgot your password?</Typography>
+            <Link to={`/forgot-password/${role}`}>click here</Link>
           </Stack>
         </Container>
       )}

@@ -1,37 +1,45 @@
 import { useState } from "react";
 import axios from "axios";
-import {
-  Avatar,
-  Box,
-  Button,
-  CircularProgress,
-  Container,
-  Divider,
-  Stack,
-  TextField,
-  Typography,
-} from "@mui/material";
-import LoginIcon from "@mui/icons-material/Login";
-import { red } from "@mui/material/colors";
+import { Box, Button, Container, TextField, Typography } from "@mui/material";
+import { useParams } from "react-router-dom";
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
+  const params = useParams();
+  console.log(params)
+  const auth_URL = import.meta.env.VITE_AUTH_URL;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    try {
-      const response = await axios.post(
-        "http://localhost:5005/auth/user/forgot-password",
-        { email }
-      );
-      setSuccess(true);
-    } catch (error) {
-      console.log("ERROR", error);
-      setError(error.response.data.message);
-    }
+    if (params.role === "junior") {
+      try {
+        const response = await axios.post(
+          `${auth_URL}/user/forgot-password`,
+          { email }
+        );
+        setSuccess(true);
+      } catch (error) {
+        console.log("ERROR", error);
+        setError(error.response.data.message);
+      }
+    } 
+
+    if (params.role === "company") {
+      try {
+        const response = await axios.post(
+          `${auth_URL}/company/forgot-password`,
+          { email }
+        );
+        setSuccess(true);
+      } catch (error) {
+        console.log("ERROR", error);
+        // setError(error.response.data.message);
+      }
+    } 
+
   };
 
   return (

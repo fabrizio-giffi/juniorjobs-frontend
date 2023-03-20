@@ -50,8 +50,18 @@ function App() {
               </IsLoggedOut>
             }
           />
-          <Route path="/forgot-password" element={<ForgotPassword />} />
-          <Route path="/reset/:token" element={<ResetPassword />} />
+          <Route
+            path="/forgot-password/:role"
+            element={
+                <ForgotPassword />
+            }
+          />
+           <Route
+            path="/reset/:user/:token"
+            element={
+                <ResetPassword />
+            }
+          />
           <Route
             path="/profile"
             element={
