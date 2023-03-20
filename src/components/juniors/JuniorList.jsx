@@ -6,7 +6,7 @@ import { List, ListItem, Skeleton, Stack, Typography } from "@mui/material";
 import GeoFilter from "../filters/GeoFilter";
 import FieldFilter from "../filters/FieldFilter";
 import { Container } from "@mui/system";
-import JuniorProfilePublic from "../../pages/JuniorProfilePublic";
+import JuniorCard from "./JuniorCard";
 let filtered = [];
 
 const api_URL = import.meta.env.VITE_API_URL;
@@ -131,7 +131,7 @@ const JuniorList = () => {
             }
             {filtered.length === 0 && <Typography>Empty</Typography>}
           </List>
-          <JuniorProfilePublic
+          <JuniorCard
             style={{ width: "100%" }}
             focus={focus || filtered[0]?.props.children.props.junior}
             isFetching={isFetching}

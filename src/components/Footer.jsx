@@ -38,7 +38,7 @@ export default function Footer() {
                   Frontend: <GitHubIcon fontSize="small" />
                 </span>
               </Link>
-              <span>
+              <span style={{marginLeft: "5px"}}>
                 <Link target={"_blank"}
                   to={"https://github.com/fabrizio-giffi/juniorjobs-backend"}
                 >

@@ -5,7 +5,7 @@ import IsCompany from "./components/middlewares/IsCompany";
 import IsLoading from "./components/middlewares/IsLoading";
 import IsLoggedIn from "./components/middlewares/IsLoggedIn";
 import IsLoggedOut from "./components/middlewares/IsLoggedOut";
-import JuniorProfilePublic from "./pages/JuniorProfilePublic";
+import JuniorCard from "./components/juniors/JuniorCard";
 import NavBar from "./components/NavBar";
 import CreateJobPost from "./pages/CreateJobPost";
 import JobPostDetails from "./pages/JobPostDetails";
@@ -96,7 +96,7 @@ function App() {
             }
           />
           <Route path="/junior" element={<JuniorList />} />
-          <Route path="/junior/:id" element={<JuniorProfilePublic />} />
+          <Route path="/junior/:id" element={<JuniorCard />} />
           <Route path="*" element={<h1>404 Not Found</h1>} />
         </Routes>
       </div>
