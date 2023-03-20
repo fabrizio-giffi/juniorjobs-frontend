@@ -194,7 +194,7 @@ function LoginPage() {
              spacing={2}
              direction="row">
             <Typography>forgot your password?</Typography>
-            <Link to={"/forgot-password"}>click here</Link>
+            <Link to={`/forgot-password/${role}`}>click here</Link>
           </Stack>
         </Container>
       )}

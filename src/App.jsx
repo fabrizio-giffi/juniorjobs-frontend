@@ -52,13 +52,13 @@ function App() {
             }
           />
           <Route
-            path="/forgot-password"
+            path="/forgot-password/:role"
             element={
                 <ForgotPassword />
             }
           />
            <Route
-            path="/reset/:token"
+            path="/reset/:user/:token"
             element={
                 <ResetPassword />
             }
