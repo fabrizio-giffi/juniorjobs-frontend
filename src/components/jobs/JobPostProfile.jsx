@@ -1,4 +1,4 @@
-import { Box, Button, Card, CardHeader, IconButton, List, Stack, Typography } from "@mui/material";
+import { Box, Button, Card, CardHeader, Divider, IconButton, List, Stack, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 import ClearIcon from "@mui/icons-material/Clear";
 import PaidIcon from "@mui/icons-material/Paid";
@@ -8,6 +8,7 @@ import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 
 const api_URL = import.meta.env.VITE_API_URL;
+let filtered = [];
 
 function JobPostProfile() {
   const { user } = useContext(AuthContext);
@@ -61,7 +62,7 @@ function JobPostProfile() {
       <Typography variant="h6">{user.role === "junior" ? "Favorite" : "Your"} job posts</Typography>
       <List sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
         {jobPosts.length > 0 &&
-          jobPosts
+          (filtered = jobPosts
             .filter((jobPost, index) => index < showIndex)
             .map((jobPost) => {
               return (
@@ -118,7 +119,17 @@ function JobPostProfile() {
                   </Link>
                 </Card>
               );
-            })}
+            }))}
+        {filtered.length === 0 && (
+          <>
+            <Divider />
+            <Typography className="prompt">
+              Your favorite list is still empty.
+              <br />
+              Have a look at our newest <Link to={"/jobs"}>job posts</Link>.
+            </Typography>
+          </>
+        )}
         {!showMore && jobPosts.length > 2 && (
           <Button
             variant="contained"

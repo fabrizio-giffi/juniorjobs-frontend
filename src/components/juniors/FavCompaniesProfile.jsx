@@ -1,4 +1,4 @@
-import { Avatar, Box, Card, IconButton, List, Stack, Typography } from "@mui/material";
+import { Avatar, Box, Card, Divider, IconButton, List, Stack, Typography } from "@mui/material";
 import { Fragment, useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import ClearIcon from "@mui/icons-material/Clear";
@@ -6,6 +6,7 @@ import { AuthContext } from "../../context/auth.context";
 import axios from "axios";
 
 const api_URL = import.meta.env.VITE_API_URL;
+let filtered = [];
 
 function FavCompaniesProfile() {
   const { user } = useContext(AuthContext);
@@ -39,7 +40,7 @@ function FavCompaniesProfile() {
       <Typography variant="h6">Favorite companies</Typography>
       <List sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
         {favoriteCompanies.length > 0 &&
-          favoriteCompanies.map((company) => {
+          (filtered = favoriteCompanies.map((company) => {
             return (
               <Card
                 key={company._id}
@@ -56,7 +57,17 @@ function FavCompaniesProfile() {
                 </IconButton>
               </Card>
             );
-          })}
+          }))}
+        {filtered.length === 0 && (
+          <>
+            <Divider />
+            <Typography className="prompt">
+              Your favorite list is still empty.
+              <br />
+              Have a look at our newest <Link to={"/jobs"}>job posts</Link>.
+            </Typography>
+          </>
+        )}
       </List>
     </Box>
   );

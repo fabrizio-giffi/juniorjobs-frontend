@@ -48,10 +48,26 @@ button:hover {
   cursor: pointer;
 }
 
+.description {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* number of lines to show */
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
 @media (max-width: 1250px) {
   .media-break {
     flex-direction: column;
     gap: 2rem;
+    padding: 20px !important;
+  }
+  .column-break {
+    flex-direction: column;
+    gap: 0.5rem !important;
+  }
+  .media-expand {
+    min-width: 100% !important;
   }
   .nobottom {
     padding-bottom: 0 !important;
@@ -61,5 +77,17 @@ button:hover {
   }
   .collapsemobile {
     display: none;
+  }
+  .filterCtn {
+    flex-direction: column;
+    gap: 10px;
+    margin: 10px 0;
+    min-width: 350px;
+  }
+}
+
+@media (min-width: 1250px) {
+  span.MuiSkeleton-rounded {
+    width: 750px;
   }
 }

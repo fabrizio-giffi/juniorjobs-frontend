@@ -18,6 +18,7 @@ import JuniorList from "./components/juniors/JuniorList";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
 import JuniorDetails from "./pages/JuniorDetails";
+import Pay from "./pages/Pay";
 
 function App() {
   return (
@@ -95,6 +96,7 @@ function App() {
             }
           />
           <Route path="/junior" element={<JuniorList />} />
+          <Route path="/pay" element={<Pay />} />
           <Route path="/junior/:id" element={<JuniorDetails />} />
           <Route path="*" element={<h1>404 Not Found</h1>} />
         </Routes>

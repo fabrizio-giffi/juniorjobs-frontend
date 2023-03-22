@@ -2,11 +2,11 @@ import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../context/auth.context";
 import axios from "axios";
 import { InlineWidget } from "react-calendly";
-import { Avatar, Box, Button, Card, Chip, List, Stack, TextField, Typography } from "@mui/material";
+import { Avatar, Button, Card, Chip, List, Stack, TextField, Typography } from "@mui/material";
 
 const api_INDEX = import.meta.env.VITE_INDEX_URL;
 
-function JuniorCard({ focus, isFetching }) {
+function JuniorCard({ focus }) {
   const { user } = useContext(AuthContext);
   const [formShow, setFormShow] = useState(false);
   const [subject, setSubject] = useState("");
@@ -22,7 +22,7 @@ function JuniorCard({ focus, isFetching }) {
 
   const handleMessage = async (event) => {
     event.preventDefault();
-    const nodemailer = { id: focus._id, subject, message, contactInfo };
+    const nodemailer = { id: focus._id, subject, message, contactInfo, role: user.role };
     const response = await axios.post(`${api_INDEX}/send-email`, nodemailer);
     setMessageSent(true);
     console.log(response.data);

@@ -1,17 +1,32 @@
-import { Button, Card, Container, Divider, IconButton, ListItemIcon, Typography } from "@mui/material";
+import {
+  Alert,
+  Avatar,
+  Box,
+  Button,
+  Card,
+  Container,
+  Divider,
+  IconButton,
+  ListItemIcon,
+  Stack,
+  TextField,
+  Typography,
+} from "@mui/material";
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import JobPostForm from "../components/jobs/JobPostForm";
 import { AuthContext } from "../context/auth.context";
+import JobPostForm from "../components/jobs/JobPostForm";
 import LabelRoundedIcon from "@mui/icons-material/LabelRounded";
 import HomeRepairServiceIcon from "@mui/icons-material/HomeRepairService";
-import { Box } from "@mui/system";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ShareIcon from "@mui/icons-material/Share";
+import ApartmentIcon from "@mui/icons-material/Apartment";
+import EmailIcon from "@mui/icons-material/Email";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 
 const api_URL = import.meta.env.VITE_API_URL;
+const api_INDEX = import.meta.env.VITE_INDEX_URL;
 const gmaps = import.meta.env.VITE_GMAPS;
 
 const options = { weekday: "long", year: "numeric", month: "long", day: "numeric" };
@@ -25,6 +40,11 @@ function JobPostDetails() {
   const { id } = useParams();
   const { user, isLoggedIn } = useContext(AuthContext);
   const [isFetching, setIsFetching] = useState(true);
+  const [formShow, setFormShow] = useState(false);
+  const [subject, setSubject] = useState("");
+  const [message, setMessage] = useState("");
+  const [contactInfo, setContactInfo] = useState(user?.email || "");
+  const [messageSent, setMessageSent] = useState(false);
 
   const fetchPost = async () => {
     const response = await axios.get(`${api_URL}/posts/${id}`);
@@ -49,6 +69,14 @@ function JobPostDetails() {
     return;
   };
 
+  const handleMessage = async (event) => {
+    event.preventDefault();
+    const nodemailer = { subject, message, contactInfo, role: user.role, contact: jobPost.email };
+    const response = await axios.post(`${api_INDEX}/send-email`, nodemailer);
+    setMessageSent(true);
+    console.log(response.data);
+  };
+
   useEffect(() => {
     fetchPost();
   }, []);
@@ -68,83 +96,160 @@ function JobPostDetails() {
   return (
     <Container component="main" maxWidth="lg">
       {!editing && (
-        <Card sx={{ px: 4, py: 3, my: 4 }}>
-          <Box sx={{ display: "flex", flexDirection: "column" }}>
+        <Card
+          className="media-break"
+          sx={{
+            px: 5,
+            py: 4,
+            my: 4,
+            display: "flex",
+            justifyContent: "space-between",
+            width: "100%",
+            boxSizing: "border-box",
+          }}
+        >
+          <Box className="media-expand" sx={{ display: "flex", flexDirection: "column", maxWidth: "60%" }}>
             <Typography variant="h4" gutterBottom>
               {jobPost.title}
             </Typography>
-            <ListItemIcon>
-              <HomeRepairServiceIcon sx={{ mr: 1 }} />
-              <Typography variant="button">{jobPost.description.jobtype}</Typography>
-            </ListItemIcon>
-            <ListItemIcon>
-              <LabelRoundedIcon sx={{ mr: 1 }} />
-              <Typography variant="button">temp</Typography>
-            </ListItemIcon>
-          </Box>
-          {isLoggedIn ? (
-            <>
-              <Typography variant="h6">HR Contact: {jobPost.email}</Typography>
-              <Link to={`/company/${jobPost.company._id}`}>
-                <Typography variant="h5" color="success">
-                  {jobPost.company.name}
+            <Box className="column-break" sx={{ display: "flex", gap: 5}}>
+              <ListItemIcon>
+                <EmailIcon sx={{ mr: 1 }} />
+                <Typography variant="subtitle2">{jobPost.email}</Typography>
+              </ListItemIcon>
+              <ListItemIcon>
+                <ApartmentIcon sx={{ mr: 1 }} />
+                <Typography variant="subtitle2">
+                  {jobPost.address.city}, {jobPost.address.country}
                 </Typography>
-              </Link>
-              <Typography>
-                {jobPost.address.city} - {jobPost.address.country}
-              </Typography>
-              <Divider />
-              <Typography variant="h6">Job Description</Typography>
-              <Typography variant="body1" gutterBottom>
-                {jobPost.description.heading}
-              </Typography>
-              <Typography variant="h6">Your tasks</Typography>
-              <Typography variant="body1" gutterBottom>
-                {jobPost.description.tasks}
-              </Typography>
-              <Typography variant="h6">Your profile</Typography>
-              <Typography variant="body1" gutterBottom>
-                {jobPost.description.requirements}
-              </Typography>
-              <Typography variant="h6">Benefits</Typography>
-              <Typography variant="body1" gutterBottom>
-                {jobPost.description.benefits}
-              </Typography>
-              <Divider />
-              <Typography variant="h6">Salary range</Typography>
-              <Typography variant="body1" gutterBottom>
-                €<span>{jobPost.salaryRange.minimum}</span> - €<span>{jobPost.salaryRange.maximum}</span>
-              </Typography>
-              <Typography style={{ marginBottom: "40px" }}>
-                Created: {dateCreated.toLocaleDateString("en-US", options)}
-              </Typography>
-              <iframe
-                width="300"
-                height="300"
-                style={{ border: "none" }}
-                loading="lazy"
-                allowFullScreen
-                referrerPolicy="no-referrer-when-downgrade"
-                src={`https://www.google.com/maps/embed/v1/place?key=${gmaps}&q=${jobPost.address.city}+${jobPost.address.country}`}
-              ></iframe>
-              {!isLoggedIn || !userDB || userDB.favoriteJobPosts?.some((job) => job._id === jobPost._id) ? (
-                <IconButton aria-label="add to favorites">
-                  <FavoriteIcon />
-                </IconButton>
-              ) : (
-                <IconButton onClick={() => addJobPost(jobPost._id)} aria-label="add to favorites">
-                  <FavoriteBorderIcon />
-                </IconButton>
-              )}
-              <IconButton aria-label="share">
-                <ShareIcon />
-              </IconButton>
-            </>
-          ) : (
-            <p className="prompt">
-              <Link to="/login">Log in</Link> or <Link to="/signup">sign up</Link> to see more informations
-            </p>
-          )}
+              </ListItemIcon>
+            </Box>
+            <Box className="column-break" sx={{ display: "flex", gap: 5 }}>
+              <ListItemIcon>
+                <HomeRepairServiceIcon sx={{ mr: 1 }} />
+                <Typography variant="subtitle2">{jobPost.description.jobtype}</Typography>
+              </ListItemIcon>
+              <ListItemIcon>
+                <LabelRoundedIcon sx={{ mr: 1 }} />
+                <Typography variant="subtitle2">{jobPost.stack}</Typography>
+              </ListItemIcon>
+            </Box>
+
+            {isLoggedIn ? (
+              <>
+                <Link to={`/company/${jobPost.company._id}`}>
+                  <Stack direction="row" spacing={2} sx={{ display: "flex", alignItems: "center", mt: 2 }}>
+                    <Avatar aria-label="job post" src={jobPost.company.profilePic} />
+                    <Typography variant="h5" color="success">
+                      {jobPost.company.name}
+                    </Typography>
+                  </Stack>
+                </Link>
+                <Divider sx={{ maxWidth: "80%", my: 2 }} />
+                <Typography variant="h6">Job Description</Typography>
+                <Typography variant="body1" gutterBottom sx={{ textAlign: "justify", mb: 2 }}>
+                  {jobPost.description.heading}
+                </Typography>
+                <Typography variant="h6">Your tasks</Typography>
+                <Typography variant="body1" gutterBottom sx={{ textAlign: "justify", mb: 2 }}>
+                  {jobPost.description.tasks}
+                </Typography>
+                <Typography variant="h6">Your profile</Typography>
+                <Typography variant="body1" gutterBottom sx={{ textAlign: "justify", mb: 2 }}>
+                  {jobPost.description.requirements}
+                </Typography>
+                <Typography variant="h6">Benefits</Typography>
+                <Typography variant="body1" gutterBottom sx={{ textAlign: "justify", mb: 2 }}>
+                  {jobPost.description.benefits}
+                </Typography>
+                <Divider sx={{ maxWidth: "80%", my: 2 }} />
+                <Typography variant="h6">Salary range</Typography>
+                <Typography variant="body1" gutterBottom>
+                  €<span>{jobPost.salaryRange.minimum}</span> - €<span>{jobPost.salaryRange.maximum}</span>
+                </Typography>
+                <Stack direction="row" sx={{ display: "flex", alignItems: "center" }}>
+                  {!isLoggedIn || !userDB || userDB.favoriteJobPosts?.some((job) => job._id === jobPost._id) ? (
+                    <IconButton aria-label="add to favorites">
+                      <FavoriteIcon />
+                    </IconButton>
+                  ) : (
+                    <IconButton onClick={() => addJobPost(jobPost._id)} aria-label="add to favorites">
+                      <FavoriteBorderIcon />
+                    </IconButton>
+                  )}
+                  <IconButton aria-label="share">
+                    <ShareIcon />
+                  </IconButton>
+                  <Typography style={{ marginBottom: "40px" }}>
+                    Created: {dateCreated.toLocaleDateString("en-US", options)}
+                  </Typography>
+                </Stack>
+              </>
+            ) : (
+              <p className="prompt">
+                <Link to="/login">Log in</Link> or <Link to="/signup">sign up</Link> to see more informations
+              </p>
+            )}
+          </Box>
+          <Divider flexItem orientation="vertical" sx={{ mx: 3 }} />
+          <Box sx={{ flexGrow: 1, display: "flex", flexDirection: "column", gap: 3 }}>
+            <iframe
+              className="collapsemobile"
+              style={{ border: "none", maxWidth: "100%", height: "300px" }}
+              loading="lazy"
+              allowFullScreen
+              referrerPolicy="no-referrer-when-downgrade"
+              src={`https://www.google.com/maps/embed/v1/place?key=${gmaps}&q=${jobPost.address.city}+${jobPost.address.country}`}
+            />
+            {messageSent ? (
+              <Alert severity="success">An email has been sent to the user.</Alert>
+            ) : !formShow ? (
+              <Button onClick={() => setFormShow(true)}>Message company</Button>
+            ) : (
+              <>
+                <Stack spacing={1} component="form" onSubmit={handleMessage}>
+                  <TextField
+                    type="text"
+                    value={subject}
+                    id="subject"
+                    label="Subject"
+                    variant="outlined"
+                    required
+                    fullWidth
+                    onChange={(event) => setSubject(event.target.value)}
+                  />
+                  <TextField
+                    type="text"
+                    value={message}
+                    id="message"
+                    label="Message"
+                    variant="outlined"
+                    required
+                    fullWidth
+                    multiline
+                    rows={4}
+                    onChange={(event) => setMessage(event.target.value)}
+                  />
+                  <TextField
+                    type="text"
+                    value={contactInfo}
+                    id="contact"
+                    label="Your contact informations"
+                    variant="outlined"
+                    required
+                    fullWidth
+                    onChange={(event) => setContactInfo(event.target.value)}
+                  />
+                  <Stack direction="row" sx={{ display: "flex", justifyContent: "center" }}>
+                    <Button type="submit">Send message</Button>
+                    <Button type="submit" onClick={() => setFormShow(false)}>
+                      Cancel
+                    </Button>
+                  </Stack>
+                </Stack>
+              </>
+            )}
+          </Box>
         </Card>
       )}
 

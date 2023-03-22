@@ -61,13 +61,12 @@ function JobPostCard({ post, userDB, setUpdated, profile, getProfile }) {
         <CardHeader
           sx={{ display: "flex", alignItems: "start" }}
           avatar={
-            <Avatar
-              aria-label="job post"
-              src={post.company.profilePic}
-            >{`${post.company.name[0]}${post.company.name[1]}`}</Avatar>
+            <Link to={`/company/${post.company._id}`}>
+              <Avatar aria-label="job post" src={post.company.profilePic} />
+            </Link>
           }
           title={post.title}
-          subheader={post.company.name}
+          subheader={<Link to={`/company/${post.company._id}`}>{post.company.name}</Link>}
         />
         <Divider />
         <CardContent>
@@ -83,7 +82,7 @@ function JobPostCard({ post, userDB, setUpdated, profile, getProfile }) {
               €{post.salaryRange.minimum} - €{post.salaryRange.maximum}
             </Typography>
           </Stack>
-          <Typography sx={{ textAlign: "start", mt: 1 }} noWrap variant="body1" color="text.secondary">
+          <Typography className="description" sx={{ textAlign: "start", mt: 1 }} variant="body1" color="text.secondary">
             {post.description.heading}
           </Typography>
         </CardContent>
