@@ -1,7 +1,9 @@
-import { Avatar, Box, Button, IconButton, Stack, Typography } from "@mui/material";
+import { Alert, Avatar, Box, Button, IconButton, Stack, Typography } from "@mui/material";
 import PlaceIcon from "@mui/icons-material/Place";
 import PublicIcon from "@mui/icons-material/Public";
 import EmailIcon from "@mui/icons-material/Email";
+import AddAPhotoIcon from "@mui/icons-material/AddAPhoto";
+import EditIcon from "@mui/icons-material/Edit";
 import { useContext, useRef, useState } from "react";
 import { AuthContext } from "../../context/auth.context";
 import axios from "axios";
@@ -25,6 +27,7 @@ function CompanyBio({
   const [imageSelected, setImageSelected] = useState("");
   const [isUploaded, setIsUploaded] = useState(false);
   const hiddenFileInput = useRef(null);
+  const [isHovered, setIsHovered] = useState(false);
 
   const handleClick = () => {
     hiddenFileInput.current.click();
@@ -62,72 +65,72 @@ function CompanyBio({
   };
 
   return (
-    <Box
-      className="nobottom"
-      sx={{
-        minWidth: "50%",
-        boxSizing: "border-box",
-        p: 4,
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-      }}
-    >
-      <Box sx={{ mb: 4, display: "flex", alignItems: "center", justifyContent: "center" }}>
-        <Avatar
-          className="profilePic"
-          src={profilePicture}
-          alt="N/A"
-          sx={{ width: 56, height: 56, mr: 2 }}
-          onClick={handleClick}
-        />
-        <Typography variant="h5">{name}</Typography>
-      </Box>
-      <Box sx={{ display: "flex", flexDirection: "column", alignItems: "start", mb: 1 }}>
-        <Stack direction="row" sx={{ display: "flex", alignItems: "center", mb: 1 }}>
-          <IconButton size="small">
-            <EmailIcon />
-          </IconButton>
-          <Typography variant="body1" sx={{ ml: 1 }}>
-            {email}
-          </Typography>
-        </Stack>
-        <Stack direction="row" sx={{ display: "flex", alignItems: "center", mb: 1 }}>
-          <IconButton size="small">
-            <PublicIcon />
-          </IconButton>
-          <Typography variant="body1" sx={{ ml: 1 }}>
-            {city}, {country}
-          </Typography>
-        </Stack>
-        <Stack direction="row" sx={{ display: "flex", alignItems: "center", mb: 1 }}>
-          <IconButton size="small">
-            <PlaceIcon />
-          </IconButton>
-          <Typography variant="body1" sx={{ ml: 1 }}>
-            {zipCode}, {street}
-          </Typography>
-        </Stack>
+    <Box className="nobottom" sx={{ minWidth: "50%", boxSizing: "border-box", p: 4 }}>
+      <Box className="media-break" sx={{ mb: 4, display: "flex", alignItems: "start", gap: 4 }}>
+        <Box sx={{ position: "relative" }}>
+          <Avatar
+            className="profilePic"
+            src={profilePicture}
+            alt="N/A"
+            sx={{
+              width: 150,
+              height: 150,
+              mr: 2,
+              bgcolor: "white",
+              opacity: isHovered ? 0.6 : 1,
+              border: "solid 3px #6b9080",
+            }}
+            onClick={handleClick}
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
+          />
+          {isHovered && <AddAPhotoIcon color="action" sx={{ position: "absolute", left: 0, bottom: 0 }} />}
+        </Box>
+
+        <Box sx={{ width: "100%", display: "flex", flexDirection: "column", alignItems: "start", mb: 1 }}>
+          <Box sx={{ width: "100%", display: "flex", justifyContent: "space-between", alignItems: "start", mb: 1 }}>
+            <Typography variant="h5">{name}</Typography>
+            <IconButton onClick={() => setIsEditing(true)}>
+              <EditIcon color="action" />
+            </IconButton>
+          </Box>
+          <Stack direction="row" sx={{ display: "flex", alignItems: "center" }}>
+            <IconButton size="small">
+              <EmailIcon />
+            </IconButton>
+            <Typography variant="body1" sx={{ ml: 1 }}>
+              {email}
+            </Typography>
+          </Stack>
+          <Stack direction="row" sx={{ display: "flex", alignItems: "center" }}>
+            <IconButton size="small">
+              <PublicIcon />
+            </IconButton>
+            <Typography variant="body1" sx={{ ml: 1 }}>
+              {city}, {country}
+            </Typography>
+          </Stack>
+          <Stack direction="row" sx={{ display: "flex", alignItems: "center" }}>
+            <IconButton size="small">
+              <PlaceIcon />
+            </IconButton>
+            <Typography variant="body1" sx={{ ml: 1 }}>
+              {zipCode}, {street}
+            </Typography>
+          </Stack>
+        </Box>
       </Box>
 
       <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-        {!isUploaded && (
-          <Button
-            type="submit"
-            variant="contained"
-            sx={{ bgcolor: "#6b9080", mt: 3, mb: 2 }}
-            onClick={() => setIsEditing(true)}
-          >
-            Edit information
-          </Button>
-        )}
-
         <input type="file" ref={hiddenFileInput} onChange={handleChange} style={{ display: "none" }} />
         {isUploaded && (
           <>
             <Stack sx={{ width: "100%", mt: 2 }}>
-              <Typography variant="button">Confirm your image selection</Typography>
-              <Typography variant="body1">{fileName}</Typography>
+              <Alert severity="warning" sx={{ fontWeight: 600, display: "flex", alignItems: "center" }}>
+                Confirm your image selection:
+                <br />
+                <Typography>{fileName}</Typography>
+              </Alert>
             </Stack>
             <Stack direction="row" sx={{ width: "100%", gap: 3 }}>
               <Button fullWidth variant="contained" sx={{ bgcolor: "#6b9080", mt: 3, mb: 2 }} onClick={uploadImage}>

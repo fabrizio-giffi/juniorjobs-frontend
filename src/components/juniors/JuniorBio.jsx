@@ -65,7 +65,7 @@ function JuniorBio({
   };
 
   return (
-    <Box className="nobottom" sx={{ minWidth: "50%", boxSizing: "border-box", padding: "2rem 2rem" }}>
+    <Box className="nobottom" sx={{ minWidth: "50%", boxSizing: "border-box", p: 4 }}>
       <Box className="media-break" sx={{ mb: 4, display: "flex", alignItems: "start", gap: 4 }}>
         <Box sx={{ position: "relative" }}>
           <Avatar

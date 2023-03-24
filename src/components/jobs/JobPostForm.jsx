@@ -12,6 +12,8 @@ const jobTypes = [
   { value: "freelance", label: "Freelance" },
 ];
 
+const fieldsList = ["Frontend", "Backend", "Full-stack", "UX/UI", "Cyber security", "Data analytics"];
+
 function JobPostForm({ jobPost, isEditing, setEditing, setIsFetching }) {
   const [title, setTitle] = useState(jobPost?.title || "");
   const [jobtype, setJobtype] = useState(jobPost?.description.jobtype || "full time");
@@ -24,7 +26,7 @@ function JobPostForm({ jobPost, isEditing, setEditing, setIsFetching }) {
   const [salaryMax, setSalaryMax] = useState(jobPost?.salaryRange.maximum || 0);
   const [city, setCity] = useState(jobPost?.address.city || "");
   const [country, setCountry] = useState(jobPost?.address.country || "");
-  const [stack, setStack] = useState(jobPost?.stack || []);
+  const [field, setField] = useState("");
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
 
@@ -40,7 +42,7 @@ function JobPostForm({ jobPost, isEditing, setEditing, setIsFetching }) {
       },
       address: { city, country },
       company: user.id,
-      stack,
+      field,
     };
 
     try {
@@ -64,7 +66,7 @@ function JobPostForm({ jobPost, isEditing, setEditing, setIsFetching }) {
       },
       address: { city, country },
       company: user.id,
-      stack,
+      field,
     };
 
     try {
@@ -119,10 +121,10 @@ function JobPostForm({ jobPost, isEditing, setEditing, setIsFetching }) {
         </TextField>
         <TextField
           type="text"
-          value={stack}
-          onChange={(event) => setStack(event.target.value)}
+          value={field}
+          onChange={(event) => setField(event.target.value)}
           id="outlined-basic"
-          label="Stack"
+          label="Field"
           variant="outlined"
           helperText="Separate inputs with a comma (e.g. React, Bootstrap)"
           required

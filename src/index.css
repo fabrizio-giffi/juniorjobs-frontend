@@ -66,6 +66,10 @@ button:hover {
     flex-direction: column;
     gap: 0.5rem !important;
   }
+  .column-reverse {
+    align-items: start !important;
+    flex-direction: column-reverse;
+  }
   .media-expand {
     min-width: 100% !important;
   }

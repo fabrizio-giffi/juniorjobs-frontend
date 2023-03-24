@@ -108,11 +108,11 @@ function JobPostDetails() {
             boxSizing: "border-box",
           }}
         >
-          <Box className="media-expand" sx={{ display: "flex", flexDirection: "column", maxWidth: "60%" }}>
+          <Box className="media-expand" sx={{ display: "flex", flexDirection: "column", width: "60%" }}>
             <Typography variant="h4" gutterBottom>
               {jobPost.title}
             </Typography>
-            <Box className="column-break" sx={{ display: "flex", gap: 5}}>
+            <Box className="column-break" sx={{ display: "flex", gap: 5 }}>
               <ListItemIcon>
                 <EmailIcon sx={{ mr: 1 }} />
                 <Typography variant="subtitle2">{jobPost.email}</Typography>
@@ -145,45 +145,48 @@ function JobPostDetails() {
                     </Typography>
                   </Stack>
                 </Link>
-                <Divider sx={{ maxWidth: "80%", my: 2 }} />
+                <Divider className="media-expand" sx={{ maxWidth: "80%", my: 2 }} />
                 <Typography variant="h6">Job Description</Typography>
-                <Typography variant="body1" gutterBottom sx={{ textAlign: "justify", mb: 2 }}>
+                <Typography variant="body1" gutterBottom sx={{ mb: 2 }}>
                   {jobPost.description.heading}
                 </Typography>
                 <Typography variant="h6">Your tasks</Typography>
-                <Typography variant="body1" gutterBottom sx={{ textAlign: "justify", mb: 2 }}>
+                <Typography variant="body1" gutterBottom sx={{ mb: 2 }}>
                   {jobPost.description.tasks}
                 </Typography>
                 <Typography variant="h6">Your profile</Typography>
-                <Typography variant="body1" gutterBottom sx={{ textAlign: "justify", mb: 2 }}>
+                <Typography variant="body1" gutterBottom sx={{ mb: 2 }}>
                   {jobPost.description.requirements}
                 </Typography>
                 <Typography variant="h6">Benefits</Typography>
-                <Typography variant="body1" gutterBottom sx={{ textAlign: "justify", mb: 2 }}>
+                <Typography variant="body1" gutterBottom sx={{ mb: 2 }}>
                   {jobPost.description.benefits}
                 </Typography>
-                <Divider sx={{ maxWidth: "80%", my: 2 }} />
+                <Divider className="media-expand" sx={{ maxWidth: "80%", my: 2 }} />
                 <Typography variant="h6">Salary range</Typography>
                 <Typography variant="body1" gutterBottom>
                   €<span>{jobPost.salaryRange.minimum}</span> - €<span>{jobPost.salaryRange.maximum}</span>
                 </Typography>
-                <Stack direction="row" sx={{ display: "flex", alignItems: "center" }}>
-                  {!isLoggedIn || !userDB || userDB.favoriteJobPosts?.some((job) => job._id === jobPost._id) ? (
-                    <IconButton aria-label="add to favorites">
-                      <FavoriteIcon />
+                <Box
+                  className="column-reverse"
+                  sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", mt: 3 }}
+                >
+                  <Box sx={{ display: "flex" }}>
+                    {!isLoggedIn || !userDB || userDB.favoriteJobPosts?.some((job) => job._id === jobPost._id) ? (
+                      <IconButton aria-label="add to favorites">
+                        <FavoriteIcon />
+                      </IconButton>
+                    ) : (
+                      <IconButton onClick={() => addJobPost(jobPost._id)} aria-label="add to favorites">
+                        <FavoriteBorderIcon />
+                      </IconButton>
+                    )}
+                    <IconButton aria-label="share">
+                      <ShareIcon />
                     </IconButton>
-                  ) : (
-                    <IconButton onClick={() => addJobPost(jobPost._id)} aria-label="add to favorites">
-                      <FavoriteBorderIcon />
-                    </IconButton>
-                  )}
-                  <IconButton aria-label="share">
-                    <ShareIcon />
-                  </IconButton>
-                  <Typography style={{ marginBottom: "40px" }}>
-                    Created: {dateCreated.toLocaleDateString("en-US", options)}
-                  </Typography>
-                </Stack>
+                  </Box>
+                  <Typography>Created: {dateCreated.toLocaleDateString("en-US", options)}</Typography>
+                </Box>
               </>
             ) : (
               <p className="prompt">
@@ -192,7 +195,7 @@ function JobPostDetails() {
             )}
           </Box>
           <Divider flexItem orientation="vertical" sx={{ mx: 3 }} />
-          <Box sx={{ flexGrow: 1, display: "flex", flexDirection: "column", gap: 3 }}>
+          <Box sx={{ display: "flex", flexDirection: "column", gap: 3 }}>
             <iframe
               className="collapsemobile"
               style={{ border: "none", maxWidth: "100%", height: "300px" }}
