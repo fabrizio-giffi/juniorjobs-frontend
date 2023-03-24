@@ -131,7 +131,7 @@ function JobPostDetails() {
               </ListItemIcon>
               <ListItemIcon>
                 <LabelRoundedIcon sx={{ mr: 1 }} />
-                <Typography variant="subtitle2">{jobPost.stack}</Typography>
+                <Typography variant="subtitle2">{jobPost.field}</Typography>
               </ListItemIcon>
             </Box>
 

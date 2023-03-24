@@ -1,24 +1,27 @@
 import axios from "axios";
 import { useEffect, useState, useContext } from "react";
-import JobPostCardCompanyPage from "./jobs/JobPostCardCompanyPage";
 import { useParams } from "react-router-dom";
 import { AuthContext } from "../context/auth.context";
-import { IconButton, Typography } from "@mui/material";
+import { Avatar, Box, Card, Container, Divider, IconButton, List, Skeleton, Stack, Typography } from "@mui/material";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-import './CompanyProfilePublic.css'
+import PlaceIcon from "@mui/icons-material/Place";
+import PublicIcon from "@mui/icons-material/Public";
+import EmailIcon from "@mui/icons-material/Email";
+import JobPostCard from "./jobs/JobPostCard";
 
 const api_URL = import.meta.env.VITE_API_URL;
+const gmaps = import.meta.env.VITE_GMAPS;
 
 function CompanyProfilePublic() {
   const { user, isLoggedIn } = useContext(AuthContext);
   const [userDB, setUserDB] = useState({});
-  const [catchingUserData, setCatchinUserData] = useState(true);
+  const [isFetching, setIsFetching] = useState(true);
   const [updated, setUpdated] = useState(false);
-
-  const [profile, setProfile] = useState();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [profilePicture, setProfilePicture] = useState("");
+  const [jobPosts, setJobPosts] = useState([]);
   const [street, setStreet] = useState("N/A");
   const [zipCode, setZipCode] = useState("N/A");
   const [city, setCity] = useState("N/A");
@@ -29,14 +32,14 @@ function CompanyProfilePublic() {
   const getProfile = async () => {
     try {
       const response = await axios.get(`${api_URL}/company/${id}`);
-      setProfile(response.data);
       setName(response.data.name);
       setEmail(response.data.email);
       setStreet(response.data.address.street);
       setZipCode(response.data.address.zipCode);
       setCity(response.data.address.city);
       setCountry(response.data.address.country);
-      setProfilePicture(response.data.profilePicture);
+      setProfilePicture(response.data.profilePic);
+      setJobPosts(response.data.jobPosts);
       setUpdated(false);
     } catch (error) {
       console.log("There was an error getting the profile", error);
@@ -45,10 +48,10 @@ function CompanyProfilePublic() {
 
   const fetchData = async () => {
     try {
-      setCatchinUserData(true);
+      setIsFetching(true);
       const response = await axios.get(`${api_URL}/user/${user.id}`);
       setUserDB(response.data);
-      setCatchinUserData(false);
+      setIsFetching(false);
     } catch (error) {
       console.log(error);
     }
@@ -57,8 +60,8 @@ function CompanyProfilePublic() {
   const addCompany = async () => {
     const requestBody = { id: user.id, companyId: id };
     try {
-      setCatchinUserData(true);
-      const response = await axios.put(`${api_URL}/user/addCompany`, requestBody);
+      setIsFetching(true);
+      await axios.put(`${api_URL}/user/addCompany`, requestBody);
       setUpdated(true);
     } catch (error) {
       console.log(error);
@@ -75,77 +78,94 @@ function CompanyProfilePublic() {
     fetchData();
   }, [updated]);
 
-  if (catchingUserData) {
-    return <div>Loading...</div>;
-  }
-
   return (
-    profile && (
-      <>
-      <div className="containerflexCompanyPublic">
-      <div className="shadowBoxCompanyPublic">
-      <div className="containerflexCompanyPublic">
-
-          <div className="title companyInfoPadding">
-            <img src={`https://api.dicebear.com/5.x/initials/svg?seed=${name}`} alt={name} />
-            <Typography variant="h3">Company information</Typography>
-          </div>
-          <div className="paddingCompanyPublic">
-
-          <div className="containerRowCompanyPublic">
-            <div className="containerflexCompanyPublicList">
-              <Typography variant="h5">Company name: </Typography>
-              <Typography variant="h5">Company email: </Typography>
-              <Typography variant="h5">Company street: </Typography>
-              <Typography variant="h5">Zip Code:</Typography>
-              <Typography variant="h5">City:</Typography>
-              <Typography variant="h5">Country:</Typography>
-            </div>
-            <div className="containerflexCompanyPublicList companyInfoMargin">
-            <Typography variant="h5">{name}</Typography>
-            <Typography variant="h5">{email}</Typography>
-            <Typography variant="h5">{street}</Typography>
-            <Typography variant="h5">{zipCode}</Typography>
-            <Typography variant="h5">{city}</Typography>
-            <Typography variant="h5">{country}</Typography>
-            </div>
-          </div>
-
-          </div>
-        </div>
-
-        <div className="containerflexCompanyPublic">
-            <Typography variant="h6" >
-                Add Company To your favorites
+    <Container maxWidth="lg" sx={{ display: "flex", flexDirection: "column", gap: 3, justifyContent: "center", my: 3 }}>
+      {isFetching ? (
+        <Skeleton variant="rounded" height={300} width="100%" />
+      ) : (
+        <>
+          <Card className="media-break" sx={{ bgcolor: "#eaf4f4", display: "flex" }}>
+            <Box sx={{ display: "flex", alignItems: "center", gap: 4, minWidth: "50%", boxSizing: "border-box", p: 4 }}>
+              <Avatar
+                className="profilePic"
+                src={profilePicture}
+                alt={name}
+                sx={{
+                  width: 150,
+                  height: 150,
+                  mr: 2,
+                  bgcolor: "white",
+                  border: "solid 1px #6b9080",
+                }}
+              />
+              <Box sx={{ display: "flex", flexDirection: "column", alignItems: "start" }}>
+                <Typography variant="h5">{name}</Typography>
+                <Stack direction="row" sx={{ display: "flex", alignItems: "center" }}>
+                  <IconButton size="small">
+                    <EmailIcon />
+                  </IconButton>
+                  <Typography variant="body1" sx={{ ml: 1 }}>
+                    {email}
+                  </Typography>
+                </Stack>
+                <Stack direction="row" sx={{ display: "flex", alignItems: "center" }}>
+                  <IconButton size="small">
+                    <PublicIcon />
+                  </IconButton>
+                  <Typography variant="body1" sx={{ ml: 1 }}>
+                    {city}, {country}
+                  </Typography>
+                </Stack>
+                <Stack direction="row" sx={{ display: "flex", alignItems: "center" }}>
+                  <IconButton size="small">
+                    <PlaceIcon />
+                  </IconButton>
+                  <Typography variant="body1" sx={{ ml: 1 }}>
+                    {zipCode}, {street}
+                  </Typography>
+                </Stack>
+              </Box>
+            </Box>
+            <Divider flexItem variant="middle" orientation="vertical" />
+            <Box className="collapsemobile" sx={{ bgcolor: "#eaf4f4", minWidth: "50%", boxSizing: "border-box", p: 4 }}>
+              <iframe
+                width="100%"
+                height="100%"
+                style={{ border: "none" }}
+                loading="lazy"
+                allowFullScreen
+                referrerPolicy="no-referrer-when-downgrade"
+                src={`https://www.google.com/maps/embed/v1/place?key=${gmaps}&q=${country}+${city}+${street}`}
+              ></iframe>
+            </Box>
+          </Card>
+          <Box>
+            {!isLoggedIn || user.role === "company" ? (
+              ""
+            ) : user.role === "junior" && userDB?.favoriteCompanies.some((company) => company._id === id) ? (
+              <IconButton aria-label="add to favorites">
+                <FavoriteIcon />
+              </IconButton>
+            ) : (
+              <IconButton onClick={() => addCompany(id)} aria-label="add to favorites">
+                <FavoriteBorderIcon />
+              </IconButton>
+            )}
+            <Typography variant="h5" sx={{ textAlign: "center", mb: 1 }}>
+              Job Posts from {name}
             </Typography>
-          {!isLoggedIn || user.role === "company" ? (
-            ""
-          ) : user.role === "junior" && userDB?.favoriteCompanies.some((company) => company._id === id) ? (
-            <IconButton aria-label="add to favorites">
-              <FavoriteIcon />
-            </IconButton>
-          ) : (
-            <IconButton onClick={() => addCompany(id)} aria-label="add to favorites">
-              <FavoriteBorderIcon />
-            </IconButton>
-          )}
-        </div>
-        </div>
-        </div>
-        <div className="jobPosts-public">
-          <h4>Job posts from {name}</h4>
-          <ul className="ul-jobposts-public">
-            {profile.jobPosts.map((post) => {
-               return(
-               <li>
-                <JobPostCardCompanyPage key={post._id} post={post} />
-              </li>
-               )
-            })}
-          </ul>
-        </div>
-      </>
-    )
+            <List
+              className="jobCtn"
+              sx={{ display: "flex", flexFlow: "row wrap", gap: 4, justifyContent: "space-evenly" }}
+            >
+              {jobPosts.map((post) => {
+                return <JobPostCard key={post._id} post={post} />;
+              })}
+            </List>
+          </Box>
+        </>
+      )}
+    </Container>
   );
 }
 

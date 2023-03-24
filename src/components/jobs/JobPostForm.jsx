@@ -1,10 +1,27 @@
-import { Box, Button, Container, MenuItem, Stack, TextField, Typography } from "@mui/material";
+import {
+  Autocomplete,
+  Box,
+  Button,
+  Container,
+  createFilterOptions,
+  MenuItem,
+  Stack,
+  TextField,
+  Typography,
+} from "@mui/material";
 import axios from "axios";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/auth.context";
 
+import countries from "../../data/countries.json";
 const api_URL = import.meta.env.VITE_API_URL;
+
+// Filter for the cities select
+const filterOptions = createFilterOptions({
+  matchFrom: "start",
+  stringify: (option) => option,
+});
 
 const jobTypes = [
   { value: "full time", label: "Full time" },
@@ -26,9 +43,27 @@ function JobPostForm({ jobPost, isEditing, setEditing, setIsFetching }) {
   const [salaryMax, setSalaryMax] = useState(jobPost?.salaryRange.maximum || 0);
   const [city, setCity] = useState(jobPost?.address.city || "");
   const [country, setCountry] = useState(jobPost?.address.country || "");
-  const [field, setField] = useState("");
+  const [field, setField] = useState(jobPost?.field || "Frontend");
+  const [stack, setStack] = useState(jobPost?.stack || []);
+  const [cityInput, setCityInput] = useState(city);
+  const [countryInput, setCountryInput] = useState(country);
+  const [citiesList, setCitiesList] = useState([]);
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
+
+  const getCities = async () => {
+    try {
+      if (typeof countryInput === "undefined") {
+        return;
+      }
+      const response = await axios.post("https://countriesnow.space/api/v0.1/countries/cities", {
+        country: countryInput,
+      });
+      setCitiesList(response.data.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -40,9 +75,10 @@ function JobPostForm({ jobPost, isEditing, setEditing, setIsFetching }) {
         minimum: salaryMin,
         maximum: salaryMax,
       },
-      address: { city, country },
+      address: { city: cityInput, country: countryInput },
       company: user.id,
       field,
+      stack,
     };
 
     try {
@@ -64,9 +100,10 @@ function JobPostForm({ jobPost, isEditing, setEditing, setIsFetching }) {
         minimum: salaryMin,
         maximum: salaryMax,
       },
-      address: { city, country },
+      address: { city: cityInput, country: countryInput },
       company: user.id,
       field,
+      stack,
     };
 
     try {
@@ -76,6 +113,11 @@ function JobPostForm({ jobPost, isEditing, setEditing, setIsFetching }) {
       console.log("There was an error creating the post", error);
     }
   };
+
+  useEffect(() => {
+    setCityInput("");
+    getCities();
+  }, [countryInput]);
 
   return (
     <Container component="main" maxWidth="md">
@@ -96,7 +138,7 @@ function JobPostForm({ jobPost, isEditing, setEditing, setIsFetching }) {
           type="text"
           value={title}
           onChange={(event) => setTitle(event.target.value)}
-          id="outlined-basic"
+          id="title"
           label="Title"
           variant="outlined"
           required
@@ -105,10 +147,10 @@ function JobPostForm({ jobPost, isEditing, setEditing, setIsFetching }) {
         <TextField
           type="text"
           onChange={(event) => setJobtype(event.target.value)}
-          id="outlined-basic"
+          id="jobtype"
           select
           label="Job type"
-          defaultValue={jobTypes[0].value}
+          value={jobtype || jobTypes[0].value}
           variant="outlined"
           required
           fullWidth
@@ -121,12 +163,29 @@ function JobPostForm({ jobPost, isEditing, setEditing, setIsFetching }) {
         </TextField>
         <TextField
           type="text"
-          value={field}
-          onChange={(event) => setField(event.target.value)}
-          id="outlined-basic"
+          id="field"
+          select
           label="Field"
+          value={field || fieldsList[0]}
+          onChange={(event) => setField(event.target.value)}
           variant="outlined"
-          helperText="Separate inputs with a comma (e.g. React, Bootstrap)"
+          required
+          fullWidth
+        >
+          {fieldsList.map((field) => (
+            <MenuItem key={field} value={field}>
+              {field}
+            </MenuItem>
+          ))}
+        </TextField>
+        <TextField
+          type="text"
+          value={stack}
+          onChange={(event) => setStack(event.target.value)}
+          id="stack"
+          label="Stacks"
+          variant="outlined"
+          helperText="Separate inputs with a comma (e.g. React, Angular)"
           required
           fullWidth
         />
@@ -136,7 +195,7 @@ function JobPostForm({ jobPost, isEditing, setEditing, setIsFetching }) {
           rows={2}
           value={heading}
           onChange={(event) => setHeading(event.target.value)}
-          id="outlined-basic"
+          id="heading"
           label="Job description"
           variant="outlined"
           required
@@ -148,7 +207,7 @@ function JobPostForm({ jobPost, isEditing, setEditing, setIsFetching }) {
           rows={2}
           value={tasks}
           onChange={(event) => setTasks(event.target.value)}
-          id="outlined-basic"
+          id="tasks"
           label="Tasks"
           variant="outlined"
           required
@@ -160,7 +219,7 @@ function JobPostForm({ jobPost, isEditing, setEditing, setIsFetching }) {
           rows={2}
           value={requirements}
           onChange={(event) => setRequirements(event.target.value)}
-          id="outlined-basic"
+          id="requirements"
           label="Requirements"
           variant="outlined"
           required
@@ -172,7 +231,7 @@ function JobPostForm({ jobPost, isEditing, setEditing, setIsFetching }) {
           rows={2}
           value={benefits}
           onChange={(event) => setBenefits(event.target.value)}
-          id="outlined-basic"
+          id="benefits"
           label="Benefits"
           variant="outlined"
           required
@@ -182,51 +241,69 @@ function JobPostForm({ jobPost, isEditing, setEditing, setIsFetching }) {
           type="email"
           value={email}
           onChange={(event) => setEmail(event.target.value)}
-          id="outlined-basic"
+          id="email"
           label="Contact email"
           variant="outlined"
           required
           fullWidth
         />
-        <TextField
-          type="number"
-          value={salaryMin}
-          onChange={(event) => setSalaryMin(event.target.value)}
-          id="outlined-basic"
-          label="Salary minimum"
-          variant="outlined"
-          required
+        <Stack direction="row" spacing={2} sx={{ width: "100%" }}>
+          <TextField
+            type="number"
+            value={salaryMin}
+            onChange={(event) => setSalaryMin(event.target.value)}
+            id="salary-min"
+            label="Salary minimum"
+            variant="outlined"
+            required
+            fullWidth
+          />
+          <TextField
+            type="number"
+            value={salaryMax}
+            onChange={(event) => setSalaryMax(event.target.value)}
+            id="salary-max"
+            label="Salary maximum"
+            variant="outlined"
+            required
+            fullWidth
+          />
+        </Stack>
+
+        <Autocomplete
           fullWidth
+          id="country-select"
+          options={countries}
+          autoHighlight
+          getOptionLabel={(option) => option.name}
+          onChange={(event) => setCountryInput(event.target.innerText)}
+          renderOption={(props, option) => (
+            <Box component="li" key={option.iso3} sx={{ "& > img": { mr: 2, flexShrink: 0 } }} {...props}>
+              <img loading="lazy" width="20" src={option.flag} alt={option.name} />
+              {option.name}
+            </Box>
+          )}
+          renderInput={(params) => (
+            <TextField
+              {...params}
+              label="Country"
+              inputProps={{
+                ...params.inputProps,
+                autoComplete: "new-password",
+              }}
+            />
+          )}
         />
-        <TextField
-          type="number"
-          value={salaryMax}
-          onChange={(event) => setSalaryMax(event.target.value)}
-          id="outlined-basic"
-          label="Salary maximum"
-          variant="outlined"
-          required
+        <Autocomplete
           fullWidth
-        />
-        <TextField
-          type="text"
-          value={city}
-          onChange={(event) => setCity(event.target.value)}
-          id="outlined-basic"
-          label="City"
-          variant="outlined"
-          required
-          fullWidth
-        />
-        <TextField
-          type="text"
-          value={country}
-          onChange={(event) => setCountry(event.target.value)}
-          id="outlined-basic"
-          label="Country"
-          variant="outlined"
-          required
-          fullWidth
+          id="city-select"
+          freeSolo
+          value={cityInput}
+          options={citiesList}
+          placeholder={city}
+          filterOptions={filterOptions}
+          onChange={(event) => setCityInput(event.target.innerText)}
+          renderInput={(params) => <TextField {...params} label="City" />}
         />
         <>
           {!isEditing && (

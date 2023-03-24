@@ -72,7 +72,7 @@ function JuniorBio({
             className="profilePic"
             src={profilePicture}
             alt="N/A"
-            sx={{ width: 150, height: 150, mr: 2, opacity: isHovered ? 0.6 : 1, border: "solid 3px #6b9080" }}
+            sx={{ width: 150, height: 150, mr: 2, opacity: isHovered ? 0.6 : 1, border: "solid 1px #6b9080" }}
             onClick={handleClick}
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}

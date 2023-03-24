@@ -40,7 +40,7 @@ function JobPostCard({ post, userDB, setUpdated, profile, getProfile }) {
 
   const deleteJobPost = async (jobPostId) => {
     try {
-      const response = await axios.delete(`${api_URL}/posts/delete/${jobPostId}`);
+      await axios.delete(`${api_URL}/posts/delete/${jobPostId}`);
       getProfile();
     } catch (error) {
       console.log(error);
@@ -52,9 +52,12 @@ function JobPostCard({ post, userDB, setUpdated, profile, getProfile }) {
       className="jobCard"
       sx={{
         width: 500,
+        boxSizing: "border-box",
         display: "flex",
         flexDirection: "column",
         justifyContent: "space-between",
+        px: 2,
+        pt: 1,
       }}
     >
       <Box>

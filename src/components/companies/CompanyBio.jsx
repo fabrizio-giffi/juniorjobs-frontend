@@ -71,14 +71,14 @@ function CompanyBio({
           <Avatar
             className="profilePic"
             src={profilePicture}
-            alt="N/A"
+            alt={name}
             sx={{
               width: 150,
               height: 150,
               mr: 2,
               bgcolor: "white",
               opacity: isHovered ? 0.6 : 1,
-              border: "solid 3px #6b9080",
+              border: "solid 1px #6b9080",
             }}
             onClick={handleClick}
             onMouseEnter={() => setIsHovered(true)}
@@ -142,7 +142,11 @@ function CompanyBio({
             </Stack>
           </>
         )}
-        {isEdited && <Typography sx={{ textAlign: "center" }}>Your profile has been updated!</Typography>}
+        {isEdited && (
+          <Alert severity="success" sx={{ textAlign: "center", bgcolor: "#fbfbfb" }}>
+            Your profile has been updated!
+          </Alert>
+        )}
       </Box>
     </Box>
   );
