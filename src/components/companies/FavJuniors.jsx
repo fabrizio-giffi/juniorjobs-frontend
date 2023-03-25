@@ -20,6 +20,7 @@ import PlaceIcon from "@mui/icons-material/Place";
 import axios from "axios";
 
 const api_URL = import.meta.env.VITE_API_URL;
+let filtered = [];
 
 function FavJuniors() {
   const { user } = useContext(AuthContext);
@@ -55,7 +56,7 @@ function FavJuniors() {
       <Typography variant="h6">Favorite juniors</Typography>
       <List sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
         {favoriteJuniors.length > 0 &&
-          favoriteJuniors
+          (filtered = favoriteJuniors
             .filter((favorite, index) => index < showIndex)
             .map((favorite) => {
               return (
@@ -107,7 +108,17 @@ function FavJuniors() {
                   </Box>
                 </Card>
               );
-            })}
+            }))}
+        {filtered.length === 0 && (
+          <>
+            <Divider />
+            <Typography className="prompt">
+              Your favorite list is still empty.
+              <br />
+              Have a look at all available <Link to={"/junior"}>junior developers</Link>.
+            </Typography>
+          </>
+        )}
         {!showMore && favoriteJuniors.length > 2 && (
           <Button
             variant="contained"

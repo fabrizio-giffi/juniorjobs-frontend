@@ -73,7 +73,7 @@ function JuniorProfile() {
               isEdited={isEdited}
             />
             <Divider className="collapsemobile" flexItem variant="middle" orientation="vertical" />
-            <SkillsProfile />
+            <SkillsProfile isEdited={isEdited} />
           </Card>
         )}
         {isFetching ? (
@@ -99,6 +99,7 @@ function JuniorProfile() {
           calendly={calendly}
           bio={bio}
           pronouns={pronouns}
+          field={field}
           setIsEditing={setIsEditing}
           setIsEdited={setIsEdited}
           setFirstName={setFirstName}
@@ -108,6 +109,7 @@ function JuniorProfile() {
           setCalendly={setCalendly}
           setBio={setBio}
           setPronouns={setPronouns}
+          setField={setField}
         />
       )}
     </>

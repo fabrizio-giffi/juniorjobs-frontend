@@ -60,10 +60,9 @@ button:hover {
   .media-break {
     flex-direction: column;
     gap: 2rem;
-    padding: 20px !important;
   }
   .column-break {
-    flex-direction: column;
+    flex-direction: column !important;
     gap: 0.5rem !important;
   }
   .column-reverse {

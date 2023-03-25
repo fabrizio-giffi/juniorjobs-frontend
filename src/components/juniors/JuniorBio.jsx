@@ -6,6 +6,7 @@ import axios from "axios";
 import { AuthContext } from "../../context/auth.context";
 import AddAPhotoIcon from "@mui/icons-material/AddAPhoto";
 import EditIcon from "@mui/icons-material/Edit";
+import PersonIcon from "@mui/icons-material/Person";
 
 const api_URL = import.meta.env.VITE_API_URL;
 
@@ -68,22 +69,39 @@ function JuniorBio({
     <Box className="nobottom" sx={{ minWidth: "50%", boxSizing: "border-box", p: 4 }}>
       <Box className="media-break" sx={{ mb: 4, display: "flex", alignItems: "start", gap: 4 }}>
         <Box sx={{ position: "relative" }}>
-          <Avatar
-            className="profilePic"
-            src={profilePicture}
-            alt="N/A"
-            sx={{ width: 150, height: 150, mr: 2, opacity: isHovered ? 0.6 : 1, border: "solid 1px #6b9080" }}
-            onClick={handleClick}
-            onMouseEnter={() => setIsHovered(true)}
-            onMouseLeave={() => setIsHovered(false)}
-          />
+          {profilePicture ? (
+            <Avatar
+              className="profilePic"
+              src={profilePicture}
+              alt="N/A"
+              sx={{ width: 150, height: 150, mr: 2, opacity: isHovered ? 0.6 : 1, border: "solid 1px #6b9080" }}
+              onClick={handleClick}
+              onMouseEnter={() => setIsHovered(true)}
+              onMouseLeave={() => setIsHovered(false)}
+            />
+          ) : (
+            <Avatar
+              className="profilePic"
+              src="/broken-image.jpg"
+              sx={{
+                width: 150,
+                height: 150,
+                mr: 2,
+                bgcolor: "#fbfbfb",
+                opacity: isHovered ? 0.6 : 1,
+                border: "solid 1px #6b9080",
+              }}
+              onClick={handleClick}
+              onMouseEnter={() => setIsHovered(true)}
+              onMouseLeave={() => setIsHovered(false)}
+            >
+              <PersonIcon sx={{ color: "#6b9080", width: 100, height: 100 }} />
+            </Avatar>
+          )}
           {isHovered && <AddAPhotoIcon color="action" sx={{ position: "absolute", left: 0, bottom: 0 }} />}
         </Box>
-        <Box>
-          <Stack
-            direction="row"
-            sx={{ width: "100%", display: "flex", justifyContent: "space-between", alignItems: "start", mb: 1 }}
-          >
+        <Box sx={{ width: "100%" }}>
+          <Box sx={{ width: "100%", display: "flex", justifyContent: "space-between", alignItems: "start", mb: 1 }}>
             <Box>
               <Typography variant="h5">
                 {firstName} {lastName}
@@ -99,7 +117,7 @@ function JuniorBio({
             <IconButton onClick={() => setIsEditing(true)}>
               <EditIcon color="action" />
             </IconButton>
-          </Stack>
+          </Box>
           <Stack direction="row" sx={{ display: "flex", alignItems: "center" }}>
             <PlaceIcon color="action" size="small" />
             <Typography variant="body2" sx={{ ml: 1 }}>

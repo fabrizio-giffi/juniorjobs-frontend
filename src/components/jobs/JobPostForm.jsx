@@ -107,7 +107,7 @@ function JobPostForm({ jobPost, isEditing, setEditing, setIsFetching }) {
     };
 
     try {
-      const response = await axios.put(`${api_URL}/posts/${jobPost._id}`, editJobBody);
+      await axios.put(`${api_URL}/posts/${jobPost._id}`, editJobBody);
       setEditing(false);
     } catch (error) {
       console.log("There was an error creating the post", error);

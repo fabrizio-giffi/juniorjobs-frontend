@@ -17,6 +17,7 @@ import countries from "../../data/countries.json";
 const api_URL = import.meta.env.VITE_API_URL;
 
 const pronounsList = ["he/him", "she/her", "they/them", "other"];
+const fieldsList = ["Frontend", "Backend", "Full-stack", "UX/UI", "Cyber security", "Data analytics"];
 
 // Filter for the cities select
 const filterOptions = createFilterOptions({
@@ -32,6 +33,7 @@ function EditJunior({
   calendly,
   bio,
   pronouns,
+  field,
   setFirstName,
   setLastName,
   setCountry,
@@ -39,6 +41,7 @@ function EditJunior({
   setCalendly,
   setBio,
   setPronouns,
+  setField,
   setIsEdited,
   setIsEditing,
   isFetching,
@@ -50,9 +53,9 @@ function EditJunior({
   const [cityInput, setCityInput] = useState(city);
   const [calendlyInput, setCalendlyInput] = useState(calendly);
   const [bioInput, setBioInput] = useState(bio);
+  const [fieldInput, setFieldInput] = useState(field);
   const [pronounsInput, setPronounsInput] = useState(pronouns);
   const [citiesList, setCitiesList] = useState([]);
-  const [refreshCities, setRefreshCities] = useState(true);
 
   const handleEdit = async (event) => {
     event.preventDefault();
@@ -64,6 +67,7 @@ function EditJunior({
       calendly: calendlyInput,
       bio: bioInput,
       pronouns: pronounsInput,
+      field: fieldInput
     };
     setFirstName(firstNameInput);
     setLastName(lastNameInput);
@@ -72,6 +76,7 @@ function EditJunior({
     setCalendly(calendlyInput);
     setBio(bioInput);
     setPronouns(pronounsInput);
+    setField(fieldInput)
 
     try {
       await axios.put(`${api_URL}/user/edit/${user.id}`, requestBody);
@@ -195,6 +200,17 @@ function EditJunior({
               filterOptions={filterOptions}
               renderInput={(params) => <TextField {...params} label="City" />}
             />
+            <Autocomplete
+              sx={{ mb: 2, bgcolor: "#fbfbfb" }}
+              fullWidth
+              id="field-select"
+              freeSolo
+              value={field}
+              inputValue={fieldInput}
+              onInputChange={(event, newInputValue) => setFieldInput(newInputValue)}
+              options={fieldsList}
+              renderInput={(params) => <TextField {...params} label="Field" />}
+            />
             <TextField
               sx={{ mb: 2, bgcolor: "#fbfbfb" }}
               fullWidth
@@ -231,6 +247,7 @@ function EditJunior({
                   setCalendlyInput(calendly);
                   setBioInput(bio);
                   setPronounsInput(pronouns);
+                  setFieldInput(field)
                   setIsEdited(false);
                   setIsEditing(false);
                 }}

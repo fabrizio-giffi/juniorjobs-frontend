@@ -85,7 +85,7 @@ function CompanyProfilePublic() {
       ) : (
         <>
           <Card className="media-break" sx={{ bgcolor: "#eaf4f4", display: "flex" }}>
-            <Box sx={{ display: "flex", alignItems: "center", gap: 4, minWidth: "50%", boxSizing: "border-box", p: 4 }}>
+            <Box className="media-break" sx={{ display: "flex", alignItems: "center", gap: 4, minWidth: "50%", boxSizing: "border-box", p: 4 }}>
               <Avatar
                 className="profilePic"
                 src={profilePicture}
