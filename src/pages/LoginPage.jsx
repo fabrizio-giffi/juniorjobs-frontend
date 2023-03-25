@@ -15,7 +15,7 @@ import {
 import axios from "axios";
 import PasswordForm from "../components/PasswordForm";
 import { AuthContext } from "../context/auth.context";
-import LockOpenIcon from "@mui/icons-material/LockOpen";
+import LoginIcon from "@mui/icons-material/Login";
 
 const auth_URL = import.meta.env.VITE_AUTH_URL;
 
@@ -73,7 +73,7 @@ function LoginPage() {
             }}
           >
             <Avatar sx={{ m: 1, bgcolor: "#6b9080" }}>
-              <LockOpenIcon />
+              <LoginIcon />
             </Avatar>
             <Typography component="h1" variant="h5">
               Log in

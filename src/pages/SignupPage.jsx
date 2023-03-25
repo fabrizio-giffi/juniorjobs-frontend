@@ -4,7 +4,7 @@ import { Alert, Avatar, Box, Button, CircularProgress, Container, Divider, Stack
 import axios from "axios";
 import PasswordForm from "../components/PasswordForm";
 import { AuthContext } from "../context/auth.context";
-import LoginIcon from "@mui/icons-material/Login";
+import HowToRegIcon from '@mui/icons-material/HowToReg';
 
 const auth_URL = import.meta.env.VITE_AUTH_URL;
 
@@ -59,7 +59,7 @@ function SignupPage() {
             }}
           >
             <Avatar sx={{ m: 1, bgcolor: "#6b9080" }}>
-              <LoginIcon />
+              <HowToRegIcon />
             </Avatar>
             <Typography component="h1" variant="h5">
               Sign up
