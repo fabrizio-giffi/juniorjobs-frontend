@@ -110,9 +110,9 @@ Overall, Junior Jobs is a valuable resource for both job seekers and employers i
 
 ## Links
 
-- github frontend
+- Github frontend
     - https://github.com/fabrizio-giffi/juniorjobs-frontend
-- github backend 
+- Github backend 
     - https://github.com/fabrizio-giffi/juniorjobs-backend
-- deployed version
+- Deployed version
     - https://juniorjobs-frontend.netlify.app/
