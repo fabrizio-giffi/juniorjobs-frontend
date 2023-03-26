@@ -10,7 +10,8 @@ img {
 
 #interview,
 #company {
-  max-height: calc(100vh - 160px);
+  height: calc(100vh - 60px);
+  object-fit: cover;
 }
 
 #interview {
@@ -19,6 +20,7 @@ img {
 
 #company {
   clip-path: polygon(0 0, 100% 0, 85% 100%, 0% 100%);
+  margin: -7px 0;
 }
 
 a {
@@ -33,7 +35,8 @@ a {
     width: 100%;
     height: 100%;
   }
-  img {
+  #interview,
+  #company {
     display: none !important;
   }
 }
