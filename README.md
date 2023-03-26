@@ -91,10 +91,10 @@ Overall, Junior Jobs is a valuable resource for both job seekers and employers i
 ## External API
 
 - [Countries Now](https://countriesnow.space/)
-        - List of countries
-        - List of cities from the specified country
+    - List of countries
+    - List of cities from the specified country
 - [Google Maps](https://developers.google.com/maps)
-        - Show location on google maps of the company
+    - Show location on google maps of the company
 
 ## Libraries 
 
