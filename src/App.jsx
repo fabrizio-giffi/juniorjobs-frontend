@@ -1,6 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 import "./App.css";
-import CompanyProfilePublic from "./components/CompanyProfilePublic";
+import CompanyProfilePublic from "./components/companies/CompanyProfilePublic";
 import IsCompany from "./components/middlewares/IsCompany";
 import IsLoading from "./components/middlewares/IsLoading";
 import IsLoggedIn from "./components/middlewares/IsLoggedIn";

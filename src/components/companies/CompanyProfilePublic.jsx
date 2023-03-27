@@ -1,14 +1,14 @@
 import axios from "axios";
 import { useEffect, useState, useContext } from "react";
 import { useParams } from "react-router-dom";
-import { AuthContext } from "../context/auth.context";
+import { AuthContext } from "../../context/auth.context";
 import { Avatar, Box, Card, Container, Divider, IconButton, List, Skeleton, Stack, Typography } from "@mui/material";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import PlaceIcon from "@mui/icons-material/Place";
 import PublicIcon from "@mui/icons-material/Public";
 import EmailIcon from "@mui/icons-material/Email";
-import JobPostCard from "./jobs/JobPostCard";
+import JobPostCard from "../jobs/JobPostCard";
 
 const api_URL = import.meta.env.VITE_API_URL;
 const gmaps = import.meta.env.VITE_GMAPS;
