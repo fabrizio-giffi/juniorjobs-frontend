@@ -3,6 +3,7 @@ import { AuthContext } from "../../context/auth.context";
 import axios from "axios";
 import { InlineWidget } from "react-calendly";
 import { Avatar, Button, Card, Chip, List, Stack, TextField, Typography } from "@mui/material";
+import { Link } from "react-router-dom";
 
 const api_INDEX = import.meta.env.VITE_INDEX_URL;
 
@@ -57,8 +58,8 @@ function JuniorCard({ focus }) {
           })}
       </List>
       <div>
-        {/* <Link to={'https://calendly.com/beiteldennis/job-interview'}>Calendly</Link> */}
-        {/* {focus.calendly !== "" ? <InlineWidget url={typeof focus.calendly !== "undefined" && focus.calendly} /> : ""} */}
+        <Link to={"https://calendly.com/beiteldennis/job-interview"}>Calendly</Link>
+        {typeof focus.calendly !== "undefined" ? <InlineWidget url={typeof focus.calendly !== "undefined" && focus.calendly} /> : ""}
         {messageSent ? (
           <Typography>An email has been sent to the user. Thanks for using Junior Jobs!</Typography>
         ) : !formShow ? (

@@ -31,7 +31,7 @@ function App() {
             path="/jobs"
             element={
               <IsLoading>
-                <JobList />
+                  <JobList />
               </IsLoading>
             }
           />
@@ -51,18 +51,8 @@ function App() {
               </IsLoggedOut>
             }
           />
-          <Route
-            path="/forgot-password/:role"
-            element={
-                <ForgotPassword />
-            }
-          />
-           <Route
-            path="/reset/:user/:token"
-            element={
-                <ResetPassword />
-            }
-          />
+          <Route path="/forgot-password/:role" element={<ForgotPassword />} />
+          <Route path="/reset/:user/:token" element={<ResetPassword />} />
           <Route
             path="/profile"
             element={

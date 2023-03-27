@@ -3,6 +3,7 @@ import axios from "axios";
 import { Container, Card, Skeleton, Box, Avatar, Typography, IconButton, Stack, Divider, Chip } from "@mui/material";
 import { Link, useParams } from "react-router-dom";
 import PlaceIcon from "@mui/icons-material/Place";
+import PersonIcon from "@mui/icons-material/Person";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 
 function JuniorDetails() {

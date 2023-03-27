@@ -1,13 +1,19 @@
 import * as React from "react";
 import { Link } from "react-router-dom";
 import "./Landing.css";
-import { Box, Button, CardContent, Container, Stack, TextField, Typography } from "@mui/material";
+import { Alert, Box, Button, CardContent, Container, Stack, TextField, Typography } from "@mui/material";
+import { useContext } from "react";
 import BusinessIcon from "@mui/icons-material/Business";
 import TextSnippetIcon from "@mui/icons-material/TextSnippet";
 import HowToRegIcon from "@mui/icons-material/HowToReg";
 import { useState } from "react";
+import { AuthContext } from "../context/auth.context";
+import axios from "axios";
+
+const api_INDEX = import.meta.env.VITE_INDEX_URL;
 
 export default function Landing() {
+  const { user } = useContext(AuthContext);
   const [messageSent, setMessageSent] = useState(false);
   const [subject, setSubject] = useState("");
   const [message, setMessage] = useState("");
@@ -15,7 +21,7 @@ export default function Landing() {
 
   const handleMessage = async (event) => {
     event.preventDefault();
-    const nodemailer = { id: focus._id, subject, message, contactInfo, role: user.role };
+    const nodemailer = { subject, message, contactInfo };
     const response = await axios.post(`${api_INDEX}/send-email`, nodemailer);
     setMessageSent(true);
     console.log(response.data);
@@ -37,7 +43,7 @@ export default function Landing() {
           >
             Kickstart your career in the tech field.
           </Typography>
-          <Link to="/jobs">
+          <Link to={user?.role !== "company" ? "/jobs" : "/junior"}>
             <Button variant="contained" sx={{ bgcolor: "#6b9080" }} size="large">
               Try it out
             </Button>
@@ -68,7 +74,7 @@ export default function Landing() {
           <Typography variant="h4" sx={{ mb: 4, textAlign: "end" }} color="text.secondary" paragraph>
             Fill your vacancies with skilled professionals.
           </Typography>
-          <Link to="/junior">
+          <Link to={user?.role === "company" ? "/junior" : "/jobs"}>
             <Button variant="contained" sx={{ bgcolor: "#6b9080" }} size="large">
               Try it out
             </Button>
@@ -139,7 +145,7 @@ export default function Landing() {
             Get in touch with us for more informations
           </Typography>
           {messageSent ? (
-            <Typography>An email has been sent to the user. Thanks for using Junior Jobs!</Typography>
+            <Alert severity="success">Thanks for contacting us, we'll get back to you as soon as possible!</Alert>
           ) : (
             <>
               <Stack spacing={1} component="form" onSubmit={handleMessage}>
