@@ -85,7 +85,10 @@ function CompanyProfilePublic() {
       ) : (
         <>
           <Card className="media-break" sx={{ bgcolor: "#eaf4f4", display: "flex" }}>
-            <Box className="media-break" sx={{ display: "flex", alignItems: "center", gap: 4, minWidth: "50%", boxSizing: "border-box", p: 4 }}>
+            <Box
+              className="media-break"
+              sx={{ display: "flex", alignItems: "center", gap: 4, minWidth: "50%", boxSizing: "border-box", p: 4 }}
+            >
               <Avatar
                 className="profilePic"
                 src={profilePicture}
@@ -98,8 +101,10 @@ function CompanyProfilePublic() {
                   border: "solid 1px #6b9080",
                 }}
               />
-              <Box sx={{ display: "flex", flexDirection: "column", alignItems: "start" }}>
-                <Typography variant="h5">{name}</Typography>
+              <Box sx={{ width: "100%", display: "flex", flexDirection: "column", alignItems: "start" }}>
+                <Typography variant="h5" sx={{ mb: 1 }}>
+                  {name}
+                </Typography>
                 <Stack direction="row" sx={{ display: "flex", alignItems: "center" }}>
                   <IconButton size="small">
                     <EmailIcon />
@@ -124,6 +129,19 @@ function CompanyProfilePublic() {
                     {zipCode}, {street}
                   </Typography>
                 </Stack>
+                <Box sx={{ width: "100%", display: "flex", justifyContent: "end" }}>
+                  {!isLoggedIn || user.role === "company" ? (
+                    ""
+                  ) : user.role === "junior" && userDB?.favoriteCompanies.some((company) => company._id === id) ? (
+                    <IconButton aria-label="add to favorites">
+                      <FavoriteIcon />
+                    </IconButton>
+                  ) : (
+                    <IconButton onClick={() => addCompany(id)} aria-label="add to favorites">
+                      <FavoriteBorderIcon />
+                    </IconButton>
+                  )}
+                </Box>
               </Box>
             </Box>
             <Divider flexItem variant="middle" orientation="vertical" />
@@ -140,17 +158,6 @@ function CompanyProfilePublic() {
             </Box>
           </Card>
           <Box>
-            {!isLoggedIn || user.role === "company" ? (
-              ""
-            ) : user.role === "junior" && userDB?.favoriteCompanies.some((company) => company._id === id) ? (
-              <IconButton aria-label="add to favorites">
-                <FavoriteIcon />
-              </IconButton>
-            ) : (
-              <IconButton onClick={() => addCompany(id)} aria-label="add to favorites">
-                <FavoriteBorderIcon />
-              </IconButton>
-            )}
             <Typography variant="h5" sx={{ textAlign: "center", mb: 1 }}>
               Job Posts from {name}
             </Typography>

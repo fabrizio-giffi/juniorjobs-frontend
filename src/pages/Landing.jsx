@@ -99,7 +99,6 @@ export default function Landing() {
           <CardContent>
             <Typography textAlign="justify">
               Are you a junior developer looking to kickstart your career in the tech industry?
-              <br />
               Our job board connects you with the best entry-level developer positions in the market. Our website
               features a comprehensive list of job openings for junior developers across a wide range of industries. We
               work with top employers to ensure that our job board features only the most relevant and competitive
@@ -121,7 +120,6 @@ export default function Landing() {
           <CardContent>
             <Typography textAlign="justify">
               Are you looking to fill a junior developer position in your company?
-              <br />
               We have a vast network of junior developers who are eager to start their careers and bring fresh
               perspectives to your team. Our website features a comprehensive list of candidates with the skills and
               qualifications you need to take your business to the next level. We understand the importance of hiring

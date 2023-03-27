@@ -1,4 +1,4 @@
-import { Box, Container, Skeleton, Typography } from "@mui/material";
+import { Alert, Box, Container, Skeleton, Typography } from "@mui/material";
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import CompanyFilter from "../filters/CompanyFilter";
@@ -8,6 +8,7 @@ import JobPostCard from "./JobPostCard";
 import { AuthContext } from "../../context/auth.context";
 
 const api_URL = import.meta.env.VITE_API_URL;
+let filtered = [];
 
 function JobList() {
   const { user } = useContext(AuthContext);
@@ -102,17 +103,24 @@ function JobList() {
           Current job posts
         </Typography>
         <Box sx={{ display: "flex", flexFlow: "row wrap", gap: "2rem", justifyContent: "center" }}>
-          {jobList
-            .filter((post) => (geoQuery.length === 0 ? true : post.address.country === geoQuery))
-            .filter((post) => (companyQuery.length === 0 ? true : post.company.name === companyQuery))
-            .filter((post) => (fieldQuery === "" ? true : post.field === fieldQuery))
-            .map((post) => {
-              return jobList.length > 0 ? (
-                <JobPostCard key={post._id} post={post} userDB={userDB} setUpdated={setUpdated} />
-              ) : (
-                <p>{key}</p>
-              );
-            })}
+          {
+            (filtered = jobList
+              .filter((post) => (geoQuery.length === 0 ? true : post.address.country === geoQuery))
+              .filter((post) => (companyQuery.length === 0 ? true : post.company.name === companyQuery))
+              .filter((post) => (fieldQuery === "" ? true : post.field === fieldQuery))
+              .map((post) => {
+                return jobList.length > 0 ? (
+                  <JobPostCard key={post._id} post={post} userDB={userDB} setUpdated={setUpdated} />
+                ) : (
+                  <p>{key}</p>
+                );
+              }))
+          }
+          {filtered.length === 0 && (
+              <Alert severity="info" sx={{ justifySelf: "end" }}>
+                No job post matches your search, try again with different filters.
+              </Alert>
+            )}
         </Box>
       </Container>
     </Box>
