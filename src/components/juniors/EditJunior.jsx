@@ -73,7 +73,7 @@ function EditJunior({
     setLastName(lastNameInput);
     setCountry(countryInput);
     setCity(cityInput);
-    setCalendly(calendlyInput);
+    setCalendly(calendlyInput !== "" ? calendlyInput : null);
     setBio(bioInput);
     setPronouns(pronounsInput);
     setField(fieldInput)
@@ -228,7 +228,7 @@ function EditJunior({
               variant="outlined"
               sx={{ bgcolor: "#fbfbfb" }}
               value={calendlyInput}
-              onChange={(event) => setCalendlyInput(event.target.value)}
+              onChange={(event) => setCalendlyInput(event.target.value.trim())}
             />
 
             <Box sx={{ display: "flex", gap: 1, justifyContent: "center" }}>
