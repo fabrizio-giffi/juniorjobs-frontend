@@ -132,7 +132,7 @@ const JuniorList = () => {
             }
             {filtered.length === 0 && (
               <Typography variant="h6" sx={{ justifySelf: "end" }}>
-                No user matches your query, try again with different filters.
+                No user matches your search, try again with different filters.
               </Typography>
             )}
           </List>

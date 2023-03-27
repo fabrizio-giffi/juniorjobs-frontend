@@ -207,7 +207,7 @@ function JobPostDetails() {
             {messageSent ? (
               <Alert severity="success">An email has been sent to the user.</Alert>
             ) : !formShow ? (
-              <Button onClick={() => setFormShow(true)}>Message company</Button>
+              <Button variant="contained" onClick={() => setFormShow(true)}>Message company</Button>
             ) : (
               <>
                 <Stack spacing={1} component="form" onSubmit={handleMessage}>
