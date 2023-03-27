@@ -131,17 +131,26 @@ export default function Landing() {
           </CardContent>
         </Box>
       </Box>
-      <Container sx={{ display: "flex", alignItems: "start", py: 9 }}>
-        <Box sx={{ width: "50%" }}>
-          <TextSnippetIcon sx={{ color: "#6b9080" }} />
+      <Container className="column-break" sx={{ display: "flex", alignItems: "start", py: 9 }}>
+        <Box
+          sx={{
+            minWidth: "50%",
+            boxSizing: "border-box",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            px: 4,
+          }}
+        >
+          <TextSnippetIcon sx={{ color: "#6b9080", width: 50, height: 50 }} />
           <CardContent>
-            <Typography className="prompt">
+            <Typography variant="h5" className="prompt" textAlign="center">
               <Link to="/signup"> Sign up</Link> today and join our professional network.
             </Typography>
           </CardContent>
         </Box>
-        <Box sx={{ width: "50%" }}>
-          <Typography variant="h6" paragraph>
+        <Box sx={{ minWidth: "50%", px: 4 }}>
+          <Typography variant="h6" paragraph textAlign="center">
             Get in touch with us for more informations
           </Typography>
           {messageSent ? (
@@ -168,7 +177,7 @@ export default function Landing() {
                   required
                   fullWidth
                   multiline
-                  maxRows={4}
+                  rows={4}
                   onChange={(event) => setMessage(event.target.value)}
                 />
                 <TextField

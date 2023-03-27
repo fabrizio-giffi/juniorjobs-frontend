@@ -4,14 +4,11 @@
   box-sizing: border-box;
 }
 
-img {
-  width: 100%;
-}
-
 #interview,
 #company {
   height: calc(100vh - 60px);
   object-fit: cover;
+  width: 100%;
 }
 
 #interview {

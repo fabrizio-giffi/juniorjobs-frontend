@@ -130,7 +130,11 @@ const JuniorList = () => {
                   );
                 }))
             }
-            {filtered.length === 0 && <Typography>Empty</Typography>}
+            {filtered.length === 0 && (
+              <Typography variant="h6" sx={{ justifySelf: "end" }}>
+                No user matches your query, try again with different filters.
+              </Typography>
+            )}
           </List>
           <JuniorCard
             style={{ width: "100%" }}

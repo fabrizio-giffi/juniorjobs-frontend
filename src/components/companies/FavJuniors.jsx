@@ -49,8 +49,6 @@ function FavJuniors() {
     getJuniors();
   }, []);
 
-  console.log(favoriteJuniors);
-
   return (
     <Box className="nobottom" sx={{ minWidth: "50%", boxSizing: "border-box", p: 4 }}>
       <Typography variant="h6">Favorite juniors</Typography>

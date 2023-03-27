@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../context/auth.context";
 import axios from "axios";
 import { InlineWidget } from "react-calendly";
-import { Avatar, Button, Card, Chip, List, Stack, TextField, Typography } from "@mui/material";
+import { Avatar, Box, Button, Card, Chip, List, Stack, TextField, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 
 const api_INDEX = import.meta.env.VITE_INDEX_URL;
@@ -30,7 +30,9 @@ function JuniorCard({ focus }) {
   };
 
   return typeof focus === "undefined" ? (
-    <Typography>No user matches your query</Typography>
+    <Box sx={{display:"flex", alignItems: "center" }}>
+      <Typography variant="h6"></Typography>
+    </Box>
   ) : (
     <Card sx={{ width: "100%", bgcolor: "#fbfbfb", p: 4, m: 4 }}>
       <Avatar sx={{ width: 128, height: 128 }} src={focus.profilePic} />
@@ -59,7 +61,11 @@ function JuniorCard({ focus }) {
       </List>
       <div>
         <Link to={"https://calendly.com/beiteldennis/job-interview"}>Calendly</Link>
-        {typeof focus.calendly !== "undefined" ? <InlineWidget url={typeof focus.calendly !== "undefined" && focus.calendly} /> : ""}
+        {typeof focus.calendly !== "undefined" ? (
+          <InlineWidget url={typeof focus.calendly !== "undefined" && focus.calendly} />
+        ) : (
+          ""
+        )}
         {messageSent ? (
           <Typography>An email has been sent to the user. Thanks for using Junior Jobs!</Typography>
         ) : !formShow ? (

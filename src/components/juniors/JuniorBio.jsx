@@ -7,6 +7,7 @@ import { AuthContext } from "../../context/auth.context";
 import AddAPhotoIcon from "@mui/icons-material/AddAPhoto";
 import EditIcon from "@mui/icons-material/Edit";
 import PersonIcon from "@mui/icons-material/Person";
+import { Link } from "react-router-dom";
 
 const api_URL = import.meta.env.VITE_API_URL;
 
@@ -127,7 +128,9 @@ function JuniorBio({
           <Stack direction="row" sx={{ display: "flex", alignItems: "center" }}>
             <CalendarMonthIcon color="action" size="small" />
             <Typography variant="body2" sx={{ ml: 1 }}>
-              Calendly Link: {calendly}
+              <Link to={calendly} target="_blank">
+                Calendly Link: {calendly}
+              </Link>
             </Typography>
           </Stack>
           <Stack sx={{ mt: 2 }}>

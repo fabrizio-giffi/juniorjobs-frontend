@@ -86,7 +86,7 @@ function JuniorDetails() {
                 <Stack direction="row" sx={{ display: "flex", alignItems: "center" }}>
                   <CalendarMonthIcon color="action" size="small" />
                   <Typography variant="body2" sx={{ ml: 1 }}>
-                    Calendly Link:{" "}
+                    Calendly Link:
                     <Link to={profile.calendly} target="_blank">
                       {profile.calendly}
                     </Link>
