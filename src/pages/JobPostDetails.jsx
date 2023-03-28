@@ -245,9 +245,9 @@ function JobPostDetails() {
                     fullWidth
                     onChange={(event) => setContactInfo(event.target.value)}
                   />
-                  <Stack direction="row" sx={{ display: "flex", justifyContent: "center" }}>
-                    <Button type="submit">Send message</Button>
-                    <Button type="submit" onClick={() => setFormShow(false)}>
+                  <Stack spacing={1} direction="row" sx={{ display: "flex", justifyContent: "center" }}>
+                    <Button variant="contained" sx={{ bgcolor: "#6b9080" }} type="submit">Send message</Button>
+                    <Button variant="contained" sx={{ bgcolor: "#6b9080" }} type="submit" onClick={() => setFormShow(false)}>
                       Cancel
                     </Button>
                   </Stack>
