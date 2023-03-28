@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect, useState, useContext } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { AuthContext } from "../../context/auth.context";
 import { Avatar, Box, Card, Container, Divider, IconButton, List, Skeleton, Stack, Typography } from "@mui/material";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
@@ -81,7 +81,11 @@ function CompanyProfilePublic() {
 
   return (
     <Container maxWidth="lg" sx={{ display: "flex", flexDirection: "column", gap: 3, justifyContent: "center", my: 3 }}>
-      {isFetching ? (
+      {!user ? (
+        <Typography className="prompt" variant="h5" textAlign="center" sx={{ mt: 3 }}>
+          Please <Link>log in</Link> or <Link>sign up</Link> to see the company info.
+        </Typography>
+      ) : isFetching ? (
         <Skeleton variant="rounded" height={300} width="100%" />
       ) : (
         <>

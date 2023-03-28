@@ -189,9 +189,9 @@ function JobPostDetails() {
                 </Box>
               </>
             ) : (
-              <p className="prompt">
+              <Typography className="prompt" variant="h5" sx={{ mt: 2 }}>
                 <Link to="/login">Log in</Link> or <Link to="/signup">sign up</Link> to see more informations
-              </p>
+              </Typography>
             )}
           </Box>
           <Divider flexItem orientation="vertical" sx={{ mx: 3 }} />
@@ -207,7 +207,9 @@ function JobPostDetails() {
             {messageSent ? (
               <Alert severity="success">An email has been sent to the user.</Alert>
             ) : !formShow ? (
-              <Button variant="contained" onClick={() => setFormShow(true)}>Message company</Button>
+              <Button variant="contained" sx={{ bgcolor: "#6b9080" }} onClick={() => setFormShow(true)}>
+                Message company
+              </Button>
             ) : (
               <>
                 <Stack spacing={1} component="form" onSubmit={handleMessage}>
