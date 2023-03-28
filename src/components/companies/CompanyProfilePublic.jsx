@@ -30,6 +30,7 @@ function CompanyProfilePublic() {
   const { id } = params;
 
   const getProfile = async () => {
+    console.log(userDB);
     try {
       const response = await axios.get(`${api_URL}/company/${id}`);
       setName(response.data.name);
@@ -166,7 +167,7 @@ function CompanyProfilePublic() {
               sx={{ display: "flex", flexFlow: "row wrap", gap: 4, justifyContent: "space-evenly" }}
             >
               {jobPosts.map((post) => {
-                return <JobPostCard key={post._id} post={post} />;
+                return <JobPostCard userDB={userDB} key={post._id} post={post} />;
               })}
             </List>
           </Box>
