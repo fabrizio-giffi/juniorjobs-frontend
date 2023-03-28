@@ -25,8 +25,6 @@ import ClearIcon from "@mui/icons-material/Clear";
 const api_URL = import.meta.env.VITE_API_URL;
 
 function JobPostCard({ post, userDB, setUpdated, profile, getProfile }) {
-
-  console.log(userDB)
   const { user, isLoggedIn } = useContext(AuthContext);
 
   const addJobPost = async (postId) => {

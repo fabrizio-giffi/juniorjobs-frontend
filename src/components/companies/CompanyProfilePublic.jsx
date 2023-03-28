@@ -167,7 +167,7 @@ function CompanyProfilePublic() {
               sx={{ display: "flex", flexFlow: "row wrap", gap: 4, justifyContent: "space-evenly" }}
             >
               {jobPosts.map((post) => {
-                return <JobPostCard userDB={userDB} key={post._id} post={post} />;
+                return <JobPostCard setUpdated={setUpdated} userDB={userDB} key={post._id} post={post} />;
               })}
             </List>
           </Box>
