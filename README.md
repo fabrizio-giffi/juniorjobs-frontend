@@ -7,6 +7,9 @@ Company Account: abcd
 
 Password: 000000
 
+Deployed version
+https://juniorjobs-frontend.netlify.app/
+
 ## Description
 
 Junior Jobs is an online platform designed to connect junior developers with companies that offer entry-level positions in the tech industry. The platform was created with the aim of bridging the gap between talented but inexperienced developers and employers seeking fresh talent.
