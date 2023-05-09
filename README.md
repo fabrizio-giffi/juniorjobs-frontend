@@ -1,7 +1,9 @@
 # Junior Jobs Frontend
 
 ## Demo Accounts
-Junior&Company: abcd@abcd.com
+Junior Account: abcd@abcd.com
+Company Account: abcd
+
 Password: 000000
 
 ## Description
