@@ -1,5 +1,9 @@
 # Junior Jobs Frontend
 
+## Demo Accounts
+Junior&Company: abcd@abcd.com
+Password: 000000
+
 ## Description
 
 Junior Jobs is an online platform designed to connect junior developers with companies that offer entry-level positions in the tech industry. The platform was created with the aim of bridging the gap between talented but inexperienced developers and employers seeking fresh talent.
